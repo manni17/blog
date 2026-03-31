@@ -1,10 +1,16 @@
 import { Link, useParams } from "react-router-dom";
 import SiteChrome from "@/components/SiteChrome";
 import { getBlogPostBySlug } from "@/lib/blog";
+import MicroservicesRubbleFrame from "@/pages/MicroservicesRubbleFrame";
 import Plg2EssayFrame from "@/pages/Plg2EssayFrame";
 
 const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
+
+  if (slug === "microservices-to-fat-controllers-agentic-pivot") {
+    return <MicroservicesRubbleFrame />;
+  }
+
   const post = slug ? getBlogPostBySlug(slug) : undefined;
 
   if (!post) {
