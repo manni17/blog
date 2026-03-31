@@ -1,17 +1,11 @@
 import { Link, useParams } from "react-router-dom";
 import SiteChrome from "@/components/SiteChrome";
 import { getBlogPostBySlug } from "@/lib/blog";
-import BlogHome from "@/pages/BlogHome";
 import Plg2EssayFrame from "@/pages/Plg2EssayFrame";
 
 const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = slug ? getBlogPostBySlug(slug) : undefined;
-
-  // Exact-copy request: make this post URL render the same page/design as "/".
-  if (slug === "microservices-to-fat-controllers-agentic-pivot") {
-    return <BlogHome />;
-  }
 
   if (!post) {
     return (
