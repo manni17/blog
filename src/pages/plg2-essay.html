@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We Stopped Teaching. We Started Doing. — Steller PLG 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#F8F6F1;
+  --ink:#141210;
+  --white:#FEFDFB;
+  --rust:#B8341A;
+  --amber:#C4870A;
+  --sage:#2E5C42;
+  --dust:#8C8782;
+  --rule:#E0DBCF;
+  --dark:#1A1714;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Geist',system-ui,sans-serif;
+  --mono:'Geist Mono',monospace;
+}
+html{font-size:17px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--rust);z-index:999;width:0%;transition:width .1s}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem 2.5rem;display:flex;justify-content:space-between;align-items:center;transition:background .3s,border .3s}
+nav.scrolled{background:rgba(248,246,241,0.95);border-bottom:1px solid var(--rule);backdrop-filter:blur(10px)}
+.nav-logo{font-family:var(--serif);font-size:1.2rem;font-weight:600;letter-spacing:0.02em}
+.nav-tag{font-family:var(--mono);font-size:0.58rem;color:var(--dust);letter-spacing:0.15em;text-transform:uppercase;opacity:0;transition:opacity .3s}
+nav.scrolled .nav-tag{opacity:1}
+
+.opening{min-height:100vh;display:grid;place-items:center;position:relative;overflow:hidden;background:var(--dark)}
+.o-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 40%,#1a2414 0%,#0c0b09 70%)}
+.o-grain{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");opacity:0.5}
+.o-content{position:relative;z-index:1;text-align:center;padding:2rem;max-width:860px}
+.o-issue{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.3em;text-transform:uppercase;color:#5a7a4a;margin-bottom:1rem}
+.o-series{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:#4a5a3a;margin-bottom:2.5rem;display:flex;align-items:center;justify-content:center;gap:12px}
+.o-series::before,.o-series::after{content:'';width:24px;height:1px;background:#3a4a2a}
+.o-title{font-family:var(--serif);font-size:clamp(2.8rem,7vw,6rem);font-weight:300;line-height:1.0;color:#F2EDE4;letter-spacing:-0.01em;margin-bottom:1.5rem}
+.o-title em{font-style:italic;color:var(--amber)}
+.o-title strong{font-weight:700;display:block;font-size:0.75em}
+.o-sub{font-size:1rem;color:#6a7a5a;line-height:1.7;max-width:540px;margin:0 auto 3rem}
+.o-scroll{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:#3a4a2a;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
+
+.chapter{padding:6rem 2.5rem;border-bottom:1px solid var(--rule);position:relative}
+.chapter-inner{max-width:820px;margin:0 auto}
+.ch-label{display:flex;align-items:center;gap:12px;margin-bottom:3rem}
+.ch-num{font-family:var(--serif);font-size:4rem;font-weight:300;color:var(--rule);line-height:1;letter-spacing:-0.03em}
+.ch-name{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--dust)}
+
+h2{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:600;line-height:1.1;letter-spacing:-0.02em;margin-bottom:1.2rem}
+h2 em{font-style:italic;color:var(--rust)}
+h3{font-family:var(--serif);font-size:1.45rem;font-weight:600;margin:2.5rem 0 0.75rem;line-height:1.2}
+
+p{line-height:1.8;color:#2E2B26;margin-bottom:1.1rem;font-size:0.97rem}
+p strong{font-weight:500;color:var(--ink)}
+
+.ch-dark{background:var(--dark);border-color:#2a2520}
+.ch-dark .ch-num{color:#2a2520}
+.ch-dark .ch-name{color:#4a3a2a}
+.ch-dark h2{color:#E8E0D4}
+.ch-dark h2 em{color:var(--amber)}
+.ch-dark h3{color:#C4B8A8}
+.ch-dark p{color:#8a7a6a}
+
+.pq{margin:3rem -1.5rem;padding:2.5rem 3rem;background:var(--dark);position:relative;overflow:hidden}
+.pq::after{content:'"';font-family:var(--serif);font-size:16rem;position:absolute;right:-1rem;bottom:-4rem;opacity:0.04;color:white;line-height:1;pointer-events:none}
+.pq blockquote{font-family:var(--serif);font-size:clamp(1.3rem,2.5vw,1.8rem);font-style:italic;font-weight:300;color:#E8E0D4;line-height:1.4;position:relative;z-index:1}
+.pq blockquote strong{font-style:normal;font-weight:600;color:var(--amber)}
+.pq cite{display:block;margin-top:1rem;font-family:var(--mono);font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:#5a4a3a;font-style:normal}
+
+.ctable{border:1px solid var(--rule);margin:3rem -1.5rem;overflow:hidden}
+.ct-head{display:grid;grid-template-columns:180px 1fr 1fr;background:var(--dark)}
+.ct-hc{padding:.85rem 1.2rem;font-family:var(--mono);font-size:0.58rem;letter-spacing:.12em;text-transform:uppercase;border-right:1px solid #2a2520;color:#4a3a2a}
+.ct-hc.old{color:#8a3a1a}.ct-hc.new{color:#3a6a4a}
+.ct-row{display:grid;grid-template-columns:180px 1fr 1fr;border-bottom:1px solid var(--rule)}
+.ct-row:last-child{border:none}
+.ct-row:hover .ct-c{background:#F5F3EE}
+.ct-c{padding:.85rem 1.2rem;font-size:.8rem;line-height:1.5;border-right:1px solid var(--rule);color:var(--dust)}
+.ct-c:last-child{border:none}
+.ct-c.lbl{font-weight:500;color:var(--ink)}
+.ct-c.old{color:#903010;font-style:italic}
+.ct-c.new{color:#2a5a3a}
+
+.journey{margin:3rem -1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--rule)}
+.j-col{padding:2rem}
+.j-col:first-child{border-right:1px solid var(--rule)}
+.j-head{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:1px solid var(--rule)}
+.j-head.old{color:var(--rust)} .j-head.new{color:var(--sage)}
+.j-title{font-family:var(--serif);font-size:1.05rem;font-weight:600;margin-bottom:1.25rem;line-height:1.2}
+.j-title.old{color:var(--rust)} .j-title.new{color:var(--sage)}
+.step{display:flex;gap:10px;margin-bottom:0.85rem;align-items:flex-start;font-size:0.82rem;line-height:1.5}
+.step-num{font-family:var(--mono);font-size:0.65rem;color:var(--dust);flex-shrink:0;min-width:18px;padding-top:1px}
+.step-text{color:var(--dust)}
+.step-text strong{color:var(--ink);font-weight:500}
+.step.bad .step-text{color:#903010;font-style:italic}
+.step.good .step-text{color:#2a5a3a}
+.step.good .step-num{color:var(--sage)}
+.j-note{font-family:var(--sans);font-size:0.72rem;color:var(--dust);font-style:italic;margin-top:0.75rem;line-height:1.5;border-top:1px solid var(--rule);padding-top:0.75rem}
+.churn-tag{display:inline-block;font-family:var(--mono);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;border:1px solid #e8a090;background:#FDF0EC;color:var(--rust);margin-top:0.5rem}
+.win-tag{display:inline-block;font-family:var(--mono);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;border:1px solid #9AC4A8;background:#EDF4EF;color:#2a5a3a;margin-top:0.5rem}
+
+.path-card{background:var(--white);border:1px solid var(--rule);padding:2.5rem;margin:3rem -1.5rem}
+.path-title{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dust);margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--rule)}
+.path-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--rule)}
+.path-step{padding:1.5rem 1.25rem;border-right:1px solid var(--rule);position:relative}
+.path-step:last-child{border:none}
+.ps-num{font-family:var(--serif);font-size:3rem;font-weight:300;color:var(--rule);line-height:1;margin-bottom:0.75rem;letter-spacing:-0.03em}
+.ps-title{font-weight:500;font-size:0.82rem;margin-bottom:0.4rem;line-height:1.3;color:var(--ink)}
+.ps-body{font-size:0.75rem;color:var(--dust);line-height:1.6}
+.ps-check{font-family:var(--mono);font-size:0.62rem;color:var(--sage);margin-top:0.6rem;padding-top:0.5rem;border-top:1px solid var(--rule);letter-spacing:0.05em}
+.path-foot{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
+.path-foot-metric{text-align:center}
+.pfm-num{font-family:var(--serif);font-size:2rem;font-weight:700;letter-spacing:-0.02em;line-height:1;margin-bottom:4px}
+.pfm-num.rust{color:var(--rust)} .pfm-num.sage{color:var(--sage)} .pfm-num.amber{color:var(--amber)}
+.pfm-label{font-family:var(--mono);font-size:0.58rem;color:var(--dust);letter-spacing:0.1em;text-transform:uppercase}
+
+.insight-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:3rem -1.5rem}
+.ic{background:var(--white);padding:1.75rem}
+.ic-n{font-family:var(--serif);font-size:3rem;font-weight:300;color:var(--rule);line-height:1;margin-bottom:0.75rem}
+.ic-t{font-weight:500;font-size:0.88rem;margin-bottom:0.4rem;line-height:1.4;color:var(--ink)}
+.ic-b{font-size:0.8rem;color:var(--dust);line-height:1.65}
+.ic-r{font-family:var(--mono);font-size:0.58rem;color:var(--rust);margin-top:0.75rem;padding-top:0.6rem;border-top:1px solid var(--rule);letter-spacing:0.05em}
+
+.m-band{background:var(--sage);color:#EDF4EF;padding:3.5rem 2.5rem;margin:4rem -2.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.mb{padding:1.5rem 2rem;border-right:1px solid rgba(255,255,255,0.15)}
+.mb:last-child{border:none}
+.mb-num{font-family:var(--serif);font-size:3rem;font-weight:700;line-height:1;letter-spacing:-0.03em;margin-bottom:6px}
+.mb-label{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.65;line-height:1.5}
+
+.sudan-card{background:var(--amber);color:var(--dark);padding:2.5rem 3rem;margin:3rem -1.5rem;position:relative;overflow:hidden}
+.sudan-card::before{content:'Business wisdom from the field';font-family:var(--mono);font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;display:block;margin-bottom:1.25rem;opacity:0.5}
+.sudan-card blockquote{font-family:var(--serif);font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:400;font-style:italic;line-height:1.45;color:var(--dark)}
+.sudan-card cite{display:block;margin-top:1rem;font-family:var(--mono);font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:#3a2a0a;font-style:normal}
+
+.cta{background:var(--dark);padding:3.5rem;margin:4rem -2.5rem 0;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center}
+.cta h3{font-family:var(--serif);font-size:1.7rem;font-style:italic;font-weight:300;color:#E8E0D4;margin-bottom:0.5rem;line-height:1.2}
+.cta p{font-size:0.82rem;color:#5a4a3a;line-height:1.6;margin:0}
+.cta-btn{background:var(--sage);color:white;padding:0.9rem 2rem;font-weight:500;font-size:0.85rem;text-decoration:none;white-space:nowrap;flex-shrink:0;letter-spacing:0.02em}
+
+.r{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.r.in{opacity:1;transform:none}
+.r2{transition-delay:.1s}.r3{transition-delay:.2s}
+
+footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:0.58rem;color:var(--dust);letter-spacing:0.08em}
+
+@media(max-width:860px){
+  .journey,.ctable{margin:2rem 0}
+  .journey{grid-template-columns:1fr}
+  .j-col:first-child{border-right:none;border-bottom:1px solid var(--rule)}
+  .path-steps{grid-template-columns:1fr 1fr}
+  .path-step:nth-child(2){border-right:none}
+  .path-step:nth-child(1),.path-step:nth-child(2){border-bottom:1px solid var(--rule)}
+  .insight-grid{grid-template-columns:1fr}
+  .m-band{grid-template-columns:1fr 1fr}
+  .mb{border-right:none;border-bottom:1px solid rgba(255,255,255,0.15)}
+  .cta{grid-template-columns:1fr}
+  .ct-head,.ct-row{grid-template-columns:1fr}
+  .ct-hc,.ct-c{border-right:none;border-bottom:1px solid #2a2520}
+  .ct-c{border-bottom:1px solid var(--rule)}
+  .chapter{padding:4rem 1.5rem}
+  nav{padding:1rem 1.5rem}
+  .pq,.sudan-card,.path-card,.cta{margin:2rem 0}
+  .m-band{margin:3rem 0}
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<nav id="nav">
+  <span class="nav-logo">Steller</span>
+  <span class="nav-tag" id="navTag">PLG 2.0</span>
+</nav>
+
+<div class="opening">
+  <div class="o-bg"></div>
+  <div class="o-grain"></div>
+  <div class="o-content">
+    <div class="o-issue">Steller · Essay Series · Issue 02</div>
+    <div class="o-series">Product-Led Growth</div>
+    <div class="o-title">
+      We Stopped<br>
+      <em>Teaching.</em>
+      <strong>We Started Doing.</strong>
+    </div>
+    <p class="o-sub">PLG used to mean reducing friction. We learned — from building software in Sudan, of all places — that the real unlock is removing the work entirely. Here is how we applied that to Steller.</p>
+    <div class="o-scroll">↓ The shift that changed our onboarding</div>
+  </div>
+</div>
+
+<div class="chapter" data-ch="The Old Model" id="ch1">
+<div class="chapter-inner">
+  <div class="ch-label">
+    <div class="ch-num r">01</div>
+    <div class="ch-name r r2">The old model</div>
+  </div>
+
+  <h2 class="r">Onboarding used to mean<br><em>teaching you how.</em></h2>
+
+  <p class="r">For years, product growth was a friction problem. If users were not activating, the assumption was always the same: the path to value was too long, too confusing, or too manual. So product teams built better tooltips. Cleaner checklists. Smarter empty states. Shorter setup flows.</p>
+
+  <p class="r">This worked — when software was a static workbench. When the user was always the one who had to pick up the tools and build something. The job of PLG 1.0 was to make the workbench easier to use.</p>
+
+  <p class="r">But software has changed. AI has changed what a product can do before the user touches anything. And the old friction-reduction playbook is now the wrong answer to the wrong question. <strong>The question was never "how fast can the user learn?" It was always "how fast can the user see value?"</strong></p>
+
+  <div class="pq r">
+    <blockquote>"PLG 1.0 asked: how do we reduce friction? PLG 2.0 asks: <strong>how do we eliminate the work?</strong> These are not the same question."</blockquote>
+  </div>
+
+  <div class="ctable r">
+    <div class="ct-head">
+      <div class="ct-hc">Dimension</div>
+      <div class="ct-hc old">PLG 1.0 — Friction reduction</div>
+      <div class="ct-hc new">PLG 2.0 — Work reduction</div>
+    </div>
+    <div class="ct-row">
+      <div class="ct-c lbl">User role</div>
+      <div class="ct-c old">Active creator — you build it</div>
+      <div class="ct-c new">Strategic reviewer — you approve it</div>
+    </div>
+    <div class="ct-row">
+      <div class="ct-c lbl">Primary goal</div>
+      <div class="ct-c old">Time to Value (TTV)</div>
+      <div class="ct-c new">Effort to Value (ETV)</div>
+    </div>
+    <div class="ct-row">
+      <div class="ct-c lbl">Mechanism</div>
+      <div class="ct-c old">Better UI, tooltips, tutorials</div>
+      <div class="ct-c new">AI output, automated workflows</div>
+    </div>
+    <div class="ct-row">
+      <div class="ct-c lbl">Success metric</div>
+      <div class="ct-c old">Feature adoption rate</div>
+      <div class="ct-c new">Output quality, first-order speed</div>
+    </div>
+    <div class="ct-row">
+      <div class="ct-c lbl">Empty state</div>
+      <div class="ct-c old">A problem — causes churn</div>
+      <div class="ct-c new">Eliminated — system pre-fills it</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="The Sudan Insight" id="ch2">
+<div class="chapter-inner">
+  <div class="ch-label">
+    <div class="ch-num r">02</div>
+    <div class="ch-name r r2">The Sudan insight</div>
+  </div>
+
+  <h2 class="r">A business lesson from<br><em>the hardest market in the world</em></h2>
+
+  <p class="r">Before Steller, before software, there was Sudan. Business development in a market defined by risk, limited information, and complex internal politics teaches you something that no product course ever will: sometimes the fastest way to win a contract is to <strong>do the customer's internal work for them.</strong></p>
+
+  <p class="r">You don't wait for the customer to understand your product. You understand their business. You solve the internal blocker they can't articulate. You train their team on the thing they didn't know they needed. You make yourself so useful inside their organisation that they can't say no — not because they have to, but because you already did the job.</p>
+
+  <p class="r">This is PLG 2.0 in human form. Not reducing friction. Removing the requirement to act at all. The customer becomes a reviewer, not a builder. And the barrier to yes collapses from "do I understand this?" to "do I like what they made?"</p>
+
+  <div class="sudan-card r">
+    <blockquote>"In Sudan, we learned to win contracts by doing the customer's internal work for them — overcoming their politics, training their teams, removing every reason to say no. We just didn't know we were inventing PLG 2.0."</blockquote>
+    <cite>Muhanad Abdelrahim — Founder, Steller</cite>
+  </div>
+
+  <p class="r">When we built Steller, we brought that instinct with us. Our partners — B2B companies integrating a gift card API for the first time — face the same blockers. They don't fully understand the system. They have internal stakeholders to convince. They need to see it work before they can sell it internally. So we stopped asking them to learn. We started doing the first part of the work for them.</p>
+
+</div>
+</div>
+
+<div class="chapter" data-ch="What We Built" id="ch3">
+<div class="chapter-inner">
+  <div class="ch-label">
+    <div class="ch-num r">03</div>
+    <div class="ch-name r r2">What we built</div>
+  </div>
+
+  <h2 class="r">From empty dashboard<br><em>to first order in 60 seconds</em></h2>
+
+  <p class="r">The old Steller onboarding was PLG 1.0 by default. A partner signed up, got access to the dashboard, and faced documentation. They had to read the API reference, understand the wallet system, find a working SKU, construct a valid request, and run it. For a developer this took hours. For a business user it took days — or they churned.</p>
+
+  <p class="r">We redesigned the getting-started experience around a single principle: <strong>the fastest way to build confidence is to run the smallest possible flow that proves value, then expand.</strong></p>
+
+  <p class="r">We called it the 60-Second Path. Not documentation. Not dashboards. Not promises. Execution, feedback, and confidence — in four deterministic steps.</p>
+
+  <div class="journey r">
+    <div class="j-col">
+      <div class="j-head old">Before — PLG 1.0</div>
+      <div class="j-title old">User does all the work.</div>
+      <div class="step bad"><span class="step-num">1</span><span class="step-text">Read documentation to understand the auth model</span></div>
+      <div class="step bad"><span class="step-num">2</span><span class="step-text">Figure out how wallets and balances work</span></div>
+      <div class="step bad"><span class="step-num">3</span><span class="step-text">Browse catalog to find a valid, active SKU</span></div>
+      <div class="step bad"><span class="step-num">4</span><span class="step-text">Construct a valid order payload manually</span></div>
+      <div class="step bad"><span class="step-num">5</span><span class="step-text">Debug the 400 / 401 / 422 error they inevitably hit</span></div>
+      <div class="step bad"><span class="step-num">6</span><span class="step-text">Poll for status — if they remember to</span></div>
+      <div class="j-note">Average time to first working order: hours. Common outcome: churn before they get there.</div>
+      <div class="churn-tag">High friction · High churn risk</div>
+    </div>
+    <div class="j-col">
+      <div class="j-head new">After — PLG 2.0</div>
+      <div class="j-title new">System does the work. User just reviews.</div>
+      <div class="step good"><span class="step-num">1</span><span class="step-text"><strong>Confirm wallet</strong> — balance shown immediately, no setup needed</span></div>
+      <div class="step good"><span class="step-num">2</span><span class="step-text"><strong>Fetch catalog</strong> — ready-to-order SKUs pre-filtered, no browsing</span></div>
+      <div class="step good"><span class="step-num">3</span><span class="step-text"><strong>Create order</strong> — sample request pre-constructed, one execution</span></div>
+      <div class="step good"><span class="step-num">4</span><span class="step-text"><strong>Track lifecycle</strong> — 202 accepted, status polling shown live</span></div>
+      <div class="j-note">Average time to first working order: under 60 seconds. Partner leaves with proof the system works.</div>
+      <div class="win-tag">Minimal effort · Immediate confidence</div>
+    </div>
+  </div>
+
+  <div class="path-card r">
+    <div class="path-title">The 60-second path — four steps, four confirmations</div>
+    <div class="path-steps">
+      <div class="path-step">
+        <div class="ps-num">01</div>
+        <div class="ps-title">Wallet confirmed</div>
+        <div class="ps-body">Balance visible. Partner knows their funds are real and accessible. No configuration required.</div>
+        <div class="ps-check">Auth ✓</div>
+      </div>
+      <div class="path-step">
+        <div class="ps-num">02</div>
+        <div class="ps-title">Catalog loaded</div>
+        <div class="ps-body">Active SKUs pre-filtered and ready. Partner doesn't browse — they see what they can order right now.</div>
+        <div class="ps-check">Catalog ✓</div>
+      </div>
+      <div class="path-step">
+        <div class="ps-num">03</div>
+        <div class="ps-title">First order placed</div>
+        <div class="ps-body">Pre-constructed request. One execution. 202 Accepted returned. The system works — proven, not promised.</div>
+        <div class="ps-check">Order accepted ✓</div>
+      </div>
+      <div class="path-step">
+        <div class="ps-num">04</div>
+        <div class="ps-title">Status trackable</div>
+        <div class="ps-body">Lifecycle visible immediately. Partner understands async reality without reading a word of documentation.</div>
+        <div class="ps-check">Trackable ✓</div>
+      </div>
+    </div>
+    <div class="path-foot">
+      <div class="path-foot-metric"><div class="pfm-num rust">&lt;60s</div><div class="pfm-label">Time to first value</div></div>
+      <div class="path-foot-metric"><div class="pfm-num amber">4</div><div class="pfm-label">Steps total</div></div>
+      <div class="path-foot-metric"><div class="pfm-num sage">4</div><div class="pfm-label">Confirmations returned</div></div>
+      <div class="path-foot-metric"><div class="pfm-num rust">0</div><div class="pfm-label">Docs required to start</div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="The Thinking" id="ch4">
+<div class="chapter-inner">
+  <div class="ch-label">
+    <div class="ch-num r">04</div>
+    <div class="ch-name r r2">The thinking</div>
+  </div>
+
+  <h2 class="r">Why this works —<br><em>the product logic behind it</em></h2>
+
+  <p class="r">The 60-second path is not an onboarding trick. It is a product philosophy. Every decision in the flow reflects a deliberate choice about where cognitive load belongs — and where it doesn't.</p>
+
+  <div class="insight-grid r">
+    <div class="ic">
+      <div class="ic-n">01</div>
+      <div class="ic-t">Reduce cognitive load — no unnecessary branching</div>
+      <div class="ic-b">The flow has one path. No decisions about which SKU to try, which format to use, which endpoint to call. The system makes those decisions. The partner makes the business one: do I like what this returned?</div>
+      <div class="ic-r">One path. No forks. No confusion.</div>
+    </div>
+    <div class="ic">
+      <div class="ic-n">02</div>
+      <div class="ic-t">Validate the core system early — before anything else</div>
+      <div class="ic-b">Auth, catalog, order lifecycle — these are the three things that must work for Steller to be worth integrating. We prove all three in the first 60 seconds. Not in a sandbox. In the real system.</div>
+      <div class="ic-r">Real proof. Real system. Real confidence.</div>
+    </div>
+    <div class="ic">
+      <div class="ic-n">03</div>
+      <div class="ic-t">Embrace async reality — track, don't wait</div>
+      <div class="ic-b">Gift card orders are async. The 202 is the value signal, not the PIN. We teach this without a single line of documentation — by making the lifecycle immediately visible after the first order.</div>
+      <div class="ic-r">202 is the signal. Teach it by showing it.</div>
+    </div>
+    <div class="ic">
+      <div class="ic-n">04</div>
+      <div class="ic-t">Great onboarding = fast diagnosis, not just happy paths</div>
+      <div class="ic-b">The three most common failure points — invalid API key, no active SKUs, unfunded wallet — are surfaced immediately with clear, actionable messages. Bad onboarding hides failure. Good onboarding makes it impossible to miss.</div>
+      <div class="ic-r">Surface failures fast. Remove ambiguity.</div>
+    </div>
+    <div class="ic">
+      <div class="ic-n">05</div>
+      <div class="ic-t">Design for the reviewer, not the builder</div>
+      <div class="ic-b">The partner's only active decision in the 60-second flow is: does this work? Yes or no. We have done everything before that question arrives. Their cognitive energy goes to business judgment, not technical setup.</div>
+      <div class="ic-r">Builder → Reviewer. The shift is the product.</div>
+    </div>
+    <div class="ic">
+      <div class="ic-n">06</div>
+      <div class="ic-t">Observable progress in seconds — not minutes</div>
+      <div class="ic-b">Every step returns immediate, visible feedback. Not a loading spinner. Not a "we'll email you." A real response, in the product, right now. Confidence is built through observable progress, not promises.</div>
+      <div class="ic-r">Feedback loops must be immediate.</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="chapter" data-ch="What Breaks" id="ch5">
+<div class="chapter-inner">
+  <div class="ch-label">
+    <div class="ch-num r">05</div>
+    <div class="ch-name r r2">What breaks</div>
+  </div>
+
+  <h2 class="r">Most failures aren't technical.<br><em>They're setup gaps.</em></h2>
+
+  <p class="r">When we analyzed integration failures in the old flow, almost none of them were API bugs. The system was working. The partner had made an error that no amount of documentation would have prevented — because they hadn't read it, or hadn't retained it, or had simply guessed wrong.</p>
+
+  <p class="r">The three failure modes we see most often — and how PLG 2.0 surfaces them immediately instead of letting partners debug for hours:</p>
+
+  <div class="ctable r">
+    <div class="ct-head">
+      <div class="ct-hc">Failure mode</div>
+      <div class="ct-hc old">PLG 1.0 experience</div>
+      <div class="ct-hc new">PLG 2.0 experience</div>
+    </div>
+    <div class="ct-row">
+      <div class="ct-c lbl">Invalid API key</div>
+      <div class="ct-c old">401 error. Partner reads docs, checks format, re-generates, retries. 20–40 minutes.</div>
+      <div class="ct-c new">Step 1 fails immediately with a clear message: "Check your API key in the dashboard." Fixed in seconds.</div>
+    </div>
+    <div class="ct-row">
+      <div class="ct-c lbl">No active SKUs</div>
+      <div class="ct-c old">Empty catalog response. Partner doesn't know if it's their account, the region, or a bug.</div>
+      <div class="ct-c new">Step 2 shows: "No active products in your catalog — contact your account manager." Clear owner, clear action.</div>
+    </div>
+    <div class="ct-row">
+      <div class="ct-c lbl">Wallet not funded</div>
+      <div class="ct-c old">Order rejection. Partner confused why the order failed when the request was valid.</div>
+      <div class="ct-c new">Step 1 shows balance: $0.00. Partner knows before they try. No rejection, no confusion.</div>
+    </div>
+  </div>
+
+  <div class="pq r">
+    <blockquote>"The insight is simple but it changes everything: <strong>great onboarding is fast diagnosis, not just happy paths.</strong> Surface failures immediately. Remove ambiguity. Make the right move obvious."</blockquote>
+  </div>
+
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="What to Measure" id="ch6">
+<div class="chapter-inner">
+  <div class="ch-label">
+    <div class="ch-num r">06</div>
+    <div class="ch-name r r2">What to measure</div>
+  </div>
+
+  <h2 class="r">Stop measuring adoption.<br><em>Measure time to first real moment.</em></h2>
+
+  <p class="r">PLG 1.0 measured feature adoption. Did the user discover the catalog? Did they click the order button? Did they complete the setup checklist? These metrics feel useful but they measure the wrong thing. A user who completes a checklist and never places an order has not experienced value.</p>
+
+  <p class="r">PLG 2.0 measures moments. The first moment the system proves it works. The first moment a partner trusts the integration enough to continue. These are different from feature metrics — they are confidence metrics. And confidence is what converts integration partners into paying customers.</p>
+
+  <div class="m-band r">
+    <div class="mb">
+      <div class="mb-num">TTV-Auth</div>
+      <div class="mb-label">Time from signup to confirmed authentication</div>
+    </div>
+    <div class="mb">
+      <div class="mb-num">TTV-Order</div>
+      <div class="mb-label">Time from auth to first 202 accepted order</div>
+    </div>
+    <div class="mb">
+      <div class="mb-num">TTV-Track</div>
+      <div class="mb-label">Time from first order to first visible status poll</div>
+    </div>
+    <div class="mb">
+      <div class="mb-num">TTV-Scale</div>
+      <div class="mb-label">Time from first order to first production volume</div>
+    </div>
+  </div>
+
+  <p class="r">The first three happen in the getting-started flow. The fourth is the conversion event — when a partner moves from testing to production. The entire onboarding strategy exists to compress the distance between signup and that fourth metric.</p>
+
+  <p class="r">Because what gets measured gets improved. And what gets improved — when you're measuring the right thing — is the speed at which a partner becomes a customer.</p>
+
+</div>
+</div>
+
+<div class="chapter" data-ch="The Point" id="ch7">
+<div class="chapter-inner">
+  <div class="ch-label">
+    <div class="ch-num r">07</div>
+    <div class="ch-name r r2">The point</div>
+  </div>
+
+  <h2 class="r">PLG 2.0 is not a feature.<br><em>It's a philosophy.</em></h2>
+
+  <p class="r">The shift from friction reduction to work reduction sounds incremental. It isn't. It changes who the product is designed for, what success looks like, what you measure, and what you build next.</p>
+
+  <p class="r">In PLG 1.0, the product is a tool. You optimize the tool for discoverability. In PLG 2.0, the product is a service. You optimize the service for output quality. The user is no longer learning how to use the tool. They are evaluating what the service produced.</p>
+
+  <p class="r">The barrier to entry is no longer "how do I use this?" It is "do I like what this made for me?" That is a fundamentally easier question to answer — which means it is a fundamentally faster path from signup to confident customer.</p>
+
+  <p class="r">We learned this in Sudan. We applied it to API onboarding. The principle holds everywhere: <strong>the fastest way to build trust is to do the first part of the work before they have to ask.</strong></p>
+
+  <div class="cta r">
+    <div>
+      <h3>Building a PLG motion for a developer API?</h3>
+      <p>Steller is a B2B gift card middleware. If you're designing onboarding for a technical product — or looking to integrate a gift card API — let's talk about what a 60-second path to value looks like for your stack.</p>
+    </div>
+    <a href="https://developers.steler.org" class="cta-btn">developers.steler.org →</a>
+  </div>
+
+</div>
+</div>
+
+<footer>
+  <span>© 2026 Muhanad Abdelrahim · Steller · Issue 02 of the Steller Essay Series</span>
+  <span>developers.steler.org · All views the author's own</span>
+</footer>
+
+<script>
+const prog=document.getElementById('progress');
+const navEl=document.getElementById('nav');
+const navTag=document.getElementById('navTag');
+const chapters=document.querySelectorAll('[data-ch]');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  prog.style.width=(window.scrollY/h*100)+'%';
+  navEl.classList.toggle('scrolled',window.scrollY>60);
+  chapters.forEach(ch=>{if(ch.getBoundingClientRect().top<100)navTag.textContent=ch.dataset.ch});
+});
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
