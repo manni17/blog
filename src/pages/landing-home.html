@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhanad Abdelrahim — Agentic Founder · Product Strategist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#F8F6F1;
+  --ink:#141210;
+  --white:#FEFDFB;
+  --rust:#B8341A;
+  --amber:#C4870A;
+  --sage:#2E5C42;
+  --dust:#8C8782;
+  --rule:#E0DBCF;
+  --dark:#1A1714;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Geist',system-ui,sans-serif;
+  --mono:'Geist Mono',monospace;
+}
+html{font-size:17px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{border-bottom:1px solid var(--rule);padding:1.1rem 2.5rem;display:flex;justify-content:space-between;align-items:center}
+.nav-logo{font-family:var(--serif);font-size:1.1rem;font-weight:600;letter-spacing:0.02em;color:var(--ink)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dust);text-decoration:none}
+.nav-links a:hover{color:var(--ink)}
+
+/* ── HERO ── */
+.hero{max-width:1100px;margin:0 auto;padding:6rem 2.5rem 5rem;display:grid;grid-template-columns:1fr 360px;gap:5rem;align-items:start}
+.hero-eyebrow{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--rust);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--rust)}
+h1{font-family:var(--serif);font-size:clamp(2.5rem,5vw,4.2rem);font-weight:400;line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.5rem}
+h1 em{font-style:italic;color:var(--rust)}
+h1 strong{font-weight:700}
+.hero-dek{font-size:1rem;color:var(--dust);line-height:1.8;margin-bottom:2.5rem;max-width:500px}
+.hero-dek strong{color:var(--ink);font-weight:500}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;padding-top:1.5rem;border-top:1px solid var(--rule)}
+.btn-primary{background:var(--rust);color:white;padding:0.8rem 1.75rem;font-family:var(--sans);font-weight:500;font-size:0.85rem;text-decoration:none;letter-spacing:0.01em;display:inline-block}
+.btn-secondary{background:transparent;color:var(--ink);padding:0.8rem 1.75rem;font-family:var(--sans);font-weight:400;font-size:0.85rem;text-decoration:none;border:1px solid var(--rule);display:inline-block}
+.btn-secondary:hover{border-color:var(--ink)}
+
+/* ── PROOF CARD ── */
+.proof-card{background:var(--dark);padding:2rem;position:sticky;top:2rem}
+.pc-label{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:#4a3a2a;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid #2a2520}
+.pc-stat{margin-bottom:1.25rem}
+.pc-stat:last-child{margin:0}
+.pc-num{font-family:var(--serif);font-size:2.2rem;font-weight:700;line-height:1;letter-spacing:-0.02em;margin-bottom:3px}
+.pc-num.rust{color:var(--rust)}.pc-num.amber{color:var(--amber)}.pc-num.sage{color:var(--sage)}.pc-num.white{color:#E8E0D4}
+.pc-desc{font-size:0.75rem;color:#6a5a4a;line-height:1.5}
+.pc-div{border:none;border-top:1px solid #2a2520;margin:1.25rem 0}
+
+/* ── SECTION ── */
+.section{padding:5rem 2.5rem;border-top:1px solid var(--rule)}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-dark{background:var(--dark);border-color:#2a2520}
+.sec-label{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--rust);margin-bottom:2rem;display:flex;align-items:center;gap:10px}
+.sec-label::before{content:'';width:24px;height:1px;background:var(--rust)}
+.sec-label.sage-l{color:var(--sage)}
+.sec-label.sage-l::before{background:var(--sage)}
+.sec-label.amber-l{color:var(--amber)}
+.sec-label.amber-l::before{background:var(--amber)}
+
+h2{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:600;line-height:1.1;letter-spacing:-0.02em;margin-bottom:0.75rem}
+h2 em{font-style:italic;color:var(--rust)}
+h2.dark-h{color:#E8E0D4}
+h2.dark-h em{color:var(--amber)}
+p{line-height:1.8;color:#2E2B26;margin-bottom:1rem;font-size:0.95rem}
+p.dark-p{color:#8a7a6a}
+p strong{font-weight:500;color:var(--ink)}
+p.dark-p strong{color:#C4B8A8}
+
+/* ── WHO I HELP ── */
+.hire-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:3rem}
+.hire-card{background:var(--white);padding:2rem}
+.hc-num{font-family:var(--serif);font-size:2.5rem;font-weight:300;color:var(--rule);line-height:1;margin-bottom:1rem;letter-spacing:-0.03em}
+.hc-who{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dust);margin-bottom:0.75rem}
+.hc-title{font-weight:500;font-size:0.92rem;margin-bottom:0.5rem;line-height:1.35;color:var(--ink)}
+.hc-desc{font-size:0.8rem;color:var(--dust);line-height:1.65}
+.hc-out{font-family:var(--mono);font-size:0.58rem;color:var(--sage);margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--rule);letter-spacing:0.05em}
+
+/* ── ESSAYS ── */
+.essay-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:3rem}
+.essay-card{background:var(--white);padding:2.5rem;text-decoration:none;display:block;transition:background .15s}
+.essay-card:hover{background:var(--bg)}
+.ec-issue{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--dust);margin-bottom:0.75rem}
+.ec-title{font-family:var(--serif);font-size:1.5rem;font-weight:600;line-height:1.2;margin-bottom:0.75rem;color:var(--ink)}
+.ec-title em{font-style:italic;color:var(--rust)}
+.ec-dek{font-size:0.82rem;color:var(--dust);line-height:1.65;margin-bottom:1.25rem}
+.ec-foot{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;border-top:1px solid var(--rule)}
+.ec-tag{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--rule);color:var(--dust)}
+.ec-read{font-family:var(--mono);font-size:0.58rem;color:var(--rust);letter-spacing:0.08em}
+
+/* ── METHODOLOGY ── */
+.meth-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#2a2520;border:1px solid #2a2520;margin-top:3rem}
+.mc{background:var(--dark);padding:1.75rem}
+.mc-n{font-family:var(--serif);font-size:2.5rem;font-weight:300;color:#2a2520;line-height:1;margin-bottom:0.75rem;letter-spacing:-0.03em}
+.mc-t{font-weight:500;font-size:0.85rem;color:#E8E0D4;margin-bottom:0.4rem;line-height:1.3}
+.mc-b{font-size:0.78rem;color:#6a5a4a;line-height:1.6}
+.mc-r{font-family:var(--mono);font-size:0.55rem;color:var(--amber);margin-top:0.75rem;padding-top:0.6rem;border-top:1px solid #2a2520;letter-spacing:0.05em}
+
+/* ── BACKGROUND ── */
+.bg-split{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:3rem}
+.bg-col{padding:2.5rem;border:1px solid var(--rule)}
+.bg-col:last-child{border-left:none}
+.bg-title{font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:1rem;line-height:1.2}
+.bg-body{font-size:0.82rem;color:var(--dust);line-height:1.7}
+.bg-body strong{color:var(--ink);font-weight:500}
+.timeline-mini{margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--rule)}
+.tm-item{display:flex;gap:10px;align-items:baseline;margin-bottom:0.6rem;font-size:0.78rem}
+.tm-year{font-family:var(--mono);font-size:0.6rem;color:var(--dust);flex-shrink:0;min-width:40px;letter-spacing:0.05em}
+.tm-event{color:#2E2B26;line-height:1.4}
+
+/* ── SUDAN PULL ── */
+.sudan{background:var(--amber);padding:3rem 2.5rem;margin:3rem 0 0}
+.sudan blockquote{font-family:var(--serif);font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:400;font-style:italic;line-height:1.45;color:var(--dark);max-width:680px}
+.sudan cite{display:block;margin-top:1rem;font-family:var(--mono);font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:#3a2a0a;font-style:normal}
+
+/* ── CONTACT ── */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#2a2520;border:1px solid #2a2520;margin-top:3rem}
+.cg{background:var(--dark);padding:2rem}
+.cg-label{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:#4a3a2a;margin-bottom:0.75rem}
+.cg-value{font-family:var(--serif);font-size:1.25rem;font-weight:400;color:#E8E0D4;margin-bottom:0.4rem;line-height:1.2}
+.cg-desc{font-size:0.78rem;color:#6a5a4a;line-height:1.5}
+.cg-link{display:inline-block;margin-top:1rem;font-family:var(--mono);font-size:0.6rem;color:var(--amber);letter-spacing:0.08em;text-decoration:none}
+.cg-link:hover{color:#E8E0D4}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:0.55rem;color:var(--dust);letter-spacing:0.08em;flex-wrap:wrap;gap:1rem}
+
+/* ── REVEAL ── */
+.r{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+.r.in{opacity:1;transform:none}
+.r2{transition-delay:.08s}.r3{transition-delay:.16s}.r4{transition-delay:.24s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:3rem}
+  .proof-card{position:static}
+  .hire-grid{grid-template-columns:1fr}
+  .essay-grid{grid-template-columns:1fr}
+  .meth-grid{grid-template-columns:1fr 1fr}
+  .bg-split{grid-template-columns:1fr}
+  .bg-col:last-child{border-left:1px solid var(--rule);border-top:none}
+  .contact-grid{grid-template-columns:1fr}
+  nav{padding:1rem 1.5rem}
+  .nav-links{gap:1rem}
+  .section{padding:3.5rem 1.5rem}
+  .hero{padding:3.5rem 1.5rem 3rem}
+}
+@media(max-width:600px){
+  .meth-grid{grid-template-columns:1fr}
+  .hero-actions{flex-direction:column}
+  .btn-primary,.btn-secondary{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Muhanad Abdelrahim</span>
+  <ul class="nav-links">
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#methodology">Methodology</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow r">Founder · Strategist · Agentic architect</div>
+    <h1 class="r r2">
+      I build companies<br>
+      with <em>AI agents</em><br>
+      and <strong>no engineering team.</strong><br>
+      Then I write about<br>what I learn.
+    </h1>
+    <p class="hero-dek r r3">
+      I'm Muhanad — a non-technical founder who built <strong>Steller</strong>, a live B2B gift card platform, entirely through AI agent orchestration. Before that: a decade of business development in one of the world's hardest markets. The combination produces a way of thinking about product, growth, and systems that I haven't found anywhere else.
+    </p>
+    <div class="hero-actions r r4">
+      <a href="#writing" class="btn-primary">Read the essays →</a>
+      <a href="#contact" class="btn-secondary">Work with me</a>
+    </div>
+  </div>
+  <div class="proof-card r r2">
+    <div class="pc-label">Steller — built with AI agents</div>
+    <div class="pc-stat">
+      <div class="pc-num rust">$672</div>
+      <div class="pc-desc">Total cost to rebuild a live B2B platform from scratch</div>
+    </div>
+    <hr class="pc-div">
+    <div class="pc-stat">
+      <div class="pc-num amber">27</div>
+      <div class="pc-desc">Days from broken microservices to agent-ready monolith</div>
+    </div>
+    <hr class="pc-div">
+    <div class="pc-stat">
+      <div class="pc-num sage">&lt;60s</div>
+      <div class="pc-desc">Time to first partner value on the new onboarding flow</div>
+    </div>
+    <hr class="pc-div">
+    <div class="pc-stat">
+      <div class="pc-num white">0</div>
+      <div class="pc-desc">Full-time developers required to operate Steller today</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WHO I HELP ══ -->
+<div class="section" id="work">
+<div class="section-inner">
+  <div class="sec-label r">Who I help</div>
+  <h2 class="r">Three kinds of founder<br><em>I work with.</em></h2>
+  <p class="r" style="max-width:600px;color:var(--dust)">I'm available for advisory, consulting, and fractional product work. Here's where I add the most value — and what you walk away with.</p>
+  <div class="hire-grid">
+    <div class="hire-card r">
+      <div class="hc-num">01</div>
+      <div class="hc-who">For · Non-technical founders</div>
+      <div class="hc-title">You have the idea and the market. You need to build without a dev team you can't afford yet.</div>
+      <div class="hc-desc">I'll show you how to design your system for AI agents from day one — the architecture decisions, the documentation layer, the protocol that lets an AI operate your product reliably. You get a working system without a payroll.</div>
+      <div class="hc-out">Outcome: agent-operable product at startup cost</div>
+    </div>
+    <div class="hire-card r r2">
+      <div class="hc-num">02</div>
+      <div class="hc-who">For · Technical founders &amp; CTOs</div>
+      <div class="hc-title">Your system works. Your AI agents keep breaking things they couldn't see.</div>
+      <div class="hc-desc">I've lived this exact problem — and solved it by learning that microservices are architecturally hostile to AI agents. I'll audit your system for context visibility, identify the invisible dependencies, and help you restructure for agentic reliability.</div>
+      <div class="hc-out">Outcome: architecture that AI agents can actually operate</div>
+    </div>
+    <div class="hire-card r r3">
+      <div class="hc-num">03</div>
+      <div class="hc-who">For · Product teams</div>
+      <div class="hc-title">You have a developer API. Partners are signing up and churning before they place a first order.</div>
+      <div class="hc-desc">I designed Steller's 60-second path to value — the PLG 2.0 onboarding flow that shifts the partner from builder to reviewer and gets them to a working integration before they've read a word of documentation. I'll apply this thinking to your product.</div>
+      <div class="hc-out">Outcome: faster TTV, lower churn, more confident partners</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ ESSAYS ══ -->
+<div class="section" id="writing">
+<div class="section-inner">
+  <div class="sec-label r sage-l">The essay series</div>
+  <h2 class="r">Writing that comes from<br><em>building, not theorising.</em></h2>
+  <p class="r" style="max-width:600px;color:var(--dust)">Every essay is grounded in something that actually happened — a decision made under pressure, a system that broke, an insight that only exists because we tried and failed first.</p>
+  <div class="essay-grid">
+    <a class="essay-card r" href="/blog/microservices-to-fat-controllers-agentic-pivot">
+      <div class="ec-issue">Issue 01 · The Steller Story</div>
+      <div class="ec-title">Built From <em>the Rubble</em></div>
+      <div class="ec-dek">A development team displaced by war. A codebase full of invisible debt. An AI toolchain that failed on the architecture it was handed. And 27 days to fix it before the first partner integration deadline.</div>
+      <div class="ec-foot">
+        <span class="ec-tag">Agentic architecture · Founder story</span>
+        <span class="ec-read">Read →</span>
+      </div>
+    </a>
+    <a class="essay-card r r2" href="/blog/plg-2-we-stopped-teaching-we-started-doing">
+      <div class="ec-issue">Issue 02 · PLG 2.0</div>
+      <div class="ec-title">We Stopped Teaching. <em>We Started Doing.</em></div>
+      <div class="ec-dek">PLG used to mean reducing friction. We learned — from doing business development in Sudan — that the real unlock is removing the work entirely. Here is how we applied that to Steller's API onboarding.</div>
+      <div class="ec-foot">
+        <span class="ec-tag">PLG · Onboarding · Product strategy</span>
+        <span class="ec-read">Read →</span>
+      </div>
+    </a>
+  </div>
+  <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--rule)" class="r">
+    <p style="font-family:var(--mono);font-size:0.58rem;color:var(--dust);letter-spacing:0.12em;text-transform:uppercase">More essays in progress — architecture, emerging markets, B2B product strategy</p>
+  </div>
+</div>
+</div>
+
+<!-- ══ METHODOLOGY ══ -->
+<div class="section section-dark" id="methodology">
+<div class="section-inner">
+  <div class="sec-label r amber-l">The methodology</div>
+  <h2 class="dark-h r">Agentic architecture —<br><em>the principles I work by.</em></h2>
+  <p class="dark-p r" style="max-width:600px">These aren't abstract ideas. They're the specific decisions I made while rebuilding Steller — and the ones I help other founders make.</p>
+  <div class="meth-grid">
+    <div class="mc r">
+      <div class="mc-n">01</div>
+      <div class="mc-t">Optimise for the context window, not the service boundary</div>
+      <div class="mc-b">Architecture decisions must first answer: can an AI hold the entire relevant flow in one context window? If not, the design is wrong — regardless of its engineering merit.</div>
+      <div class="mc-r">Context visibility over distribution</div>
+    </div>
+    <div class="mc r r2">
+      <div class="mc-n">02</div>
+      <div class="mc-t">Keep the golden flow in one traceable path</div>
+      <div class="mc-b">The sequence that moves revenue must be readable top to bottom without crossing a service boundary. If an AI can't trace it in one sitting, redesign it.</div>
+      <div class="mc-r">One flow · One file · No invisible breaks</div>
+    </div>
+    <div class="mc r r3">
+      <div class="mc-n">03</div>
+      <div class="mc-t">Write AGENTS.md before you write any code</div>
+      <div class="mc-b">The file that tells an agent where to start is worth more than any single code file. It cuts session orientation from 20 minutes to 2. Written once, paid forward forever.</div>
+      <div class="mc-r">Docs compound like interest</div>
+    </div>
+    <div class="mc r r4">
+      <div class="mc-n">04</div>
+      <div class="mc-t">Make the wrong move require explicit confirmation</div>
+      <div class="mc-b">Guardrails, confirmation gates, protected systems. An agent that cannot accidentally destroy a production system is worth ten agents that might.</div>
+      <div class="mc-r">Safety is architecture, not comment</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ BACKGROUND ══ -->
+<div class="section" id="about">
+<div class="section-inner">
+  <div class="sec-label r">Background</div>
+  <h2 class="r">Two careers that shouldn't<br><em>go together — and do.</em></h2>
+  <div class="bg-split">
+    <div class="bg-col r">
+      <div class="bg-title">Emerging market business development</div>
+      <div class="bg-body">
+        <p style="font-size:0.82rem;color:var(--dust);line-height:1.7;margin-bottom:0">A decade of closing deals in markets defined by risk, information scarcity, and complex internal politics. Sudan specifically — where winning a contract often means doing the customer's internal work for them, navigating organisational blockers, and training teams on products they've never seen before.</p>
+        <p style="font-size:0.82rem;color:var(--dust);line-height:1.7;margin-bottom:0;margin-top:0.75rem">This is where I learned what PLG 2.0 is — before I had a name for it. The fastest way to win isn't to explain the product better. It's to do the first part of the customer's job before they have to ask.</p>
+      </div>
+      <div class="timeline-mini">
+        <div class="tm-item"><span class="tm-year">2014</span><span class="tm-event">Business development, East Africa and MENA markets</span></div>
+        <div class="tm-item"><span class="tm-year">2018</span><span class="tm-event">Complex B2B sales, emerging market partnerships</span></div>
+        <div class="tm-item"><span class="tm-year">2022</span><span class="tm-event">Identified the B2B gift card middleware gap</span></div>
+        <div class="tm-item"><span class="tm-year">2024</span><span class="tm-event">Founded Steller — first attempt with outsourced team</span></div>
+      </div>
+    </div>
+    <div class="bg-col r r2">
+      <div class="bg-title">Agentic product development</div>
+      <div class="bg-body">
+        <p style="font-size:0.82rem;color:var(--dust);line-height:1.7;margin-bottom:0">Non-technical founder who needed to build real software without a team — and discovered that the architecture itself determines whether AI agents can operate a system at all. Not as a hypothesis. As a lived experience, debugged in real-time on a live production system.</p>
+        <p style="font-size:0.82rem;color:var(--dust);line-height:1.7;margin-bottom:0;margin-top:0.75rem">The result: a documented methodology for building AI-agent-operable systems, two published essays, and a live B2B platform operated by Qwen Coder with zero developer intervention.</p>
+      </div>
+      <div class="timeline-mini">
+        <div class="tm-item"><span class="tm-year">Late '25</span><span class="tm-event">Dev team departure — pivot to full AI development</span></div>
+        <div class="tm-item"><span class="tm-year">Feb '26</span><span class="tm-event">27-day rebuild — microservices → agentic monolith</span></div>
+        <div class="tm-item"><span class="tm-year">Mar '26</span><span class="tm-event">Bede (Zain) first live integration — system handed to Qwen</span></div>
+        <div class="tm-item"><span class="tm-year">Now</span><span class="tm-event">Writing, advising, building the methodology</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sudan r">
+    <blockquote>"In Sudan, you learn to win contracts by doing the customer's internal work for them — navigating their politics, training their teams, removing every reason to say no. We didn't know we were inventing a product philosophy. We were just trying to close deals."</blockquote>
+    <cite>On the business instinct that became PLG 2.0</cite>
+  </div>
+</div>
+</div>
+
+<!-- ══ CONTACT ══ -->
+<div class="section section-dark" id="contact">
+<div class="section-inner">
+  <div class="sec-label r amber-l">Contact</div>
+  <h2 class="dark-h r">Let's work together.<br><em>Or just talk.</em></h2>
+  <p class="dark-p r" style="max-width:560px">I'm available for advisory engagements, fractional product work, and consulting on agentic architecture and PLG strategy. I'm also always happy to talk to founders who are figuring this out for the first time.</p>
+  <div class="contact-grid r r2">
+    <div class="cg">
+      <div class="cg-label">Steller — the product</div>
+      <div class="cg-value">developers.steler.org</div>
+      <div class="cg-desc">B2B gift card API. If you're a platform looking for a reliable gift card integration, start here.</div>
+      <a class="cg-link" href="https://developers.steler.org">Visit developer hub →</a>
+    </div>
+    <div class="cg">
+      <div class="cg-label">Work with me directly</div>
+      <div class="cg-value">Muhanad Abdelrahim</div>
+      <div class="cg-desc">Advisory, consulting, fractional product. Agentic architecture audits. PLG onboarding design. Emerging market strategy.</div>
+      <a class="cg-link" href="mailto:hello@steler.org">hello@steler.org →</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<footer>
+  <span>© 2026 Muhanad Abdelrahim</span>
+  <span>Founder, Steller · Toronto, Canada</span>
+  <span>developers.steler.org</span>
+</footer>
+
+<script>
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:0.07,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
