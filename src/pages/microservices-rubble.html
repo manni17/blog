@@ -77,6 +77,7 @@ p strong{font-weight:500;color:var(--ink)}
 .chapter-dark h2 em{color:var(--amber)}
 .chapter-dark h3{color:#C4B8A8}
 .chapter-dark p{color:#8a7a6a}
+.chapter-dark p strong{color:#E8E0D4}
 
 /* ── TIMELINE ── */
 .timeline{margin:3rem 0;position:relative}
@@ -173,7 +174,14 @@ p strong{font-weight:500;color:var(--ink)}
 .sc-c.good{color:#2a5a3a}
 
 /* ── FOOTER ── */
-footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:0.58rem;color:var(--dust);letter-spacing:0.08em}
+footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:0.58rem;color:var(--dust);letter-spacing:0.08em;flex-wrap:wrap;gap:1rem}
+footer a{color:var(--dust);text-decoration:none}
+footer a:hover{color:var(--ink)}
+.series{margin-top:2rem;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--dust);line-height:1.8}
+.series a{color:var(--rust);text-decoration:none}
+.series a:hover{text-decoration:underline}
+.cta-actions{display:flex;flex-direction:column;gap:0.6rem}
+.cta-btn.ghost{background:transparent;color:#E8E0D4;border:1px solid #3a3028}
 
 /* ── REVEAL ── */
 .r{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
@@ -192,6 +200,10 @@ footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify
   .sc-hc,.sc-c{border-right:none;border-bottom:1px solid var(--rule)}
   .chapter{padding:4rem 1.5rem}
   nav{padding:1rem 1.5rem}
+  .pq,.flaw-grid,.ba,.cost-card,.prin-grid,.sc,.cta{margin-left:0;margin-right:0}
+  .results-band{margin-left:0;margin-right:0}
+  .bar-row{grid-template-columns:1fr;gap:0.35rem}
+  footer{flex-direction:column;align-items:flex-start;gap:0.75rem}
 }
 </style>
 </head>
@@ -275,7 +287,383 @@ footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify
 </div>
 </div>
 
-<!-- ... remaining chapters from your provided HTML omitted in this command to keep transport stable ... -->
+<!-- ══════════════ CHAPTER 2: THE COLLAPSE ══════════════ -->
+<div class="chapter chapter-dark" data-chapter="The Collapse" id="ch2">
+<div class="chapter-inner">
+  <div class="chapter-label">
+    <div class="chapter-num r">02</div>
+    <div class="chapter-name r r2">The collapse</div>
+  </div>
+
+  <h2 class="r">The team went offline.<br><em>The architecture stayed.</em></h2>
+
+  <p class="r">In late 2025 the development team went offline. They were a team in a conflict zone, displaced by war. What they left was a codebase full of invisible debt, and a partner integration deadline that did not move with them.</p>
+
+  <p class="r">The instinct most founders would follow is replacement. Find another developer. Pick up where the last team left off. Finish what was started. That is not what happened. The $10,000 engagement had produced a real data model and a real stack. It had not produced a system a non-coder could keep alive.</p>
+
+  <p class="r">What I had instead was the architecture they left, a production server still tied to that conflict zone, and AI agents — Cursor, Qwen, Claude — as the only engineering capacity left. I am not a developer. I build Steller with those agents. No engineering team. No CTO. Just me and a context window.</p>
+
+  <div class="pq r">
+    <blockquote>"Every time I asked the agent to fix an order flow bug, it changed the right service — <strong>but broke two others it couldn't see.</strong>"</blockquote>
+    <cite>Muhanad Abdelrahim — Founder, Steller</cite>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ CHAPTER 3: THE BLIND SPOT ══════════════ -->
+<div class="chapter" data-chapter="The Blind Spot" id="ch3">
+<div class="chapter-inner">
+  <div class="chapter-label">
+    <div class="chapter-num r">03</div>
+    <div class="chapter-name r r2">The blind spot</div>
+  </div>
+
+  <h2 class="r">Microservices looked correct.<br><em>Agents could not hold them.</em></h2>
+
+  <p class="r">Steller started as a textbook microservices architecture. RabbitMQ for messaging. Separate services for orders, wallets, catalog, webhooks. The kind of system that looks impressive in a diagram and makes senior engineers nod.</p>
+
+  <p class="r">For a large human team, that shape is a feature. For a team of one human and several AI agents, it was a disaster. Every session started the same way. I would describe a bug — orders completing while wallets were not debited, or debited twice. The agent loaded the order service, made a change, and reported success. The wallet service was still wrong, because the agent had never seen it.</p>
+
+  <p class="r">The order service published an event. The wallet service subscribed. Those were two codebases and two context windows. When I asked the agent to fix the order flow, it could only see the part of the flow in the file it was reading. The consumer, the wallet debit, the Bamboo vendor call, the webhook dispatch — invisible.</p>
+
+  <div class="flaw-grid r">
+    <div class="flaw-card">
+      <div class="flaw-think">"Separate services will keep the system clean."</div>
+      <div class="flaw-label">What the agent actually hit</div>
+      <div class="flaw-title">Context fragmented across files and services</div>
+      <div class="flaw-desc">An order flow needs wallet logic, vendor integration, job scheduling, and webhook delivery in view at once. Each file the agent loaded displaced something else. It never held the whole path.</div>
+    </div>
+    <div class="flaw-card">
+      <div class="flaw-think">"The queue is the contract. That is enough."</div>
+      <div class="flaw-label">What the agent actually hit</div>
+      <div class="flaw-title">RabbitMQ hid the dependency</div>
+      <div class="flaw-desc">Message queues are asynchronous and implicit. An agent fixing a publisher has no signal that a consumer exists, or what contract it expects. Every RabbitMQ change was a gamble.</div>
+    </div>
+    <div class="flaw-card">
+      <div class="flaw-think">"The agent will orient itself each session."</div>
+      <div class="flaw-label">What the agent actually hit</div>
+      <div class="flaw-title">Fifteen to twenty minutes before any work</div>
+      <div class="flaw-desc">Sessions opened with "let me find which service handles this." Infrastructure — exchanges, bindings, dead-letters — filled the window before business logic did.</div>
+    </div>
+    <div class="flaw-card">
+      <div class="flaw-think">"A saga will roll the wallet back if Bamboo fails."</div>
+      <div class="flaw-label">What the agent actually hit</div>
+      <div class="flaw-title">Compensating transactions no agent could trace</div>
+      <div class="flaw-desc">Rollback lived as choreography across services. No single file held the forward path and the undo. The agent guessed, or it stopped.</div>
+    </div>
+  </div>
+
+  <div class="pq r">
+    <blockquote>"The unit of architecture for agentic development is not the service boundary — <strong>it's the context window.</strong>"</blockquote>
+  </div>
+
+  <p class="r">Microservices optimise for team independence. Agentic architecture has to optimise for context visibility. Those are different goals, and they often require opposite design decisions. The message queue — the thing that makes microservices powerful for human teams — is exactly what makes them hostile to agents.</p>
+</div>
+</div>
+
+<!-- ══════════════ CHAPTER 4: THE REDESIGN ══════════════ -->
+<div class="chapter chapter-dark" data-chapter="The Redesign" id="ch4">
+<div class="chapter-inner">
+  <div class="chapter-label">
+    <div class="chapter-num r">04</div>
+    <div class="chapter-name r r2">The redesign</div>
+  </div>
+
+  <h2 class="r">Fat controllers.<br><em>The whole golden flow in one file.</em></h2>
+
+  <p class="r">I am not saying microservices are wrong. I am saying they are wrong for a small team using AI agents as the primary development force. For a team of thirty engineers they can still be the right answer. For one human and several agents, they were architectural poison.</p>
+
+  <p class="r">The replacement is plain. Fat controllers: the order flow — wallet debit, Bamboo vendor call, PIN return, webhook dispatch — lives in one controller, readable top to bottom. Hangfire for background work: jobs are named C# classes. <strong>PlaceBambooOrderJob</strong> is a file an agent can grep, open, and read, including the wallet rollback when Bamboo fails.</p>
+
+  <p class="r">The pivot was deliberate, not a rescue of the old shape. Service boundaries were consolidated. The two Vue.js 2.6 dashboards were decommissioned and replaced with a unified React 18 / TypeScript / Vite frontend. Fragmented API responses became a single mandatory envelope. Permission lookup tables were flattened. The patterns that helped a human team navigate were replaced with patterns an agent can operate.</p>
+
+  <div class="ba r">
+    <div class="ba-col">
+      <div class="ba-head bad">Before — what the agent could see</div>
+      <div class="ba-subtitle bad">Distributed. Decoupled. Agent-hostile.</div>
+      <div class="flow">
+        <div class="fn">Partner API</div>
+        <div class="fa">↓</div>
+        <div class="fn">OrderService</div>
+        <div class="fa">↓</div>
+        <div class="fn bad">bus.Publish("OrderPlaced")</div>
+        <div class="fa">↓</div>
+        <div class="fn ghost">??? another service</div>
+        <div class="fa">↓</div>
+        <div class="fn ghost">??? another context window</div>
+        <div class="fa">↓</div>
+        <div class="fn bad">Agent loses the thread</div>
+      </div>
+      <div class="flow-note">A bug in order → debit → fulfill → webhook required four services in context at once. The agent never held them.</div>
+    </div>
+    <div class="ba-col">
+      <div class="ba-head good">After — what the agent can see</div>
+      <div class="ba-subtitle good">Concentrated. Explicit. Agent-ready.</div>
+      <div class="flow">
+        <div class="fn">Partner API</div>
+        <div class="fa">↓</div>
+        <div class="fn good">OrdersController</div>
+        <div class="fa">↓</div>
+        <div class="fn good">wallets.DebitAsync()</div>
+        <div class="fa">↓</div>
+        <div class="fn good">Enqueue PlaceBambooOrderJob</div>
+        <div class="fa">↓</div>
+        <div class="fn good">Return OK + orderId</div>
+      </div>
+      <div class="flow-note">One repo. One Docker Compose. AGENTS.md says which file to open first. Compensating transactions are explicit code in the same path, not saga choreography.</div>
+    </div>
+  </div>
+
+  <p class="r">This is not clean-code theory. It is what an agent can reason about when something is broken: read the controller from top to bottom, grep the named job, find the rollback. Session orientation dropped from the fifteen-to-twenty-minute search to about two minutes — read AGENTS.md, open the controller, start the work.</p>
+</div>
+</div>
+
+<!-- ══════════════ CHAPTER 5: TWENTY-SEVEN DAYS ══════════════ -->
+<div class="chapter" data-chapter="Twenty-Seven Days" id="ch5">
+<div class="chapter-inner">
+  <div class="chapter-label">
+    <div class="chapter-num r">05</div>
+    <div class="chapter-name r r2">Twenty-seven days</div>
+  </div>
+
+  <h2 class="r">From the reckoning<br><em>to a system Qwen could run.</em></h2>
+
+  <p class="r">The pivot took 27 days and cost $672 in Cursor usage. That is the published cost of transforming the microservices system into an agent-ready monolith — architectural planning, the code transformation, the documentation, and the protocol layer that lets Qwen operate the system day to day. The rebuild shipped with zero critical defects in production.</p>
+
+  <div class="timeline r">
+    <div class="tl-spine"></div>
+    <div class="tl-item pivot">
+      <div class="tl-marker"></div>
+      <div class="tl-date">Feb 16–22 · $207 · Peak intensity</div>
+      <div class="tl-title">The architectural reckoning</div>
+      <div class="tl-body">The most expensive week — $44 on Feb 21 alone. Cursor plus high-thinking model calls, planning the move from RabbitMQ to Hangfire. Six calls at two to eight million tokens each. This is what it cost to think at architectural scale.</div>
+      <div class="tl-tag pivot">Pivot</div>
+    </div>
+    <div class="tl-item pivot">
+      <div class="tl-marker"></div>
+      <div class="tl-date">Feb 23 – Mar 1 · $163 · Execution</div>
+      <div class="tl-title">RabbitMQ out, Hangfire in</div>
+      <div class="tl-body">Controllers grew fat. Services got absorbed. The golden flow — place order, debit wallet, call Bamboo, return PINs, fire webhook — collapsed into a single readable path. For the first time the agent could see the whole picture.</div>
+      <div class="tl-tag pivot">Pivot</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-marker"></div>
+      <div class="tl-date">Mar 2–8 · $118 · Hardening</div>
+      <div class="tl-title">The agent protocol layer</div>
+      <div class="tl-body">AGENTS.md, QWEN_PROTOCOL.md, HANDOVER_TO_QWEN.md, CHANGELOG_AI.md. Guardrails, confirmation gates, session protocols, canonical port maps. The system became legible to machines.</div>
+    </div>
+    <div class="tl-item win">
+      <div class="tl-marker"></div>
+      <div class="tl-date">Mar 9–14 · $96 · Stabilisation</div>
+      <div class="tl-title">Handed to Qwen Coder</div>
+      <div class="tl-body">Spend dropped by half week over week. The system no longer needed the heavy architectural sessions — Qwen could operate it from the docs. Bede, the Zain digital wallet, entered staging. Steller was ready for its first partner integration.</div>
+      <div class="tl-tag win">Live path</div>
+    </div>
+  </div>
+
+  <div class="cost-card r">
+    <div class="cost-title">Published cost of the pivot</div>
+    <div class="bar-row">
+      <div class="bar-label">Cursor spend, all-in</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:100%;background:var(--rust)"></div></div>
+      <div class="bar-val">$672</div>
+    </div>
+    <div class="cost-foot">
+      <div class="cost-total">Total <span>$672</span></div>
+      <div class="cost-vs">The same case study puts a five-person team for that scope at <strong>$80,000–150,000</strong>. The four phase totals above are the published weekly figures; they are not a second invoice.</div>
+    </div>
+  </div>
+
+  <div class="results-band r">
+    <div class="rb">
+      <div class="rb-num">$672</div>
+      <div class="rb-label">Cursor spend to complete the pivot</div>
+    </div>
+    <div class="rb">
+      <div class="rb-num">27d</div>
+      <div class="rb-label">Microservices to agent-ready monolith</div>
+    </div>
+    <div class="rb">
+      <div class="rb-num">~$15</div>
+      <div class="rb-label">Expected daily AI spend after handover</div>
+    </div>
+    <div class="rb">
+      <div class="rb-num">0</div>
+      <div class="rb-label">Full-time developers required</div>
+    </div>
+  </div>
+
+  <p class="r">Expected daily Cursor and Qwen spend after the pivot, for routine operations, was about $15. A 95.2% cache hit rate is why the documentation compounds: files written once are read across hundreds of sessions. Bede — the digital wallet of Zain Sudan — moved from staging into an active API integration. The platform onboards partners to a first successful API transaction in under sixty seconds.</p>
+
+  <div class="pq r">
+    <blockquote>"The lesson isn't that microservices are wrong. It's that microservices are wrong <strong>for a team of one human and several AI agents.</strong>"</blockquote>
+    <cite>Muhanad Abdelrahim — Founder, Steller · March 2026</cite>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ CHAPTER 6: THE SCORECARD ══════════════ -->
+<div class="chapter" data-chapter="The Scorecard" id="ch6">
+<div class="chapter-inner">
+  <div class="chapter-label">
+    <div class="chapter-num r">06</div>
+    <div class="chapter-name r r2">The scorecard</div>
+  </div>
+
+  <h2 class="r">Microservices versus fat controllers<br><em>for an agentic team.</em></h2>
+
+  <div class="sc r">
+    <div class="sc-head">
+      <div class="sc-hc">Dimension</div>
+      <div class="sc-hc bad">Microservices + RabbitMQ</div>
+      <div class="sc-hc good">Fat controllers + Hangfire</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-c lbl">Context window</div>
+      <div class="sc-c bad">Fragmented. The agent loads a fraction of the system per session.</div>
+      <div class="sc-c good">Single repo. The golden flow is readable in one file.</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-c lbl">Orientation</div>
+      <div class="sc-c bad">15–20 minutes. "Which service handles this?"</div>
+      <div class="sc-c good">About 2 minutes. Read AGENTS.md, open the controller.</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-c lbl">Debugging a flow</div>
+      <div class="sc-c bad">Trace a message through three or more services. Often a guess.</div>
+      <div class="sc-c good">Read the controller top to bottom. The cause is visible.</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-c lbl">Background jobs</div>
+      <div class="sc-c bad">Implicit event names. Nothing to grep.</div>
+      <div class="sc-c good">Named classes. PlaceBambooOrderJob is findable in one search.</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-c lbl">Rollback</div>
+      <div class="sc-c bad">Saga choreography across services.</div>
+      <div class="sc-c good">Explicit rollback in the same file as the forward path.</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-c lbl">Infrastructure</div>
+      <div class="sc-c bad">Exchanges, bindings, and dead-letters before any business logic.</div>
+      <div class="sc-c good">Hangfire is a package and a Postgres table.</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-c lbl">Deploy</div>
+      <div class="sc-c bad">N services, N deployments.</div>
+      <div class="sc-c good">docker compose up -d. One command, one log stream.</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-c lbl">Docs</div>
+      <div class="sc-c bad">Each service has its own docs. The agent cannot tell which are current.</div>
+      <div class="sc-c good">One AGENTS.md, one port map, one backlog.</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-c lbl">Cost to operate with AI</div>
+      <div class="sc-c bad">High. Constant re-orientation. Errors from missing context.</div>
+      <div class="sc-c good">Qwen operates on about $5–15 a day once the docs exist.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ CHAPTER 7: THE LIMITS ══════════════ -->
+<div class="chapter chapter-dark" data-chapter="The Limits" id="ch7">
+<div class="chapter-inner">
+  <div class="chapter-label">
+    <div class="chapter-num r">07</div>
+    <div class="chapter-name r r2">The limits</div>
+  </div>
+
+  <h2 class="r">This is not a universal rule.<br><em>It is a constraint.</em></h2>
+
+  <p class="r">Fat controllers break when a team grows past a handful of engineers. At that scale, several people editing the same controller create the merge conflicts microservices were designed to avoid. The context-window argument fades when humans can hold the context themselves.</p>
+
+  <p class="r">Independent scaling becomes impossible. If the Bamboo integration needs many times the resources of catalog sync, one controller cannot scale those paths apart. Very large domains get unwieldy too. A controller that handles dozens of flows is not readable to a human or an agent. Steller has one golden flow, not forty.</p>
+
+  <p class="r">The principle is not "always use fat controllers." The principle is: <strong>design the architecture so an AI agent can hold the entire relevant flow in a single context window.</strong> For Steller at this stage, that meant fat controllers. For a larger system, it might mean domain-bounded services with explicit, synchronous interfaces — not event-driven, and not invisible.</p>
+</div>
+</div>
+
+<!-- ══════════════ CHAPTER 8: THE PRINCIPLES ══════════════ -->
+<div class="chapter chapter-dark" data-chapter="The Principles" id="ch8">
+<div class="chapter-inner">
+  <div class="chapter-label">
+    <div class="chapter-num r">08</div>
+    <div class="chapter-name r r2">The principles</div>
+  </div>
+
+  <h2 class="r">Rules for building with<br><em>agents, not a department.</em></h2>
+
+  <div class="prin-grid r">
+    <div class="pcard">
+      <div class="pcard-n">01</div>
+      <div class="pcard-t">Keep the golden flow in one file</div>
+      <div class="pcard-b">An agent should read the path from request to response without crossing a service boundary. If it has to cross one, merge the services.</div>
+      <div class="pcard-r">One flow · one sitting</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-n">02</div>
+      <div class="pcard-t">Name everything so it can be grepped</div>
+      <div class="pcard-b">Hangfire jobs, middleware, services — unique strings. PlaceBambooOrderJob, ReconciliationJob, SendWebhookJob. Implicit pub/sub is context poison.</div>
+      <div class="pcard-r">If you cannot search it, the agent cannot see it</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-n">03</div>
+      <div class="pcard-t">Write AGENTS.md before the code</div>
+      <div class="pcard-b">It tells the agent where to start, what to protect, and which commands to run. A good one cuts orientation from about twenty minutes to about two.</div>
+      <div class="pcard-r">The most valuable file in the repo</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-n">04</div>
+      <div class="pcard-t">Make the wrong move unambiguously wrong</div>
+      <div class="pcard-b">Protected flags, confirmation gates, remediation locks. An agent that cannot accidentally break a protected system is worth ten that might.</div>
+      <div class="pcard-r">Safety is architecture</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-n">05</div>
+      <div class="pcard-t">One deploy command</div>
+      <div class="pcard-b">docker compose up -d. If an agent needs five commands to start the system, the system is too complex for agentic operation.</div>
+      <div class="pcard-r">One command · one log stream</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-n">06</div>
+      <div class="pcard-t">Treat docs as the real codebase</div>
+      <div class="pcard-b">At a 95.2% cache hit rate, the docs are read hundreds of times. An hour on a runbook saves days of re-orientation.</div>
+      <div class="pcard-r">Docs compound</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-n">07</div>
+      <div class="pcard-t">Require test output before "done"</div>
+      <div class="pcard-b">An agent that shows dotnet test output is verifiably further along than one that says "looks good." Make the output a session exit condition.</div>
+      <div class="pcard-r">Show the run, not the reassurance</div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-n">08</div>
+      <div class="pcard-t">Log what the agent changed</div>
+      <div class="pcard-b">CHANGELOG_AI.md is the memory one agent passes to the next. Without it, every session starts from zero.</div>
+      <div class="pcard-r">Session memory, not bureaucracy</div>
+    </div>
+  </div>
+
+  <p class="r">Steller is now operated by Qwen Coder. It reads AGENTS.md at the start of a session, runs tests before calling the work done, and logs what it changed. One non-coder founder. Several AI agents. Zero full-time developers. And a system designed for the intelligence that actually runs it.</p>
+
+  <p class="r">The human-interest version of this story — AI finished what the developers could not — leaves out the judgment. The complete account is the next essay.</p>
+
+  <div class="cta r">
+    <div>
+      <h3>The facts were right. The story was not finished.</h3>
+      <p>Issue 03 is the complete account: the redesign, the 60-second path, and why the same pattern shows up from Zain Sudan to Steller. The developer hub is where partners start.</p>
+    </div>
+    <div class="cta-actions">
+      <a href="/blog/the-complete-story" class="cta-btn">Read the complete story →</a>
+      <a href="https://developers.steler.org" class="cta-btn ghost">developers.steler.org →</a>
+    </div>
+  </div>
+
+  <p class="series">Also in the series · <a href="/blog/plg-2-we-stopped-teaching-we-started-doing">Issue 02 · PLG 2.0</a> · <a href="/blog/the-complete-story">Issue 03 · The Complete Story</a></p>
+</div>
+</div>
 
 <footer>
   <span>© 2026 Muhanad Abdelrahim · Steller B2B Gift Cards</span>
