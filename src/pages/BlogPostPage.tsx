@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import SiteChrome from "@/components/SiteChrome";
 import { getBlogPostBySlug } from "@/lib/blog";
+import CompleteStoryFrame from "@/pages/CompleteStoryFrame";
 import MicroservicesRubbleFrame from "@/pages/MicroservicesRubbleFrame";
 import Plg2EssayFrame from "@/pages/Plg2EssayFrame";
 
@@ -29,6 +30,10 @@ const BlogPostPage = () => {
 
   if (post.customLayout === "plg2-essay") {
     return <Plg2EssayFrame />;
+  }
+
+  if (post.customLayout === "complete-story") {
+    return <CompleteStoryFrame />;
   }
 
   return (

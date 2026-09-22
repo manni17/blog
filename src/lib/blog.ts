@@ -9,7 +9,7 @@ export interface BlogFrontmatter {
   cover?: string;
 }
 
-export type BlogCustomLayout = "plg2-essay";
+export type BlogCustomLayout = "plg2-essay" | "complete-story";
 
 export interface BlogPost extends BlogFrontmatter {
   html: string;
@@ -18,6 +18,17 @@ export interface BlogPost extends BlogFrontmatter {
 }
 
 const CUSTOM_BLOG_POSTS: BlogPost[] = [
+  {
+    title: "Steller: The Complete Story — What actually happened",
+    slug: "the-complete-story",
+    date: "2026-09-22",
+    excerpt:
+      "The earlier essay got the facts right and the story wrong. The rebuild was a redesign, the onboarding was a philosophy, and this is the complete account.",
+    tags: ["essay", "steller", "founder"],
+    html: "",
+    readingTimeMinutes: 8,
+    customLayout: "complete-story",
+  },
   {
     title: "We Stopped Teaching. We Started Doing. — Steller PLG 2.0",
     slug: "plg-2-we-stopped-teaching-we-started-doing",

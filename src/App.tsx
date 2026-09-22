@@ -1,12 +1,14 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import BlogHome from "@/pages/BlogHome";
 import BlogPostPage from "@/pages/BlogPostPage";
+import CompleteStoryFrame from "@/pages/CompleteStoryFrame";
 import LandingHomeFrame from "@/pages/LandingHomeFrame";
 
 const App = () => (
   <Routes>
     <Route path="/" element={<LandingHomeFrame />} />
     <Route path="/blog" element={<BlogHome />} />
+    <Route path="/blog/the-complete-story" element={<CompleteStoryFrame />} />
     <Route path="/blog/:slug" element={<BlogPostPage />} />
     <Route path="*" element={<Navigate to="/" replace />} />
   </Routes>

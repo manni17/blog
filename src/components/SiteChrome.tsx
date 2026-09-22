@@ -12,6 +12,7 @@ const SiteChrome = ({ children }: SiteChromeProps) => (
         Steller Blog
       </Link>
       <nav className="site-nav">
+        <Link to="/">Home</Link>
         <Link to="/blog">All posts</Link>
         <a href="https://developers.steler.org">Developers</a>
       </nav>

@@ -88,6 +88,9 @@ p.dark-p strong{color:#C4B8A8}
 /* ── ESSAYS ── */
 .essay-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:3rem}
 .essay-card{background:var(--white);padding:2.5rem;text-decoration:none;display:block;transition:background .15s}
+.essay-card.span{grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);column-gap:2.5rem;align-items:start}
+.essay-card.span .ec-dek{grid-column:2;grid-row:1 / span 2;margin-bottom:0;align-self:end}
+.essay-card.span .ec-foot{grid-column:1 / -1}
 .essay-card:hover{background:var(--bg)}
 .ec-issue{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--dust);margin-bottom:0.75rem}
 .ec-title{font-family:var(--serif);font-size:1.5rem;font-weight:600;line-height:1.2;margin-bottom:0.75rem;color:var(--ink)}
@@ -109,6 +112,11 @@ p.dark-p strong{color:#C4B8A8}
 .bg-split{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:3rem}
 .bg-col{padding:2.5rem;border:1px solid var(--rule)}
 .bg-col:last-child{border-left:none}
+.career-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:2.5rem}
+.career-card{background:var(--white);padding:1.75rem}
+.career-k{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--rust);margin-bottom:0.75rem}
+.career-org{font-family:var(--serif);font-size:1.35rem;font-weight:600;line-height:1.2;margin-bottom:0.45rem;color:var(--ink)}
+.career-role{font-size:0.82rem;color:var(--dust);line-height:1.65}
 .bg-title{font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:1rem;line-height:1.2}
 .bg-body{font-size:0.82rem;color:var(--dust);line-height:1.7}
 .bg-body strong{color:var(--ink);font-weight:500}
@@ -145,7 +153,11 @@ footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify
   .proof-card{position:static}
   .hire-grid{grid-template-columns:1fr}
   .essay-grid{grid-template-columns:1fr}
+  .essay-card.span{grid-column:auto;display:block}
+  .essay-card.span .ec-dek{grid-column:auto;grid-row:auto;margin-bottom:1.25rem;align-self:auto}
+  .essay-card.span .ec-foot{grid-column:auto}
   .meth-grid{grid-template-columns:1fr 1fr}
+  .career-grid{grid-template-columns:1fr 1fr}
   .bg-split{grid-template-columns:1fr}
   .bg-col:last-child{border-left:1px solid var(--rule);border-top:none}
   .contact-grid{grid-template-columns:1fr}
@@ -156,6 +168,7 @@ footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify
 }
 @media(max-width:600px){
   .meth-grid{grid-template-columns:1fr}
+  .career-grid{grid-template-columns:1fr}
   .hero-actions{flex-direction:column}
   .btn-primary,.btn-secondary{text-align:center}
 }
@@ -168,6 +181,7 @@ footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify
   <span class="nav-logo">Muhanad Abdelrahim</span>
   <ul class="nav-links">
     <li><a href="#writing">Writing</a></li>
+    <li><a href="/blog">Blog</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#methodology">Methodology</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -273,9 +287,18 @@ footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify
         <span class="ec-read">Read →</span>
       </div>
     </a>
+    <a class="essay-card span r r3" href="/blog/the-complete-story">
+      <div class="ec-issue">Issue 03 · The complete account</div>
+      <div class="ec-title">The Complete <em>Story</em></div>
+      <div class="ec-dek">The earlier essay got the facts right and the story wrong. The rebuild was a redesign, not a rescue. The onboarding was a philosophy, not a feature. This is the account of what actually happened in Mississauga.</div>
+      <div class="ec-foot">
+        <span class="ec-tag">Founder story · Architecture · Onboarding</span>
+        <span class="ec-read">Read →</span>
+      </div>
+    </a>
   </div>
   <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--rule)" class="r">
-    <p style="font-family:var(--mono);font-size:0.58rem;color:var(--dust);letter-spacing:0.12em;text-transform:uppercase">More essays in progress — architecture, emerging markets, B2B product strategy</p>
+    <p style="font-family:var(--mono);font-size:0.58rem;color:var(--dust);letter-spacing:0.12em;text-transform:uppercase"><a href="/blog" style="color:var(--dust);text-decoration:none">All essays on the blog →</a></p>
   </div>
 </div>
 </div>
@@ -320,6 +343,28 @@ footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify
 <div class="section-inner">
   <div class="sec-label r">Background</div>
   <h2 class="r">Two careers that shouldn't<br><em>go together — and do.</em></h2>
+  <div class="career-grid">
+    <div class="career-card r">
+      <div class="career-k">Sudan</div>
+      <div class="career-org">Zain Sudan</div>
+      <div class="career-role">Radio tower certification.</div>
+    </div>
+    <div class="career-card r r2">
+      <div class="career-k">Operations</div>
+      <div class="career-org">Emirates Driving Company</div>
+      <div class="career-role">Operations redesign.</div>
+    </div>
+    <div class="career-card r r3">
+      <div class="career-k">Partnerships</div>
+      <div class="career-org">Rittal Technology</div>
+      <div class="career-role">Partnerships.</div>
+    </div>
+    <div class="career-card r r4">
+      <div class="career-k">Company</div>
+      <div class="career-org">Steller</div>
+      <div class="career-role">Platform architecture, onboarding, and company building. A live B2B gift card platform operated with AI agents and no full-time developers.</div>
+    </div>
+  </div>
   <div class="bg-split">
     <div class="bg-col r">
       <div class="bg-title">Emerging market business development</div>
@@ -338,7 +383,7 @@ footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify
       <div class="bg-title">Agentic product development</div>
       <div class="bg-body">
         <p style="font-size:0.82rem;color:var(--dust);line-height:1.7;margin-bottom:0">Non-technical founder who needed to build real software without a team — and discovered that the architecture itself determines whether AI agents can operate a system at all. Not as a hypothesis. As a lived experience, debugged in real-time on a live production system.</p>
-        <p style="font-size:0.82rem;color:var(--dust);line-height:1.7;margin-bottom:0;margin-top:0.75rem">The result: a documented methodology for building AI-agent-operable systems, two published essays, and a live B2B platform operated by Qwen Coder with zero developer intervention.</p>
+        <p style="font-size:0.82rem;color:var(--dust);line-height:1.7;margin-bottom:0;margin-top:0.75rem">The result: a documented methodology for building AI-agent-operable systems, three published essays, and a live B2B platform operated by Qwen Coder with zero developer intervention.</p>
       </div>
       <div class="timeline-mini">
         <div class="tm-item"><span class="tm-year">Late '25</span><span class="tm-event">Dev team departure — pivot to full AI development</span></div>
@@ -373,6 +418,7 @@ footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify
       <div class="cg-value">Muhanad Abdelrahim</div>
       <div class="cg-desc">Advisory, consulting, fractional product. Agentic architecture audits. PLG onboarding design. Emerging market strategy.</div>
       <a class="cg-link" href="mailto:hello@steler.org">hello@steler.org →</a>
+      <a class="cg-link" href="https://linkedin.com/in/muhanad-mukashfi" style="margin-left:1rem">LinkedIn →</a>
     </div>
   </div>
 </div>
@@ -380,7 +426,7 @@ footer{border-top:1px solid var(--rule);padding:2rem 2.5rem;display:flex;justify
 
 <footer>
   <span>© 2026 Muhanad Abdelrahim</span>
-  <span>Founder, Steller · Toronto, Canada</span>
+  <span>Founder, Steller · Mississauga, Ontario</span>
   <span>developers.steler.org</span>
 </footer>
 
