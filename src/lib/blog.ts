@@ -1,4 +1,5 @@
 import { marked } from "marked";
+import customPostData from "@/content/custom-posts.json";
 
 export interface BlogFrontmatter {
   title: string;
@@ -17,30 +18,16 @@ export interface BlogPost extends BlogFrontmatter {
   customLayout?: BlogCustomLayout;
 }
 
-const CUSTOM_BLOG_POSTS: BlogPost[] = [
-  {
-    title: "Steller: The Complete Story — What actually happened",
-    slug: "the-complete-story",
-    date: "2026-09-22",
-    excerpt:
-      "The earlier essay got the facts right and the story wrong. The rebuild was a redesign, the onboarding was a philosophy, and this is the complete account.",
-    tags: ["essay", "steller", "founder"],
-    html: "",
-    readingTimeMinutes: 8,
-    customLayout: "complete-story",
-  },
-  {
-    title: "We Stopped Teaching. We Started Doing. — Steller PLG 2.0",
-    slug: "plg-2-we-stopped-teaching-we-started-doing",
-    date: "2026-03-31",
-    excerpt:
-      "PLG used to mean reducing friction. The real unlock is removing the work entirely — how we applied that to Steller onboarding.",
-    tags: ["PLG", "onboarding", "essay", "product"],
-    html: "",
-    readingTimeMinutes: 14,
-    customLayout: "plg2-essay",
-  },
-];
+const CUSTOM_BLOG_POSTS: BlogPost[] = customPostData.map((post) => ({
+  title: post.title,
+  slug: post.slug,
+  date: post.date,
+  excerpt: post.excerpt,
+  tags: post.tags,
+  html: "",
+  readingTimeMinutes: post.readingTimeMinutes,
+  customLayout: post.customLayout as BlogCustomLayout,
+}));
 
 const markdownFiles = import.meta.glob("../content/posts/*.md", {
   eager: true,
@@ -48,7 +35,11 @@ const markdownFiles = import.meta.glob("../content/posts/*.md", {
   import: "default",
 }) as Record<string, string>;
 
-function parseFrontmatter(raw: string): { frontmatter: BlogFrontmatter; body: string } {
+function parseFrontmatter(raw: string): {
+  frontmatter: BlogFrontmatter;
+  body: string;
+  readingTime?: string;
+} {
   const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
   if (!match) {
     throw new Error("Invalid post format: missing frontmatter block.");
@@ -92,7 +83,7 @@ function parseFrontmatter(raw: string): { frontmatter: BlogFrontmatter; body: st
     throw new Error(`Invalid post format: missing slug in "${frontmatter.title}".`);
   }
 
-  return { frontmatter, body };
+  return { frontmatter, body, readingTime: fields.readingTime };
 }
 
 function estimateReadingTime(markdown: string): number {
@@ -101,13 +92,26 @@ function estimateReadingTime(markdown: string): number {
 }
 
 function parsePost(raw: string): BlogPost {
-  const { frontmatter, body } = parseFrontmatter(raw);
+  const { frontmatter, body, readingTime: readingTimeRaw } = parseFrontmatter(raw);
+
+  const readingTime = Number(readingTimeRaw);
 
   return {
     ...frontmatter,
     html: marked.parse(body) as string,
-    readingTimeMinutes: estimateReadingTime(body),
+    readingTimeMinutes: Number.isFinite(readingTime) && readingTime > 0 ? readingTime : estimateReadingTime(body),
   };
+}
+
+export function formatPostDate(iso: string): string {
+  const [year, month, day] = iso.split("-").map(Number);
+  if (!year || !month || !day) return iso;
+  return new Date(Date.UTC(year, month - 1, day)).toLocaleDateString("en-US", {
+    timeZone: "UTC",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 }
 
 export function getAllBlogPosts(): BlogPost[] {

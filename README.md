@@ -21,7 +21,11 @@ npm run dev
 npm run blog:new -- "Your title"
 ```
 
-Edit the file under `src/content/posts/`. Full-document essays (standalone HTML + inline JS) can be added like `src/pages/plg2-essay.html` and registered in `src/lib/blog.ts` as `customLayout: "plg2-essay"`.
+Edit the file under `src/content/posts/`. Full-document essays (standalone HTML) can be added like `src/pages/plg2-essay.html` and registered as a custom layout. Scroll progress, chapter labels, and reveal-on-scroll run in the page shell. Inline `<script>` tags in an essay file are not executed.
+
+`npm run build` prerenders `/`, `/blog`, and each essay to static HTML so the text is in the document, not an iframe. Per-route titles, descriptions, Open Graph, Twitter cards, and canonical URLs are in that HTML. `robots.txt` and `sitemap.xml` are copied to the build.
+
+If nginx uses `try_files $uri $uri/ /index.html`, those prerendered files are what crawlers receive on a direct load. Unknown URLs still fall through to `index.html` with HTTP 200, and the app then shows a client 404. Missing assets can do the same. A real 404 for unknown paths needs a server change this repo does not deploy, for example `try_files $uri $uri/ =404;` once every public route has a file, or `error_page 404 /404.html;` using the generated `404.html`. Social previews do not run JavaScript, so they only see the file the server actually returns.
 
 ## Deploy
 

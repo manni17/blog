@@ -181,9 +181,9 @@ footer a:hover{color:var(--ink)}
 
   <h2 class="r">The facts were right.<br><em>The story was incomplete.</em></h2>
 
-  <p class="r">"Non-technical founder uses AI to finish what developers couldn't" is a human interest story. It is also incomplete. What actually happened across three years in Mississauga — through a war, a cold basement, a prayer mat, and a production server in a conflict zone — was something more specific and more deliberate than that framing suggests.</p>
+  <p class="r">"Non-technical founder uses AI to finish what developers couldn't" is a human-interest story, and an incomplete one. Across three years in Mississauga — a war, a cold basement, a prayer mat, and a production server in a conflict zone — the work was more specific than that framing.</p>
 
-  <p class="r">This is the complete account. It sits next to <a href="/blog/microservices-to-fat-controllers-agentic-pivot">Built From the Rubble</a> and <a href="/blog/plg-2-we-stopped-teaching-we-started-doing">We Stopped Teaching. We Started Doing.</a> Those essays hold the episodes. This one holds the judgment underneath them.</p>
+  <p class="r">This account sits next to <a href="/blog/microservices-to-fat-controllers-agentic-pivot">Built From the Rubble</a> and <a href="/blog/plg-2-we-stopped-teaching-we-started-doing">We Stopped Teaching. We Started Doing.</a> Those essays hold the episodes. This one holds the judgment underneath them.</p>
 
   <div class="pq r">
     <blockquote>"The AI did not rescue the platform. <strong>The architectural redesign made the platform rescuable by AI.</strong> Those are different things, and the difference matters."</blockquote>
@@ -200,34 +200,23 @@ footer a:hover{color:var(--ink)}
 
   <h2 class="r">The rebuild was not a rescue.<br><em>It was a redesign.</em></h2>
 
-  <p class="r">When the development team went offline in late 2025, the instinct most founders would follow is replacement — find another developer, pick up where the last team left off, finish what was started.</p>
+  <p class="r">When the development team went offline in late 2025, the usual move is to hire a replacement and finish what was started. That is not what happened.</p>
 
-  <p class="r">That is not what happened.</p>
+  <p class="r">The original architecture was a proper microservices stack: ASP.NET Core 9, PostgreSQL, RabbitMQ, Vue.js dashboards, thirty-six normalized tables, services split across boundaries. It was built for a human team that could hold the model, trace calls, and debug across those boundaries. When that team disappeared, the architecture became a liability — not because it was broken, but because it was the wrong structure for what came next.</p>
 
-  <p class="r">The original architecture was a proper microservices stack. ASP.NET Core 9, PostgreSQL, RabbitMQ, Vue.js dashboards. Thirty-six normalized tables. Multiple decoupled services communicating across boundaries. Technically competent. Well-designed for a human engineering team.</p>
+  <p class="r">The question was not how to patch the codebase. It was what kind of codebase can run without a permanent engineering team. The answer was fat controllers.</p>
 
-  <p class="r">The problem is that microservices are designed by and for human brains. They require developers who can hold the entire mental model in their heads, navigate between services on demand, manage distributed tracing, maintain interface segregations, and debug across boundaries. When the human team disappeared, the architecture became a liability — not because it was broken, but because it was the wrong structure for what came next.</p>
+  <p class="r">Fat controllers are an anti-pattern for human maintainers: too much logic in one place. The critique flips when the developer is an AI agent. Agents stay coherent when a whole workflow sits in one execution scope, and they lose the thread across service boundaries. A fat controller is that scope. The agent can read it, change it, test it, and ship it without losing the path.</p>
 
-  <p class="r">The decision that mattered was not "how do we fix this codebase." It was "what kind of codebase can be operated without a permanent human engineering team."</p>
+  <p class="r">The pivot was deliberate. Microservice boundaries were consolidated. Two Vue.js 2.6 dashboards were decommissioned for a single React 18 / TypeScript / Vite frontend. Fragmented API responses became one mandatory envelope — the same wrapper on every endpoint, every time. Permission lookup tables were flattened. What had been navigable for humans became operable for agents.</p>
 
-  <p class="r">The answer was fat controllers.</p>
-
-  <p class="r">Traditional software engineering treats fat controllers as an anti-pattern — a sign of poor design, too much logic concentrated in one place, hard to maintain by human developers. That critique is correct when the developer is human. It inverts completely when the developer is an AI agent.</p>
-
-  <p class="r">AI agents operate with high confidence when context is consolidated and deterministic. They lose coherence when they have to maintain mental state across distributed service boundaries. A fat controller — a single, comprehensive execution scope containing a complete workflow path — is the natural interface for an AI agent. It can read the entire context, modify it, test it, and ship it without losing track of what it was doing.</p>
-
-  <p class="r">The architectural pivot was deliberate. The microservices boundaries were consolidated. The two Vue.js 2.6 dashboard applications were decommissioned and replaced with a unified React 18 / TypeScript / Vite frontend. The fragmented API response structures were replaced with a single mandatory envelope — every endpoint returns the same wrapper, every time, no exceptions. The permission lookup tables were flattened. The patterns that made the system navigable for human developers were replaced with patterns that made it operable for AI agents.</p>
-
-  <p class="r">Then the rebuild happened. Twenty-seven days. Zero critical defects in production.</p>
-
-  <p class="r">This is not a story about AI finishing what humans started. It is a story about understanding what AI needs in order to operate independently, and redesigning the system to provide it.</p>
+  <p class="r">Then the rebuild: twenty-seven days, and zero critical defects in production.</p>
 
   <div class="pq r">
     <blockquote>"Seven hours at a time on a picnic chair in a cold basement in Mississauga, feet wrapped in a prayer mat against the concrete floor. No salary. No team. No guarantee it would work."</blockquote>
     <cite>The sessions where the redesign actually happened</cite>
   </div>
 
-  <p class="r">Just the problem and the available tools and the refusal to leave it unsolved.</p>
 </div>
 </div>
 
@@ -240,15 +229,9 @@ footer a:hover{color:var(--ink)}
 
   <h2 class="r">The onboarding was not a feature.<br><em>It was a philosophy.</em></h2>
 
-  <p class="r">Once the platform was rebuilt and running, the next problem was partner activation.</p>
+  <p class="r">Once the platform was running, the next problem was partner activation. The usual fix is better documentation: cleaner guides, longer tutorials, more tooltips. That asks a busy partner to read, apply, and stay patient before they have seen the product work. Most will not. They need proof before they can sell it internally.</p>
 
-  <p class="r">The standard solution to slow partner onboarding is better documentation. Cleaner guides, more detailed API references, longer getting-started tutorials, better tooltips. Product teams have been iterating on this approach for twenty years. It is the wrong answer to the right problem.</p>
-
-  <p class="r">Documentation assumes the partner will read it, understand it, correctly apply it, and stay patient while they figure out what went wrong. Most partners do not. They are busy. They have internal stakeholders to convince. They need to see the product work before they can sell it internally. A document does not give them that. A document asks them to trust before they have seen anything worth trusting.</p>
-
-  <p class="r">The question we asked was different. Not "how do we make the documentation clearer" but "what if we eliminated the need for documentation entirely."</p>
-
-  <p class="r">The result was what we called the 60-Second Path — a four-step sequence from signup to first successful API transaction, designed so that a partner could prove the system works before they had to understand how it works.</p>
+  <p class="r">The question was not how to make the documentation clearer. It was what happens if a partner does not need documentation to start. The 60-Second Path is four steps from signup to a first successful API transaction, so they can prove the system works before they have to understand it.</p>
 
   <div class="path-card r">
     <div class="path-title">The 60-second path — four steps, no documentation required to start</div>
@@ -286,7 +269,7 @@ footer a:hover{color:var(--ink)}
     </div>
   </div>
 
-  <p class="r">Four steps. Zero documentation required to start. Under sixty seconds from beginning to end. Tested across four time-to-value metrics: Auth, Order, Track, Scale.</p>
+  <p class="r">The path is scored on four time-to-value metrics.</p>
 
   <div class="m-band r">
     <div class="mb"><div class="mb-num">Auth</div><div class="mb-label">Time-to-value metric</div></div>
@@ -295,7 +278,7 @@ footer a:hover{color:var(--ink)}
     <div class="mb"><div class="mb-num">Scale</div><div class="mb-label">Time-to-value metric</div></div>
   </div>
 
-  <p class="r">The three most common failure modes — invalid API key, unfunded wallet, empty catalog — surface immediately with clear, actionable messages rather than returning cryptic errors that take hours to diagnose. We built the failure paths as carefully as the success path, because great onboarding is fast diagnosis, not just happy paths.</p>
+  <p class="r">Three failures surface immediately, with a next step instead of a cryptic error. Fast diagnosis is part of the path, not only the happy path.</p>
 
   <div class="insight-grid r">
     <div class="ic">
@@ -320,11 +303,9 @@ footer a:hover{color:var(--ink)}
     <cite>Fifteen years of deals stalling — Sudan, Abu Dhabi, Dubai</cite>
   </div>
 
-  <p class="r">The philosophy behind this came from fifteen years of watching deals stall. In Sudan, in Abu Dhabi, in Dubai, the pattern was consistent: the barrier to a signed partnership is rarely the commercial terms. It is the internal conviction that the thing actually works. You cannot convince someone of that with a document. You can convince them by doing the first part of the work for them and letting them see the result.</p>
+  <p class="r">That lesson came from fifteen years of deals stalling in Sudan, Abu Dhabi, and Dubai. The onboarding makes the partner a reviewer rather than a builder: do the first part of the work, and let them see the result.</p>
 
-  <p class="r">That insight — eliminate the work rather than explain it, make the partner a reviewer rather than a builder — is what the onboarding was designed to embody.</p>
-
-  <p class="r">The original article described the platform as "live and stress tested." That is true and insufficient. The more important thing is that a partner can go from first contact to first successful API transaction in under sixty seconds, with zero documentation, and walk away with proof rather than a promise.</p>
+  <p class="r">Calling the platform "live and stress tested" is true, and it is not the point. The point is proof in the partner's hands — a first successful API transaction in under sixty seconds, with no documentation required to start.</p>
 </div>
 </div>
 
@@ -337,11 +318,9 @@ footer a:hover{color:var(--ink)}
 
   <h2 class="r">Not a developer.<br><em>A precise description of the gap.</em></h2>
 
-  <p class="r">The two stories above — the architectural redesign and the onboarding philosophy — are not just Steller stories. They are the clearest examples I have of how I actually think and operate.</p>
+  <p class="r">The redesign and the onboarding are how I actually work. I am not a developer. I cannot write the code. I can say what a system has to accomplish, name the structure that would allow it, and work backward from the outcome. That is the fat-controller pivot. That is the 60-Second Path. Neither required a line of code from me.</p>
 
-  <p class="r">I am not a developer. I cannot write the code. What I can do is understand what a system needs to accomplish, identify the structural conditions that would allow it to accomplish that, and work backward from the outcome to the design. That is what the fat controller pivot was. That is what the 60-Second Path was. Neither required me to write a line of code. Both required a clear answer to the question: what does this need to be, and why does the current version fail to be it.</p>
-
-  <p class="r">Across every role I have held, the consistent pattern is the same. Find the gap between what exists and what should exist. Understand it precisely enough to describe the solution. Build or commission what is needed to close it. Move on to the next gap.</p>
+  <p class="r">The pattern is the same in every role: find the gap between what exists and what should, describe the fix precisely enough to build or commission it, then move to the next gap.</p>
 
   <div class="role-grid r">
     <div class="role">
@@ -366,9 +345,9 @@ footer a:hover{color:var(--ink)}
     </div>
   </div>
 
-  <p class="r">The Steller story is the fullest expression of that pattern. The gap was real — B2B companies had no clean infrastructure for digital gift card programs. The solution required an architectural judgment call under pressure — microservices to fat controllers — that most people in my position would not have made because most people in my position would not have understood why it mattered. The execution required seven-hour sessions on a picnic chair in a cold basement, directing AI agents through a rebuild without being able to read the code they were writing.</p>
+  <p class="r">Steller is the fullest version of that pattern. B2B companies had no clean infrastructure for digital gift card programs. Closing the gap meant choosing fat controllers over microservices, then directing AI agents through the rebuild without being able to read the code they were writing.</p>
 
-  <p class="r">And the result is a live platform, stress tested to zero critical defects, currently running an active API integration with Bede — the digital wallet of Zain Sudan, one of Africa's largest telecoms — and onboarding partners to their first successful API transaction in under sixty seconds.</p>
+  <p class="r">The result is a live platform, stress tested to zero critical defects, with an active API integration for Bede — the digital wallet of Zain Sudan, one of Africa's largest telecoms — and a first successful partner transaction in under sixty seconds.</p>
 
   <p class="r">That is the story the original article did not tell.</p>
 

@@ -1,10 +1,11 @@
 ---
-title: "From Microservices to Fat Controllers for Agent-First Development"
+title: "Built From the Rubble — The Steller Story"
 slug: "microservices-to-fat-controllers-agentic-pivot"
 date: "2026-03-30"
-excerpt: "Why we pivoted Steller from distributed services to a context-dense monolith that AI agents can operate reliably."
+excerpt: "A development team displaced by war, a codebase full of invisible debt, and 27 days to fix Steller before the first partner integration deadline."
 tags: ["architecture", "agentic", "case-study"]
 cover: "/images/blog/agentic-pivot-cover.jpg"
+readingTime: 11
 ---
 
 Steller started as a textbook microservices platform: separate services for orders, wallets, catalog, and webhooks, with RabbitMQ stitching everything together.

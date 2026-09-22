@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
+import Seo from "@/components/Seo";
 import SiteChrome from "@/components/SiteChrome";
-import { getAllBlogPosts } from "@/lib/blog";
+import { formatPostDate, getAllBlogPosts } from "@/lib/blog";
+import { getPage } from "@/lib/site";
 
 const BlogHome = () => {
   const posts = getAllBlogPosts();
+  const page = getPage("blog");
 
   return (
     <SiteChrome>
+      <Seo title={page.title} description={page.description} path={page.path} type={page.type} />
       <p style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)" }}>
         Steller
       </p>
@@ -31,7 +35,7 @@ const BlogHome = () => {
               <Link to={`/blog/${post.slug}`}>{post.title}</Link>
             </h2>
             <p className="post-meta">
-              {new Date(post.date).toLocaleDateString()} · {post.readingTimeMinutes} min read
+              {formatPostDate(post.date)} · {post.readingTimeMinutes} min read
             </p>
             <p className="post-excerpt">{post.excerpt}</p>
             <Link to={`/blog/${post.slug}`}>Read post →</Link>
