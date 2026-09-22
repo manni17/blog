@@ -1,25 +1,15 @@
-import { useEffect } from "react";
+import EssayDocument from "@/components/EssayDocument";
+import { getPage } from "@/lib/site";
 import landingHtml from "./landing-home.html?raw";
 
-const PAGE_TITLE = "Muhanad Abdelrahim — Agentic Founder · Product Strategist";
+const page = getPage("home");
 
-const LandingHomeFrame = () => {
-  useEffect(() => {
-    const previous = document.title;
-    document.title = PAGE_TITLE;
-    return () => {
-      document.title = previous;
-    };
-  }, []);
-
-  return (
-    <iframe
-      title={PAGE_TITLE}
-      srcDoc={landingHtml}
-      sandbox="allow-scripts allow-same-origin"
-      style={{ display: "block", width: "100%", height: "100vh", border: 0 }}
-    />
-  );
-};
+const LandingHomeFrame = () => (
+  <EssayDocument
+    html={landingHtml}
+    meta={page}
+    reveal={{ threshold: 0.07, rootMargin: "0px 0px -30px 0px" }}
+  />
+);
 
 export default LandingHomeFrame;

@@ -1,0 +1,51 @@
+{
+  "origin": "https://muhanad.steler.org",
+  "siteName": "Muhanad Abdelrahim",
+  "pages": [
+    {
+      "id": "home",
+      "path": "/",
+      "title": "Muhanad Abdelrahim — Agentic Founder · Product Strategist",
+      "description": "Muhanad Abdelrahim builds Steller, a live B2B gift card platform, with AI agents and no engineering team. Based in Mississauga, Ontario.",
+      "type": "website",
+      "essay": "src/pages/landing-home.html"
+    },
+    {
+      "id": "blog",
+      "path": "/blog",
+      "title": "Essays & field notes — Muhanad Abdelrahim",
+      "description": "Essays and field notes from building Steller: agentic architecture, product-led onboarding, and the complete founder story.",
+      "type": "website"
+    },
+    {
+      "id": "rubble",
+      "path": "/blog/microservices-to-fat-controllers-agentic-pivot",
+      "title": "Built From the Rubble — The Steller Story",
+      "description": "A development team displaced by war, a codebase full of invisible debt, and 27 days to fix Steller before the first partner integration deadline.",
+      "type": "article",
+      "essay": "src/pages/microservices-rubble.html",
+      "backHref": "/",
+      "backLabel": "← Home"
+    },
+    {
+      "id": "plg",
+      "path": "/blog/plg-2-we-stopped-teaching-we-started-doing",
+      "title": "We Stopped Teaching. We Started Doing. — Steller PLG 2.0",
+      "description": "PLG used to mean reducing friction. The real unlock is removing the work entirely — how we applied that to Steller onboarding.",
+      "type": "article",
+      "essay": "src/pages/plg2-essay.html",
+      "backHref": "/blog",
+      "backLabel": "← Blog"
+    },
+    {
+      "id": "completeStory",
+      "path": "/blog/the-complete-story",
+      "title": "Steller: The Complete Story — What actually happened",
+      "description": "The earlier essay got the facts right and the story wrong. The rebuild was a redesign, the onboarding was a philosophy, and this is the complete account.",
+      "type": "article",
+      "essay": "src/pages/complete-story.html",
+      "backHref": "/blog",
+      "backLabel": "← Blog"
+    }
+  ]
+}

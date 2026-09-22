@@ -1,8 +1,10 @@
 import { Link, useParams } from "react-router-dom";
+import Seo from "@/components/Seo";
 import SiteChrome from "@/components/SiteChrome";
-import { getBlogPostBySlug } from "@/lib/blog";
+import { formatPostDate, getBlogPostBySlug } from "@/lib/blog";
 import CompleteStoryFrame from "@/pages/CompleteStoryFrame";
 import MicroservicesRubbleFrame from "@/pages/MicroservicesRubbleFrame";
+import NotFound from "@/pages/NotFound";
 import Plg2EssayFrame from "@/pages/Plg2EssayFrame";
 
 const BlogPostPage = () => {
@@ -15,17 +17,7 @@ const BlogPostPage = () => {
   const post = slug ? getBlogPostBySlug(slug) : undefined;
 
   if (!post) {
-    return (
-      <SiteChrome>
-        <div className="not-found">
-          <h1>Post not found</h1>
-          <p style={{ color: "var(--muted)" }}>The post you requested does not exist.</p>
-          <p>
-            <Link to="/blog">Back to blog</Link>
-          </p>
-        </div>
-      </SiteChrome>
-    );
+    return <NotFound />;
   }
 
   if (post.customLayout === "plg2-essay") {
@@ -38,6 +30,7 @@ const BlogPostPage = () => {
 
   return (
     <SiteChrome>
+      <Seo title={post.title} description={post.excerpt} path={`/blog/${post.slug}`} type="article" />
       <Link to="/blog" style={{ fontSize: "0.875rem", color: "var(--muted)" }}>
         ← Back to blog
       </Link>
@@ -45,7 +38,7 @@ const BlogPostPage = () => {
         {post.title}
       </h1>
       <p className="post-meta">
-        {new Date(post.date).toLocaleDateString()} · {post.readingTimeMinutes} min read
+        {formatPostDate(post.date)} · {post.readingTimeMinutes} min read
       </p>
       <div className="post-body" dangerouslySetInnerHTML={{ __html: post.html }} />
     </SiteChrome>
