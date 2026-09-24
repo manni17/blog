@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { marked } from "marked";
+import { ESSAY_SERIES } from "../src/lib/essaySeries.mjs";
 import { parseEssayHtml } from "../src/lib/parseEssay.mjs";
 
 const root = process.cwd();
@@ -350,6 +351,44 @@ assertFile("blog/microservices-to-fat-controllers-agentic-pivot/index.html", [
   "<main>",
   'rel="canonical" href="https://muhanad.steler.org/blog/microservices-to-fat-controllers-agentic-pivot"',
 ]);
+
+function assertEssayEnd(relative, essayId) {
+  const html = fs.readFileSync(path.join(dist, relative), "utf8");
+  const start = html.indexOf('class="essay-end"');
+  const finish = html.indexOf("</aside>", start);
+  if (start === -1 || finish === -1) {
+    throw new Error(`${relative} is missing the end-of-essay block.`);
+  }
+  const block = html.slice(start, finish);
+  const nextLabel = block.indexOf("Next in the series");
+  const alsoLabel = block.indexOf("Also in this series");
+  const workLabel = block.indexOf("Work with me");
+  if (!(nextLabel !== -1 && nextLabel < alsoLabel && alsoLabel < workLabel)) {
+    throw new Error(`${relative} end block is not ordered Next, Also, Contact.`);
+  }
+  const index = ESSAY_SERIES.findIndex((essay) => essay.id === essayId);
+  const next = ESSAY_SERIES[(index + 1) % ESSAY_SERIES.length];
+  const current = ESSAY_SERIES[index];
+  if (!block.includes(`href="${next.path}"`) || !block.includes(next.dek)) {
+    throw new Error(`${relative} does not point next at ${next.path}.`);
+  }
+  if (block.includes(`href="${current.path}"`)) {
+    throw new Error(`${relative} end block links to itself.`);
+  }
+  for (const other of ESSAY_SERIES) {
+    if (other.id === essayId) continue;
+    if (!block.includes(`href="${other.path}"`)) {
+      throw new Error(`${relative} is missing a series link to ${other.path}.`);
+    }
+  }
+  if (!block.includes("mailto:hello@steler.org") || !block.includes("https://linkedin.com/in/muhanad-mukashfi")) {
+    throw new Error(`${relative} end block is missing contact links.`);
+  }
+}
+
+assertEssayEnd("blog/microservices-to-fat-controllers-agentic-pivot/index.html", "rubble");
+assertEssayEnd("blog/the-complete-story/index.html", "completeStory");
+assertEssayEnd("blog/plg-2-we-stopped-teaching-we-started-doing/index.html", "plg");
 assertFile("404.html", ["Page not found", 'content="noindex, nofollow"']);
 if (!fs.existsSync(path.join(dist, "favicon.svg"))) {
   throw new Error("favicon.svg was not copied to dist.");

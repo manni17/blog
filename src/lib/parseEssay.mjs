@@ -1,3 +1,5 @@
+import { injectEssayEnd } from "./essaySeries.mjs";
+
 function decodeEntities(value) {
   return value
     .replaceAll("&amp;", "&")
@@ -16,13 +18,14 @@ function linkAttrs(raw) {
 }
 
 export function parseEssayHtml(html) {
-  const css = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((match) => match[1]).join("\n");
-  const links = [...html.matchAll(/<link\b([^>]*)>/gi)]
+  const prepared = injectEssayEnd(html);
+  const css = [...prepared.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((match) => match[1]).join("\n");
+  const links = [...prepared.matchAll(/<link\b([^>]*)>/gi)]
     .map((match) => linkAttrs(match[1]))
     .filter(Boolean);
 
-  const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-  const body = bodyMatch ? bodyMatch[1] : html;
+  const bodyMatch = prepared.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+  const body = bodyMatch ? bodyMatch[1] : prepared;
   const bodyHtml = body.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "").trim();
 
   return { css, links, bodyHtml };
