@@ -3,6 +3,13 @@ import path from "node:path";
 import { marked } from "marked";
 import { OPERATING_NOTES, seriesContaining } from "../src/lib/essaySeries.mjs";
 import { parseEssayHtml } from "../src/lib/parseEssay.mjs";
+import {
+  articleTimestamp,
+  formatPostDate,
+  injectEssayPublishLine,
+  injectHomePublishLines,
+  publishLine,
+} from "../src/lib/publishDates.mjs";
 
 const root = process.cwd();
 const dist = path.join(root, "dist");
@@ -38,6 +45,22 @@ function seoBlock(meta, { noindex = false } = {}) {
     `<meta name="twitter:description" content="${escapeHtml(meta.description)}" />`,
     `<meta name="twitter:url" content="${escapeHtml(url)}" />`,
   ];
+  if (meta.published && (meta.type || "website") === "article") {
+    const timestamp = articleTimestamp(meta.published);
+    lines.push(`<meta property="article:published_time" content="${escapeHtml(timestamp)}" />`);
+    lines.push(`<meta property="article:modified_time" content="${escapeHtml(timestamp)}" />`);
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: meta.title,
+      description: meta.description,
+      datePublished: meta.published,
+      dateModified: meta.published,
+      mainEntityOfPage: url,
+      author: { "@type": "Person", name: "Muhanad Abdelrahim" },
+    };
+    lines.push(`<script type="application/ld+json">${JSON.stringify(jsonLd).replaceAll("<", "\\u003c")}</script>`);
+  }
   if (noindex) {
     lines.push(`<meta name="robots" content="noindex, nofollow" />`);
   } else {
@@ -58,16 +81,6 @@ function applyRoot(template, inner) {
   const next = template.replace('<div id="root"></div>', `<div id="root">${inner}</div>`);
   if (next === template) throw new Error("Could not find #root in the built HTML.");
   return next;
-}
-
-function formatPostDate(iso) {
-  const [year, month, day] = iso.split("-").map(Number);
-  return new Date(Date.UTC(year, month - 1, day)).toLocaleDateString("en-US", {
-    timeZone: "UTC",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 }
 
 function parseFrontmatter(raw) {
@@ -146,8 +159,36 @@ function essayHead(parsed) {
   return `${links}\n    <style data-prerender="css">${parsed.css}</style>`;
 }
 
+function postForPath(urlPath) {
+  const slug = urlPath.startsWith("/blog/") ? urlPath.slice("/blog/".length) : "";
+  return slug ? posts.find((post) => post.slug === slug) : undefined;
+}
+
+function withPublishMeta(page) {
+  const post = postForPath(page.path);
+  return post?.date ? { ...page, published: post.date } : page;
+}
+
+function essaySource(page) {
+  let source = fs.readFileSync(path.join(root, page.essay), "utf8");
+  if (page.path === "/") {
+    const lines = {};
+    for (const post of posts) {
+      if (post.customLayout !== "operating-note") continue;
+      lines[`/blog/${post.slug}`] = publishLine(post.date, post.readingTimeMinutes);
+    }
+    source = injectHomePublishLines(source, lines);
+  } else {
+    const post = postForPath(page.path);
+    if (post?.customLayout === "operating-note") {
+      source = injectEssayPublishLine(source, publishLine(post.date, post.readingTimeMinutes));
+    }
+  }
+  return source;
+}
+
 function essayDocument(page) {
-  const source = fs.readFileSync(path.join(root, page.essay), "utf8");
+  const source = essaySource(page);
   const parsed = parseEssayHtml(source);
   const back = page.backHref
     ? `<a class="essay-back" href="${escapeHtml(page.backHref)}">${escapeHtml(page.backLabel || "← Back")}</a>`
@@ -255,7 +296,7 @@ const renderedPaths = new Set();
 for (const page of pages) {
   if (page.essay) {
     const essay = essayDocument(page);
-    let html = applySeo(template, page);
+    let html = applySeo(template, withPublishMeta(page));
     html = html.replace("</head>", `    ${essay.head}\n  </head>`);
     writeFile(page.path, applyRoot(html, essay.inner));
   } else if (page.path === "/blog") {
@@ -267,11 +308,14 @@ for (const page of pages) {
 for (const post of posts) {
   const urlPath = `/blog/${post.slug}`;
   if (renderedPaths.has(urlPath) || essayBySlug(post.slug)) continue;
-  const meta = knownMeta(urlPath) || {
-    path: urlPath,
-    title: post.title,
-    description: post.excerpt,
-    type: "article",
+  const meta = {
+    ...(knownMeta(urlPath) || {
+      path: urlPath,
+      title: post.title,
+      description: post.excerpt,
+      type: "article",
+    }),
+    published: post.date,
   };
   writeFile(urlPath, applyRoot(applySeo(template, meta), markdownArticle(post)));
   renderedPaths.add(urlPath);
@@ -424,6 +468,66 @@ for (const note of OPERATING_NOTES) {
   if (!blogIndexHtml.includes(note.title) || !blogIndexHtml.includes(note.lane)) {
     throw new Error(`Blog index is missing ${note.title} or its lane.`);
   }
+}
+
+const dateOrder = [
+  ["/blog/the-complete-story", "September 22, 2026"],
+  ["/blog/the-economics-of-agent-operated-software", "September 7, 2026"],
+  ["/blog/doing-the-customers-work-before-they-ask", "August 22, 2026"],
+  ["/blog/idempotency-for-gift-card-apis", "August 6, 2026"],
+  ["/blog/202-accepted-is-a-product-decision", "July 21, 2026"],
+  ["/blog/the-failure-first-onboarding", "July 5, 2026"],
+  ["/blog/why-explicit-jobs-beat-invisible-events-for-ai", "June 19, 2026"],
+  ["/blog/when-fat-controllers-stop-working", "June 3, 2026"],
+  ["/blog/what-zero-full-time-developers-actually-requires", "May 18, 2026"],
+  ["/blog/the-agent-handover-protocol", "May 2, 2026"],
+  ["/blog/what-belongs-in-agents-md", "April 16, 2026"],
+  ["/blog/plg-2-we-stopped-teaching-we-started-doing", "March 31, 2026"],
+  ["/blog/microservices-to-fat-controllers-agentic-pivot", "March 30, 2026"],
+];
+let lastIndex = -1;
+for (const [href, label] of dateOrder) {
+  const at = blogIndexHtml.indexOf(`href="${href}"`);
+  if (at === -1 || at <= lastIndex) {
+    throw new Error(`Blog index is not newest-first at ${href}.`);
+  }
+  if (!blogIndexHtml.includes(label)) {
+    throw new Error(`Blog index is missing ${label}.`);
+  }
+  lastIndex = at;
+}
+if (blogIndexHtml.includes("September 24, 2026")) {
+  throw new Error("Blog index still shows September 24, 2026.");
+}
+
+const homeHtml = fs.readFileSync(path.join(dist, "index.html"), "utf8");
+if (!homeHtml.includes("April 16, 2026 · 9 min read") || !homeHtml.includes("September 7, 2026 · 7 min read")) {
+  throw new Error("Home writing cards are missing operating-note dates.");
+}
+if (homeHtml.includes("September 24, 2026")) {
+  throw new Error("Home page still shows September 24, 2026.");
+}
+
+const agentsHtml = fs.readFileSync(path.join(dist, "blog/what-belongs-in-agents-md/index.html"), "utf8");
+if (!agentsHtml.includes("April 16, 2026 · 9 min read")) {
+  throw new Error("AGENTS.md essay is missing its publish line.");
+}
+if (!agentsHtml.includes('property="article:published_time" content="2026-04-16T00:00:00Z"')) {
+  throw new Error("AGENTS.md essay is missing article:published_time.");
+}
+if (!agentsHtml.includes('"datePublished":"2026-04-16"') || !agentsHtml.includes('"dateModified":"2026-04-16"')) {
+  throw new Error("AGENTS.md essay is missing JSON-LD dates.");
+}
+const storyHtml = fs.readFileSync(path.join(dist, "blog/the-complete-story/index.html"), "utf8");
+if (!storyHtml.includes('"datePublished":"2026-09-22"') || storyHtml.includes("September 24, 2026")) {
+  throw new Error("Complete Story date changed.");
+}
+const rubbleHtml = fs.readFileSync(path.join(dist, "blog/microservices-to-fat-controllers-agentic-pivot/index.html"), "utf8");
+if (!rubbleHtml.includes('"datePublished":"2026-03-30"') || !rubbleHtml.includes("March 2026")) {
+  throw new Error("Rubble date changed.");
+}
+if (sitemapText.includes("<lastmod>")) {
+  throw new Error("Sitemap lastmod was not previously used and should stay absent.");
 }
 
 assertFile("404.html", ["Page not found", 'content="noindex, nofollow"']);

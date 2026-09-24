@@ -1,5 +1,6 @@
 import { marked } from "marked";
 import customPostData from "@/content/custom-posts.json";
+import { formatPostDate as formatIsoDate } from "@/lib/publishDates.mjs";
 
 export interface BlogFrontmatter {
   title: string;
@@ -104,14 +105,7 @@ function parsePost(raw: string): BlogPost {
 }
 
 export function formatPostDate(iso: string): string {
-  const [year, month, day] = iso.split("-").map(Number);
-  if (!year || !month || !day) return iso;
-  return new Date(Date.UTC(year, month - 1, day)).toLocaleDateString("en-US", {
-    timeZone: "UTC",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  return formatIsoDate(iso);
 }
 
 export function getAllBlogPosts(): BlogPost[] {

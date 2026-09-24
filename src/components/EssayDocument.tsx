@@ -1,7 +1,9 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
+import { getAllBlogPosts, getBlogPostBySlug } from "@/lib/blog";
 import { parseEssayHtml } from "@/lib/parseEssay.mjs";
+import { injectEssayPublishLine, injectHomePublishLines, publishLine } from "@/lib/publishDates.mjs";
 import type { PageMeta } from "@/lib/site";
 
 interface RevealOptions {
@@ -16,8 +18,28 @@ interface EssayDocumentProps {
   reveal?: RevealOptions;
 }
 
+function operatingHomeLines() {
+  const lines: Record<string, string> = {};
+  for (const post of getAllBlogPosts()) {
+    if (post.customLayout !== "operating-note") continue;
+    lines[`/blog/${post.slug}`] = publishLine(post.date, post.readingTimeMinutes);
+  }
+  return lines;
+}
+
 const EssayDocument = ({ html, meta, back, reveal }: EssayDocumentProps) => {
-  const parsed = useMemo(() => parseEssayHtml(html), [html]);
+  const published = meta.path.startsWith("/blog/")
+    ? getBlogPostBySlug(meta.path.slice("/blog/".length))?.date
+    : undefined;
+  const parsed = useMemo(() => {
+    if (meta.path === "/") return parseEssayHtml(injectHomePublishLines(html, operatingHomeLines()));
+    const post = meta.path.startsWith("/blog/") ? getBlogPostBySlug(meta.path.slice("/blog/".length)) : undefined;
+    const withDate =
+      post?.customLayout === "operating-note"
+        ? injectEssayPublishLine(html, publishLine(post.date, post.readingTimeMinutes))
+        : html;
+    return parseEssayHtml(withDate);
+  }, [html, meta.path]);
   const mainRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
@@ -72,7 +94,13 @@ const EssayDocument = ({ html, meta, back, reveal }: EssayDocumentProps) => {
 
   return (
     <div className="essay-page">
-      <Seo title={meta.title} description={meta.description} path={meta.path} type={meta.type} />
+      <Seo
+        title={meta.title}
+        description={meta.description}
+        path={meta.path}
+        type={meta.type}
+        published={published}
+      />
       {back ? (
         <Link className="essay-back" to={back.href}>
           {back.label}
