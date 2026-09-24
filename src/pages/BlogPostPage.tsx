@@ -46,7 +46,13 @@ const BlogPostPage = () => {
 
   return (
     <SiteChrome>
-      <Seo title={post.title} description={post.excerpt} path={`/blog/${post.slug}`} type="article" />
+      <Seo
+        title={post.title}
+        description={post.excerpt}
+        path={`/blog/${post.slug}`}
+        type="article"
+        published={post.date}
+      />
       <Link to="/blog" style={{ fontSize: "0.875rem", color: "var(--muted)" }}>
         ← Back to blog
       </Link>
