@@ -18,7 +18,7 @@ const BlogHome = () => {
         Essays &amp; field notes
       </h1>
       <p className="post-excerpt" style={{ maxWidth: "36rem", marginBottom: "2rem" }}>
-        Architecture, product-led onboarding, and the complete Steller story.
+        The Steller Story, and operating notes on agents, jobs, onboarding, and cost.
       </p>
 
       <div className="post-list">

@@ -2,7 +2,7 @@ const CONTACT_HEADING = "Partnerships, business development, and growth.";
 const CONTACT_BODY =
   "Muhanad Abdelrahim is the founder of Steller Technology. He is based in Mississauga, Ontario, and is currently available for partnerships, business development, and growth roles in fintech, SaaS, and telecom.";
 
-/** Reading order. Issue labels stay the ones already printed on each essay. */
+/** The Steller Story. This loop is only these three essays. */
 export const ESSAY_SERIES = [
   {
     id: "rubble",
@@ -26,6 +26,102 @@ export const ESSAY_SERIES = [
     dek: "How the 60-second path removes the onboarding work.",
   },
 ];
+
+/**
+ * Operating notes. A second series with its own loop.
+ * Reading order: the file an agent reads first, the handover that file can
+ * actually support, what zero full-time developers requires, where fat
+ * controllers stop, why named jobs beat invisible events, then the partner
+ * path (failure, 202, idempotency, doing the work), and the published cost last.
+ */
+export const OPERATING_NOTES = [
+  {
+    id: "agentsMd",
+    path: "/blog/what-belongs-in-agents-md",
+    issue: "Note 01 · Operating notes",
+    title: "What Belongs in AGENTS.md",
+    dek: "Router, hard rules, and the locks an agent is not allowed to relax.",
+    lane: "Agentic",
+  },
+  {
+    id: "handover",
+    path: "/blog/the-agent-handover-protocol",
+    issue: "Note 02 · Operating notes",
+    title: "The Agent Handover Protocol",
+    dek: "What the hardening week named, and what can still be quoted.",
+    lane: "Agentic",
+  },
+  {
+    id: "zeroFte",
+    path: "/blog/what-zero-full-time-developers-actually-requires",
+    issue: "Note 03 · Operating notes",
+    title: "What Zero Full-Time Developers Actually Requires",
+    dek: "The architecture, the docs, and the human approval that remain.",
+    lane: "Agentic",
+  },
+  {
+    id: "fatStop",
+    path: "/blog/when-fat-controllers-stop-working",
+    issue: "Note 04 · Operating notes",
+    title: "When Fat Controllers Stop Working",
+    dek: "The exit conditions the rubble essay already stated.",
+    lane: "Agentic",
+  },
+  {
+    id: "explicitJobs",
+    path: "/blog/why-explicit-jobs-beat-invisible-events-for-ai",
+    issue: "Note 05 · Operating notes",
+    title: "Why Explicit Jobs Beat Invisible Events for AI",
+    dek: "Named Hangfire work, and the Bamboo locks around it.",
+    lane: "Agentic",
+  },
+  {
+    id: "failureFirst",
+    path: "/blog/the-failure-first-onboarding",
+    issue: "Note 06 · Operating notes",
+    title: "The Failure-First Onboarding",
+    dek: "The three failures both essays surface, cited in each essay's order.",
+    lane: "Partnership / PLG",
+  },
+  {
+    id: "accepted202",
+    path: "/blog/202-accepted-is-a-product-decision",
+    issue: "Note 07 · Operating notes",
+    title: "202 Accepted Is a Product Decision",
+    dek: "Accepted is the value signal. The PIN comes later.",
+    lane: "Partnership / PLG",
+  },
+  {
+    id: "idempotency",
+    path: "/blog/idempotency-for-gift-card-apis",
+    issue: "Note 08 · Operating notes",
+    title: "Idempotency for Gift Card APIs",
+    dek: "referenceId for partners, and a separate vendor Idempotency-Key.",
+    lane: "Partnership / PLG",
+  },
+  {
+    id: "customerWork",
+    path: "/blog/doing-the-customers-work-before-they-ask",
+    issue: "Note 09 · Operating notes",
+    title: "Doing the Customer’s Work Before They Ask",
+    dek: "The published career through-line, and the 60-second path it became.",
+    lane: "Partnership / PLG",
+  },
+  {
+    id: "economics",
+    path: "/blog/the-economics-of-agent-operated-software",
+    issue: "Note 10 · Operating notes",
+    title: "The Economics of Agent-Operated Software",
+    dek: "The published spend, labeled as published, and what was not disclosed.",
+    lane: "Agentic",
+  },
+];
+
+const SERIES_GROUPS = [ESSAY_SERIES, OPERATING_NOTES];
+
+export function seriesContaining(id) {
+  return SERIES_GROUPS.find((series) => series.some((essay) => essay.id === id)) ?? null;
+}
 
 export const ESSAY_END_CSS = `
 .end-next{display:block;background:#14110e;border:1px solid #3a3028;border-top:3px solid var(--rust);padding:2.75rem 2.5rem;margin:4rem -2.5rem 0;text-decoration:none;color:#E8E0D4}
@@ -70,13 +166,14 @@ function escapeHtml(value) {
 }
 
 export function renderEssayEnd(id) {
-  const index = ESSAY_SERIES.findIndex((essay) => essay.id === id);
-  if (index === -1) {
+  const series = seriesContaining(id);
+  if (!series) {
     throw new Error(`Unknown essay end id: ${id}`);
   }
+  const index = series.findIndex((essay) => essay.id === id);
 
-  const next = ESSAY_SERIES[(index + 1) % ESSAY_SERIES.length];
-  const others = ESSAY_SERIES.filter((essay) => essay.id !== id)
+  const next = series[(index + 1) % series.length];
+  const others = series.filter((essay) => essay.id !== id)
     .map(
       (essay) => `<li><a href="${escapeHtml(essay.path)}"><span class="end-also-issue">${escapeHtml(essay.issue)}</span><span class="end-also-title">${escapeHtml(essay.title)}</span></a></li>`,
     )

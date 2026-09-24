@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Belongs in AGENTS.md</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/essay-shell.css">
+<style>/* end-of-essay styles are injected before this style block closes */</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="nav">
+  <a class="nav-logo" href="/">Steller</a>
+  <span class="nav-tag" id="navTag">The first file</span>
+</nav>
+
+<div class="opening">
+  <div class="o-bg"></div>
+  <div class="o-grain"></div>
+  <div class="o-content">
+    <div class="o-issue">Operating notes · Note 01</div>
+    <div class="o-series">Agentic practice</div>
+    <div class="lane">Agentic</div>
+    <h1 class="o-title">What belongs<br>in <em>AGENTS.md</em></h1>
+    <p class="o-sub">The file an agent reads before code is a router, a set of hard rules, and a list of locks. It is not a diary, and it is not a second copy of every doc in the repo.</p>
+    <div class="o-scroll">↓ The file that collapsed orientation</div>
+  </div>
+</div>
+
+<div class="chapter" data-ch="The first file" id="ch1">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">01</div><div class="ch-name r r2">The first file</div></div>
+  <h2 class="r">The first file<br><em>is not code.</em></h2>
+  <p class="r">In <a href="/blog/microservices-to-fat-controllers-agentic-pivot">Built From the Rubble</a> I wrote that a good AGENTS.md cuts orientation from about twenty minutes to about two. The measured version of that claim is more specific. Before the pivot, a session opened with fifteen to twenty minutes of “which service handles this?” After it, orientation was about two minutes: read AGENTS.md, open the controller, start the work.</p>
+  <p class="r">That is the job of the file. It does not implement the order flow. It tells the agent which instruction source is authoritative, which docs exist by name, and which moves are forbidden. Qwen Coder, the operator named in that essay, reads AGENTS.md at the start of a session, runs tests before calling the work done, and logs what it changed.</p>
+  <p class="r">Steller keeps two of these files, and they are not the same document. The root file is a workspace router. The backend file is the hard-rules list. Treating either one as a place to paste a design essay is how the file stops being readable in one sitting — the same failure mode the architecture essay describes for a controller that handles dozens of flows.</p>
+  <div class="pq r">
+    <blockquote>“The unit of architecture for agentic development is not the service boundary — <strong>it’s the context window.</strong>”</blockquote>
+    <cite>Built From the Rubble · March 2026</cite>
+  </div>
+  <p class="r">AGENTS.md is architecture for that window. If the first file the agent loads is long, vague, or full of secrets, the rest of the session inherits the waste.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Router and rules" id="ch2">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">02</div><div class="ch-name r r2">Router and rules</div></div>
+  <h2 class="r">A short router.<br><em>A longer lock file.</em></h2>
+  <p class="r">The root AGENTS.md is the Steller workspace agent router. It is 63 lines. Its instruction is to read it first in order to choose an instruction source. Backend tasks go to <code>backend/AGENTS.md</code>, which the root file names as authoritative. That backend file is 121 lines of hard rules. <code>steller-backend/AGENTS.md</code> is a symlink to <code>../backend/AGENTS.md</code>, so there are not two backend policies.</p>
+  <p class="r">The default reading of “Read AGENTS.md” is a policy-readiness check and a runtime-status check. It is not an invitation to redesign the platform before the checks have been done. Closed-loop CI is part of that reading: <code>gh workflow run</code>, <code>gh workflow list</code>, and <code>gh workflow view</code>.</p>
+  <p class="r">The router also carries the release rule that shows up again in the backend file: never push directly to <code>main</code>. The path is a feature branch, then tests, then a pull request, then auto staging. Production is manual, and it requires human approval. A developer-hub repository is separate. When the hub and the backend conflict on backend behavior, the backend wins.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Scope map" id="ch3">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">03</div><div class="ch-name r r2">Scope map</div></div>
+  <h2 class="r">Point at docs.<br><em>Do not paste them.</em></h2>
+  <p class="r">The root router maps scope to documents by name. The names it points at are: transferable knowledge, environments, one database per environment, the staging index, the backlog, the CI/CD guide, releases practices, the developer-hub deploy, and the Muhanad blog runbook. Those are pointers. This essay does not quote their bodies. Several of them were seen as names, not read as text, and inventing their contents would make AGENTS.md look more complete than the record is.</p>
+  <p class="r">A scope map belongs in the router because an agent will otherwise guess which document is current. The rubble essay’s scorecard puts the failure mode plainly: when each service has its own docs, the agent cannot tell which are current. One AGENTS.md, one port map, one backlog is the published counter-move. The port map and the backlog are named there. Their contents are not restated here.</p>
+  <p class="r">Precedence follows from the same map. Start at the root router. If the task is backend, the backend file wins over a general note. If the question is how the public API behaves for a partner, the developer hub at <a href="https://developers.steler.org/">developers.steler.org</a> is the published surface, and the backend file still wins on a conflict about backend behavior. The blog explains decisions. It is not the lock file.</p>
+  <div class="note r"><strong>What this essay will not do.</strong> It will not offer a blank template beyond the two files Steller actually keeps. A third AGENTS.md for a product that does not have this split would be an invention.</div>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="The locks" id="ch4">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">04</div><div class="ch-name r r2">The locks</div></div>
+  <h2 class="r">Non-negotiables<br><em>are remediation locks.</em></h2>
+  <p class="r">The backend file is where Steller’s real AGENTS.md practice gets specific. These are not preferences. They are written as locks: an agent that “improves” them is breaking the file. The rubble essay called the same idea confirmation gates and remediation locks — make the wrong move unambiguously wrong.</p>
+  <div class="ctable two r">
+    <div class="ct-head">
+      <div class="ct-hc">Lock</div>
+      <div class="ct-hc new">Backend AGENTS.md</div>
+    </div>
+    <div class="ct-row"><div class="ct-c lbl">CORS</div><div class="ct-c new">Only explicit origins. Never a wildcard in production.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Hangfire workers</div><div class="ct-c new">WorkerCount must be 2 for Bamboo. Never increase it.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">PlaceBambooOrderJob</div><div class="ct-c new">No retry. Refund on failure. Swallow a refund throw.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Bamboo calls</div><div class="ct-c new">Always send an Idempotency-Key on vendor calls.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">JWT_KEY</div><div class="ct-c new">Never hardcode it in source. Always read it from the environment.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Catalog validation</div><div class="ct-c new">Never coalesce nulls. Keep a strict schema.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Business claims</div><div class="ct-c new">Never bypass RequireBusinessClaimsMiddleware.</div></div>
+  </div>
+  <p class="r">Around those locks, the same file states operating rules that are just as easy to “helpfully” violate. Never push to <code>main</code>. Never delete, recreate, or rewrite model, migration, or context files. <code>dotnet build</code> stays at zero errors. Environment variables use a double underscore. Verify the business outcome, not only HTTP 200. After a config change, smoke the path: <code>POST /api/orders</code> returns 202, then poll until Completed. Fix tests only in test files. Pass the health gate before that smoke.</p>
+  <p class="r">A lock belongs in AGENTS.md when breaking it looks like a local improvement. Raising Hangfire’s worker count looks like throughput. Retrying <code>PlaceBambooOrderJob</code> looks like reliability. Coalescing a null catalog field looks like tolerance. Hardcoding <code>JWT_KEY</code> looks like a faster local run. The file exists so those moves are named as forbidden before the agent reaches for them.</p>
+  <p class="r">What does not belong in the lock list is a story about why the number is 2, or a pasted vendor contract, or a production secret. The rule is the rule. The motive, where it was not written down, stays unwritten.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Closed loop" id="ch5">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">05</div><div class="ch-name r r2">Closed loop</div></div>
+  <h2 class="r">Done means a run,<br><em>not a reassurance.</em></h2>
+  <p class="r">The eighth published agent-building rule in the rubble essay is to log what the agent changed, and the seventh is to require test output before “done.” The backend file makes the test side concrete: build at zero errors, change tests only inside test files, and smoke a real order through 202 to Completed after config changes. The root file makes the CI side concrete: run, list, and view the workflow with <code>gh</code> rather than declaring the branch finished.</p>
+  <p class="r">That is closed-loop CI as a contents rule for AGENTS.md. The file should name the commands that prove readiness. It should name the branch policy. It should say that production is a human approval, not an agent’s last step. It should not contain a transcript of the last run. A transcript goes stale inside a session. A command stays true.</p>
+  <p class="r">The same standard decides what to leave out. Do not paste production base URLs, webhook secrets, or API keys. <code>JWT_KEY</code> is named only as a value that comes from the environment. Do not duplicate the developer hub’s endpoint catalog inside the router; point at the hub and let the backend file govern conflicts. Do not store a handover narrative that you cannot keep current. The next essay is about three protocol files the rubble essay names, and that this record cannot quote.</p>
+  <h3>A short contents list</h3>
+  <ul class="plain r">
+    <li>Which file to read next, and which file wins.</li>
+    <li>The docs that exist, by name, without forged summaries.</li>
+    <li>The branch, test, and production-approval path.</li>
+    <li>Locks an agent will be tempted to relax.</li>
+    <li>The smoke that counts as a business outcome, not only a status code.</li>
+  </ul>
+  <p class="r">If a sentence does not help the next session choose, forbid, or verify, it belongs in an essay or a changelog. It does not belong in AGENTS.md.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="Two minutes" id="ch6">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">06</div><div class="ch-name r r2">Two minutes</div></div>
+  <h2 class="r">Orientation collapsed<br><em>because the file was short.</em></h2>
+  <p class="r">The before-and-after in the rubble essay is the acceptance test for everything above. Fifteen to twenty minutes was the cost of a system whose first question was “which service handles this?” About two minutes is read AGENTS.md, open the controller. The golden flow — wallet debit, Bamboo, PIN, webhook — sits in one path the controller can show. The router’s job is to send the agent there without a tour of the repo.</p>
+  <div class="m-band rust r">
+    <div class="mb"><div class="mb-num">15–20m</div><div class="mb-label">Orientation before, asking which service</div></div>
+    <div class="mb"><div class="mb-num">~2m</div><div class="mb-label">Read AGENTS.md, open the controller</div></div>
+    <div class="mb"><div class="mb-num">63</div><div class="mb-label">Lines in the workspace router</div></div>
+    <div class="mb"><div class="mb-num">121</div><div class="mb-label">Lines in the backend hard rules</div></div>
+  </div>
+  <p class="r">I am not a developer. I build Steller with agents, from Mississauga, with no engineering team. The file works for that arrangement only if a new session can obey it without me re-explaining the locks. That is what belongs in AGENTS.md: the choice of source, the map of names, the commands that close the loop, and the rules that must not be improved.</p>
+  <!--essay-end:agentsMd-->
+</div>
+</div>
+
+<footer>
+  <span>© 2026 Muhanad Abdelrahim · Steller · Note 01 · Operating notes</span>
+  <span>Mississauga · hello@steler.org</span>
+</footer>
+<script>
+const prog=document.getElementById('progress');
+const navEl=document.getElementById('nav');
+const navTag=document.getElementById('navTag');
+const chapters=document.querySelectorAll('[data-ch]');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(prog) prog.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+  navEl.classList.toggle('scrolled',window.scrollY>60);
+  chapters.forEach(ch=>{if(ch.getBoundingClientRect().top<100)navTag.textContent=ch.dataset.ch});
+});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
