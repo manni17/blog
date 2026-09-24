@@ -5,7 +5,7 @@
     "date": "2026-09-24",
     "excerpt": "What Steller’s AGENTS.md files actually contain: a short router, backend locks, and the commands that close a session.",
     "tags": ["Agentic", "AGENTS.md", "essay"],
-    "readingTimeMinutes": 8,
+    "readingTimeMinutes": 9,
     "customLayout": "operating-note"
   },
   {
@@ -14,7 +14,7 @@
     "date": "2026-09-24",
     "excerpt": "The hardening week named four protocol files. One can be quoted. Three cannot, and this essay does not invent them.",
     "tags": ["Agentic", "handover", "essay"],
-    "readingTimeMinutes": 6,
+    "readingTimeMinutes": 7,
     "customLayout": "operating-note"
   },
   {
@@ -41,7 +41,7 @@
     "date": "2026-09-24",
     "excerpt": "RabbitMQ hid the next file. PlaceBambooOrderJob is a named job with a no-retry and refund lock.",
     "tags": ["Agentic", "Hangfire", "essay"],
-    "readingTimeMinutes": 6,
+    "readingTimeMinutes": 7,
     "customLayout": "operating-note"
   },
   {

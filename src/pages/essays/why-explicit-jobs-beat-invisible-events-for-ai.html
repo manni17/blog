@@ -56,7 +56,7 @@
   <div class="ch-label"><div class="ch-num r">03</div><div class="ch-name r r2">The named job</div></div>
   <h2 class="r">PlaceBambooOrderJob<br><em>is a file with a lock on it.</em></h2>
   <p class="r">The execution week of the pivot — February 23 to March 1, $163 in the published weekly figures — is labeled “RabbitMQ out, Hangfire in.” Controllers grew fat. The golden flow collapsed into a single readable path: place order, debit wallet, call Bamboo, return PINs, fire webhook. For background work, the job is a named C# class.</p>
-  <p class="r"><code>PlaceBambooOrderJob</code> is the one job whose behavior is both in that essay and in Steller’s backend AGENTS.md. The essay says an agent can grep it, open it, and read it, including the wallet rollback when Bamboo fails. The lock is tighter than the essay’s summary, and it is the rule the agent is not allowed to relax:</p>
+  <p class="r"><code>PlaceBambooOrderJob</code> is the one job whose behavior is both in that essay and in Steller’s backend AGENTS.md. The essay says an agent can grep it, open it, and read it, including the wallet rollback when Bamboo fails. The backend file’s where-to-look table puts background jobs in <code>Steller.Infrastructure/Jobs/</code>, the vendor client in <code>BambooApiClient.cs</code>, and order financial logic in <code>OrderService.cs</code>. Those are paths. They are not a description of the classes. The lock is tighter than the essay’s summary, and it is the rule the agent is not allowed to relax:</p>
   <div class="ctable two r">
     <div class="ct-head">
       <div class="ct-hc">Lock</div>
