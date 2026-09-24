@@ -131,6 +131,7 @@ a.end-next,a.end-next:hover,a.end-next:visited,a.end-next:focus{color:#E8E0D4;te
 .end-title{font-family:var(--serif);font-size:clamp(1.85rem,3vw,2.45rem);font-weight:400;font-style:italic;line-height:1.12;color:#E8E0D4;margin:0 0 0.85rem}
 .end-dek{font-family:var(--sans);font-size:0.92rem;line-height:1.6;color:#c4b8a8;max-width:36rem;margin:0 0 1.5rem}
 .end-go{display:inline-block;background:var(--rust);color:#fff;font-family:var(--sans);font-size:0.85rem;font-weight:500;letter-spacing:0.02em;padding:0.85rem 1.5rem}
+nav.end-also{position:static;top:auto;right:auto;bottom:auto;left:auto;z-index:auto;display:block;width:auto;max-width:none;height:auto;margin:1.75rem 0 0;padding:1.15rem 0 0;background:transparent;border:0;border-top:1px solid var(--rule);box-shadow:none;backdrop-filter:none;justify-content:stretch;align-items:stretch;gap:0;transition:none}
 .end-also{margin:1.75rem 0 0;padding-top:1.15rem;border-top:1px solid var(--rule)}
 .end-also-k{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--dust);margin-bottom:0.85rem}
 .end-also ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0.85rem}
