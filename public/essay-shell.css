@@ -20,8 +20,8 @@ a{color:var(--rust)}
 #progress{position:fixed;top:0;left:0;height:2px;background:var(--rust);z-index:999;width:0%;transition:width .1s}
 
 /* Scope the fixed bar to #nav. An unscoped nav rule also pins the end-of-essay series list over the article. */
-#nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem 2.5rem;display:flex;justify-content:space-between;align-items:center;transition:background .3s,border .3s}
-#nav.scrolled{background:rgba(248,246,241,0.95);border-bottom:1px solid var(--rule);backdrop-filter:blur(10px)}
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem 2.5rem;display:flex;justify-content:space-between;align-items:center;transition:border-color .3s}
+#nav.scrolled{background:#F8F6F1;border-bottom:1px solid var(--rule)}
 .nav-logo{font-family:var(--serif);font-size:1.2rem;font-weight:600;letter-spacing:0.02em;color:var(--ink);text-decoration:none}
 .nav-tag{font-family:var(--mono);font-size:0.58rem;color:var(--dust);letter-spacing:0.15em;text-transform:uppercase;opacity:0;transition:opacity .3s}
 #nav.scrolled .nav-tag{opacity:1}

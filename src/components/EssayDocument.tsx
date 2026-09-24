@@ -1,8 +1,8 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { getAllBlogPosts, getBlogPostBySlug } from "@/lib/blog";
-import { parseEssayHtml } from "@/lib/parseEssay.mjs";
+import { parseEssayHtml, placeEssayBack } from "@/lib/parseEssay.mjs";
 import { injectEssayPublishLine, injectHomePublishLines, publishLine } from "@/lib/publishDates.mjs";
 import type { PageMeta } from "@/lib/site";
 
@@ -28,6 +28,7 @@ function operatingHomeLines() {
 }
 
 const EssayDocument = ({ html, meta, back, reveal }: EssayDocumentProps) => {
+  const navigate = useNavigate();
   const published = meta.path.startsWith("/blog/")
     ? getBlogPostBySlug(meta.path.slice("/blog/".length))?.date
     : undefined;
@@ -40,6 +41,10 @@ const EssayDocument = ({ html, meta, back, reveal }: EssayDocumentProps) => {
         : html;
     return parseEssayHtml(withDate);
   }, [html, meta.path]);
+  const bodyHtml = useMemo(
+    () => (back ? placeEssayBack(parsed.bodyHtml, back) : parsed.bodyHtml),
+    [parsed.bodyHtml, back?.href, back?.label],
+  );
   const mainRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
@@ -86,11 +91,31 @@ const EssayDocument = ({ html, meta, back, reveal }: EssayDocumentProps) => {
 
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
+
+    const backLink = root.querySelector<HTMLAnchorElement>(".essay-back");
+    const onBack = (event: MouseEvent) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey ||
+        !back
+      ) {
+        return;
+      }
+      event.preventDefault();
+      navigate(back.href);
+    };
+    backLink?.addEventListener("click", onBack);
+
     return () => {
       io.disconnect();
       window.removeEventListener("scroll", onScroll);
+      backLink?.removeEventListener("click", onBack);
     };
-  }, [parsed.bodyHtml, reveal?.rootMargin, reveal?.threshold]);
+  }, [bodyHtml, back?.href, navigate, reveal?.rootMargin, reveal?.threshold]);
 
   return (
     <div className="essay-page">
@@ -101,11 +126,6 @@ const EssayDocument = ({ html, meta, back, reveal }: EssayDocumentProps) => {
         type={meta.type}
         published={published}
       />
-      {back ? (
-        <Link className="essay-back" to={back.href}>
-          {back.label}
-        </Link>
-      ) : null}
       <noscript>
         <style>{".r{opacity:1!important;transform:none!important}"}</style>
       </noscript>
@@ -113,7 +133,7 @@ const EssayDocument = ({ html, meta, back, reveal }: EssayDocumentProps) => {
         <link key={`${link.rel}:${link.href}`} rel={link.rel} href={link.href} />
       ))}
       <style>{parsed.css}</style>
-      <main ref={mainRef} dangerouslySetInnerHTML={{ __html: parsed.bodyHtml }} />
+      <main ref={mainRef} dangerouslySetInnerHTML={{ __html: bodyHtml }} />
     </div>
   );
 };

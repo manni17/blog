@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { marked } from "marked";
 import { OPERATING_NOTES, seriesContaining } from "../src/lib/essaySeries.mjs";
-import { parseEssayHtml } from "../src/lib/parseEssay.mjs";
+import { parseEssayHtml, placeEssayBack } from "../src/lib/parseEssay.mjs";
 import {
   articleTimestamp,
   formatPostDate,
@@ -190,10 +190,10 @@ function essaySource(page) {
 function essayDocument(page) {
   const source = essaySource(page);
   const parsed = parseEssayHtml(source);
-  const back = page.backHref
-    ? `<a class="essay-back" href="${escapeHtml(page.backHref)}">${escapeHtml(page.backLabel || "← Back")}</a>`
-    : "";
-  const inner = `<div class="essay-page">${back}<noscript><style>.r{opacity:1!important;transform:none!important}</style></noscript><main>${parsed.bodyHtml}</main></div>`;
+  const bodyHtml = page.backHref
+    ? placeEssayBack(parsed.bodyHtml, { href: page.backHref, label: page.backLabel || "← Back" })
+    : parsed.bodyHtml;
+  const inner = `<div class="essay-page"><noscript><style>.r{opacity:1!important;transform:none!important}</style></noscript><main>${bodyHtml}</main></div>`;
   return { inner, head: essayHead(parsed) };
 }
 
