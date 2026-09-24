@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { marked } from "marked";
-import { ESSAY_SERIES } from "../src/lib/essaySeries.mjs";
+import { OPERATING_NOTES, seriesContaining } from "../src/lib/essaySeries.mjs";
 import { parseEssayHtml } from "../src/lib/parseEssay.mjs";
 
 const root = process.cwd();
@@ -184,7 +184,7 @@ function blogIndex(posts) {
       <main class="site-main">
         <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)">Steller</p>
         <h1 style="font-size:clamp(1.75rem, 4vw, 2.5rem);font-weight:700;margin:0.25rem 0 0.5rem">Essays &amp; field notes</h1>
-        <p class="post-excerpt" style="max-width:36rem;margin-bottom:2rem">Architecture, product-led onboarding, and the complete Steller story.</p>
+        <p class="post-excerpt" style="max-width:36rem;margin-bottom:2rem">The Steller Story, and operating notes on agents, jobs, onboarding, and cost.</p>
         <div class="post-list">
           ${articles}
         </div>
@@ -326,6 +326,10 @@ assertFile("index.html", [
   'rel="canonical" href="https://muhanad.steler.org/"',
   'property="og:title"',
   'name="twitter:card"',
+  'href="/blog/what-belongs-in-agents-md"',
+  'href="/blog/the-economics-of-agent-operated-software"',
+  "Partnership / PLG",
+  "Operating notes",
 ]);
 if (fs.readFileSync(path.join(dist, "index.html"), "utf8").includes("Toronto")) {
   throw new Error("Home page still mentions Toronto.");
@@ -366,16 +370,18 @@ function assertEssayEnd(relative, essayId) {
   if (!(nextLabel !== -1 && nextLabel < alsoLabel && alsoLabel < workLabel)) {
     throw new Error(`${relative} end block is not ordered Next, Also, Contact.`);
   }
-  const index = ESSAY_SERIES.findIndex((essay) => essay.id === essayId);
-  const next = ESSAY_SERIES[(index + 1) % ESSAY_SERIES.length];
-  const current = ESSAY_SERIES[index];
+  const series = seriesContaining(essayId);
+  if (!series) throw new Error(`No essay series contains ${essayId}.`);
+  const index = series.findIndex((essay) => essay.id === essayId);
+  const next = series[(index + 1) % series.length];
+  const current = series[index];
   if (!block.includes(`href="${next.path}"`) || !block.includes(next.dek)) {
     throw new Error(`${relative} does not point next at ${next.path}.`);
   }
   if (block.includes(`href="${current.path}"`)) {
     throw new Error(`${relative} end block links to itself.`);
   }
-  for (const other of ESSAY_SERIES) {
+  for (const other of series) {
     if (other.id === essayId) continue;
     if (!block.includes(`href="${other.path}"`)) {
       throw new Error(`${relative} is missing a series link to ${other.path}.`);
@@ -389,6 +395,37 @@ function assertEssayEnd(relative, essayId) {
 assertEssayEnd("blog/microservices-to-fat-controllers-agentic-pivot/index.html", "rubble");
 assertEssayEnd("blog/the-complete-story/index.html", "completeStory");
 assertEssayEnd("blog/plg-2-we-stopped-teaching-we-started-doing/index.html", "plg");
+
+for (const note of OPERATING_NOTES) {
+  const relative = `blog/${note.path.replace(/^\/blog\//, "")}/index.html`;
+  assertFile(relative, [
+    note.title,
+    "<main>",
+    `rel="canonical" href="https://muhanad.steler.org${note.path}"`,
+    note.lane,
+    "hello@steler.org",
+    "linkedin.com/in/muhanad-mukashfi",
+    "Next in the series",
+  ]);
+  if (fs.readFileSync(path.join(dist, relative), "utf8").includes("Toronto")) {
+    throw new Error(`${relative} mentions Toronto.`);
+  }
+  assertEssayEnd(relative, note.id);
+}
+
+const sitemapText = fs.readFileSync(path.join(dist, "sitemap.xml"), "utf8");
+for (const note of OPERATING_NOTES) {
+  if (!sitemapText.includes(`https://muhanad.steler.org${note.path}`)) {
+    throw new Error(`Sitemap is missing ${note.path}.`);
+  }
+}
+const blogIndexHtml = fs.readFileSync(path.join(dist, "blog/index.html"), "utf8");
+for (const note of OPERATING_NOTES) {
+  if (!blogIndexHtml.includes(note.title) || !blogIndexHtml.includes(note.lane)) {
+    throw new Error(`Blog index is missing ${note.title} or its lane.`);
+  }
+}
+
 assertFile("404.html", ["Page not found", 'content="noindex, nofollow"']);
 if (!fs.existsSync(path.join(dist, "favicon.svg"))) {
   throw new Error("favicon.svg was not copied to dist.");

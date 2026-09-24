@@ -1,5 +1,95 @@
 [
   {
+    "title": "What Belongs in AGENTS.md",
+    "slug": "what-belongs-in-agents-md",
+    "date": "2026-09-24",
+    "excerpt": "What Steller’s AGENTS.md files actually contain: a short router, backend locks, and the commands that close a session.",
+    "tags": ["Agentic", "AGENTS.md", "essay"],
+    "readingTimeMinutes": 9,
+    "customLayout": "operating-note"
+  },
+  {
+    "title": "The Agent Handover Protocol",
+    "slug": "the-agent-handover-protocol",
+    "date": "2026-09-24",
+    "excerpt": "The hardening week named four protocol files. One can be quoted. Three cannot, and this essay does not invent them.",
+    "tags": ["Agentic", "handover", "essay"],
+    "readingTimeMinutes": 7,
+    "customLayout": "operating-note"
+  },
+  {
+    "title": "What Zero Full-Time Developers Actually Requires",
+    "slug": "what-zero-full-time-developers-actually-requires",
+    "date": "2026-09-24",
+    "excerpt": "Zero full-time developers is Steller’s published operating claim. It depends on a visible flow, locks, and a human approval on production.",
+    "tags": ["Agentic", "operations", "essay"],
+    "readingTimeMinutes": 7,
+    "customLayout": "operating-note"
+  },
+  {
+    "title": "When Fat Controllers Stop Working",
+    "slug": "when-fat-controllers-stop-working",
+    "date": "2026-09-24",
+    "excerpt": "Fat controllers fixed a context-window failure. The same essay already states the three conditions where they stop.",
+    "tags": ["Agentic", "architecture", "essay"],
+    "readingTimeMinutes": 6,
+    "customLayout": "operating-note"
+  },
+  {
+    "title": "Why Explicit Jobs Beat Invisible Events for AI",
+    "slug": "why-explicit-jobs-beat-invisible-events-for-ai",
+    "date": "2026-09-24",
+    "excerpt": "RabbitMQ hid the next file. PlaceBambooOrderJob is a named job with a no-retry and refund lock.",
+    "tags": ["Agentic", "Hangfire", "essay"],
+    "readingTimeMinutes": 7,
+    "customLayout": "operating-note"
+  },
+  {
+    "title": "The Failure-First Onboarding",
+    "slug": "the-failure-first-onboarding",
+    "date": "2026-09-24",
+    "excerpt": "Invalid key, empty catalog, unfunded wallet — the three failures both onboarding essays surface, in each essay’s own step order.",
+    "tags": ["Partnership / PLG", "onboarding", "essay"],
+    "readingTimeMinutes": 7,
+    "customLayout": "operating-note"
+  },
+  {
+    "title": "202 Accepted Is a Product Decision",
+    "slug": "202-accepted-is-a-product-decision",
+    "date": "2026-09-24",
+    "excerpt": "202 is the value signal, not the PIN. The essays and the developer hub do not publish the same poll interval.",
+    "tags": ["Partnership / PLG", "API", "essay"],
+    "readingTimeMinutes": 7,
+    "customLayout": "operating-note"
+  },
+  {
+    "title": "Idempotency for Gift Card APIs",
+    "slug": "idempotency-for-gift-card-apis",
+    "date": "2026-09-24",
+    "excerpt": "referenceId is the partner replay field. Bamboo’s Idempotency-Key is a separate operator lock.",
+    "tags": ["Partnership / PLG", "API", "essay"],
+    "readingTimeMinutes": 7,
+    "customLayout": "operating-note"
+  },
+  {
+    "title": "Doing the Customer’s Work Before They Ask",
+    "slug": "doing-the-customers-work-before-they-ask",
+    "date": "2026-09-24",
+    "excerpt": "The published path from Sudan business development to Steller’s 60-second onboarding, without unpublished deals.",
+    "tags": ["Partnership / PLG", "PLG", "essay"],
+    "readingTimeMinutes": 7,
+    "customLayout": "operating-note"
+  },
+  {
+    "title": "The Economics of Agent-Operated Software",
+    "slug": "the-economics-of-agent-operated-software",
+    "date": "2026-09-24",
+    "excerpt": "The published pivot cost is $672 over 27 days. The weekly buckets are not a second invoice, and zero developers is not free.",
+    "tags": ["Agentic", "economics", "essay"],
+    "readingTimeMinutes": 7,
+    "customLayout": "operating-note"
+  },
+  {
     "title": "Steller: The Complete Story — What actually happened",
     "slug": "the-complete-story",
     "date": "2026-09-22",

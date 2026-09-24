@@ -46,6 +46,106 @@
       "essay": "src/pages/complete-story.html",
       "backHref": "/blog",
       "backLabel": "← Blog"
+    },
+    {
+      "id": "agentsMd",
+      "path": "/blog/what-belongs-in-agents-md",
+      "title": "What Belongs in AGENTS.md",
+      "description": "What Steller’s AGENTS.md files actually contain: a short router, backend locks, and the commands that close a session.",
+      "type": "article",
+      "essay": "src/pages/essays/what-belongs-in-agents-md.html",
+      "backHref": "/blog",
+      "backLabel": "← Blog"
+    },
+    {
+      "id": "handover",
+      "path": "/blog/the-agent-handover-protocol",
+      "title": "The Agent Handover Protocol",
+      "description": "The hardening week named four protocol files. One can be quoted. Three cannot, and this essay does not invent them.",
+      "type": "article",
+      "essay": "src/pages/essays/the-agent-handover-protocol.html",
+      "backHref": "/blog",
+      "backLabel": "← Blog"
+    },
+    {
+      "id": "zeroFte",
+      "path": "/blog/what-zero-full-time-developers-actually-requires",
+      "title": "What Zero Full-Time Developers Actually Requires",
+      "description": "Zero full-time developers is Steller’s published operating claim. It depends on a visible flow, locks, and a human approval on production.",
+      "type": "article",
+      "essay": "src/pages/essays/what-zero-full-time-developers-actually-requires.html",
+      "backHref": "/blog",
+      "backLabel": "← Blog"
+    },
+    {
+      "id": "fatStop",
+      "path": "/blog/when-fat-controllers-stop-working",
+      "title": "When Fat Controllers Stop Working",
+      "description": "Fat controllers fixed a context-window failure. The same essay already states the three conditions where they stop.",
+      "type": "article",
+      "essay": "src/pages/essays/when-fat-controllers-stop-working.html",
+      "backHref": "/blog",
+      "backLabel": "← Blog"
+    },
+    {
+      "id": "explicitJobs",
+      "path": "/blog/why-explicit-jobs-beat-invisible-events-for-ai",
+      "title": "Why Explicit Jobs Beat Invisible Events for AI",
+      "description": "RabbitMQ hid the next file. PlaceBambooOrderJob is a named job with a no-retry and refund lock.",
+      "type": "article",
+      "essay": "src/pages/essays/why-explicit-jobs-beat-invisible-events-for-ai.html",
+      "backHref": "/blog",
+      "backLabel": "← Blog"
+    },
+    {
+      "id": "failureFirst",
+      "path": "/blog/the-failure-first-onboarding",
+      "title": "The Failure-First Onboarding",
+      "description": "Invalid key, empty catalog, unfunded wallet — the three failures both onboarding essays surface, in each essay’s own step order.",
+      "type": "article",
+      "essay": "src/pages/essays/the-failure-first-onboarding.html",
+      "backHref": "/blog",
+      "backLabel": "← Blog"
+    },
+    {
+      "id": "accepted202",
+      "path": "/blog/202-accepted-is-a-product-decision",
+      "title": "202 Accepted Is a Product Decision",
+      "description": "202 is the value signal, not the PIN. The essays and the developer hub do not publish the same poll interval.",
+      "type": "article",
+      "essay": "src/pages/essays/202-accepted-is-a-product-decision.html",
+      "backHref": "/blog",
+      "backLabel": "← Blog"
+    },
+    {
+      "id": "idempotency",
+      "path": "/blog/idempotency-for-gift-card-apis",
+      "title": "Idempotency for Gift Card APIs",
+      "description": "referenceId is the partner replay field. Bamboo’s Idempotency-Key is a separate operator lock.",
+      "type": "article",
+      "essay": "src/pages/essays/idempotency-for-gift-card-apis.html",
+      "backHref": "/blog",
+      "backLabel": "← Blog"
+    },
+    {
+      "id": "customerWork",
+      "path": "/blog/doing-the-customers-work-before-they-ask",
+      "title": "Doing the Customer’s Work Before They Ask",
+      "description": "The published path from Sudan business development to Steller’s 60-second onboarding, without unpublished deals.",
+      "type": "article",
+      "essay": "src/pages/essays/doing-the-customers-work-before-they-ask.html",
+      "backHref": "/blog",
+      "backLabel": "← Blog"
+    },
+    {
+      "id": "economics",
+      "path": "/blog/the-economics-of-agent-operated-software",
+      "title": "The Economics of Agent-Operated Software",
+      "description": "The published pivot cost is $672 over 27 days. The weekly buckets are not a second invoice, and zero developers is not free.",
+      "type": "article",
+      "essay": "src/pages/essays/the-economics-of-agent-operated-software.html",
+      "backHref": "/blog",
+      "backLabel": "← Blog"
     }
   ]
 }

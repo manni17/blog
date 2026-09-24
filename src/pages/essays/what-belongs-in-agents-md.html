@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Belongs in AGENTS.md</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/essay-shell.css">
+<style>/* end-of-essay styles are injected before this style block closes */</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="nav">
+  <a class="nav-logo" href="/">Steller</a>
+  <span class="nav-tag" id="navTag">The first file</span>
+</nav>
+
+<div class="opening">
+  <div class="o-bg"></div>
+  <div class="o-grain"></div>
+  <div class="o-content">
+    <div class="o-issue">Operating notes · Note 01</div>
+    <div class="o-series">Agentic practice</div>
+    <div class="lane">Agentic</div>
+    <h1 class="o-title">What belongs<br>in <em>AGENTS.md</em></h1>
+    <p class="o-sub">The file an agent reads before code is a router, a set of hard rules, and a list of locks. It is not a diary, and it is not a second copy of every doc in the repo.</p>
+    <div class="o-scroll">↓ The file that collapsed orientation</div>
+  </div>
+</div>
+
+<div class="chapter" data-ch="The first file" id="ch1">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">01</div><div class="ch-name r r2">The first file</div></div>
+  <h2 class="r">The first file<br><em>is not code.</em></h2>
+  <p class="r">In <a href="/blog/microservices-to-fat-controllers-agentic-pivot">Built From the Rubble</a> I wrote that a good AGENTS.md cuts orientation from about twenty minutes to about two. Before the pivot, a session opened with fifteen to twenty minutes of “which service handles this?” After it, orientation was about two minutes: read AGENTS.md, open the controller, start the work. Qwen Coder, the operator named in that essay, reads AGENTS.md at the start of a session, runs tests before calling the work done, and logs what it changed.</p>
+  <div class="pq r">
+    <blockquote>“The unit of architecture for agentic development is not the service boundary — <strong>it’s the context window.</strong>”</blockquote>
+    <cite>Built From the Rubble · March 2026</cite>
+  </div>
+  <p class="r">AGENTS.md is architecture for that window. If the first file the agent loads is long, vague, or full of secrets, the rest of the session inherits the waste.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Router and rules" id="ch2">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">02</div><div class="ch-name r r2">Router and rules</div></div>
+  <h2 class="r">A short router.<br><em>A longer lock file.</em></h2>
+  <p class="r">The root file titles itself “Steller Workspace Agent Router.” It is 63 lines. Its opening instruction is: “Read this file first to choose the correct instruction source.” Backend tasks follow <code>backend/AGENTS.md</code>. The root file says to use itself as routing guidance and not to duplicate backend hard rules here. The backend file is 121 lines and opens with its own order: “Read this file before every task. These rules are non-negotiable.” <code>steller-backend/AGENTS.md</code> is a symlink to <code>../backend/AGENTS.md</code>, so there are not two backend policies. The root file states the split in one place: this file is workspace routing and precedence; <code>backend/AGENTS.md</code> is hard rules and execution constraints. If rules appear to conflict on a backend task, <code>backend/AGENTS.md</code> wins.</p>
+  <p class="r">Unless someone says otherwise, “Read AGENTS.md” means both steps the root file lists. First, a policy-readiness check from the authoritative AGENTS file for that task scope. Second, a runtime-status verification using environment and runbook docs. It is not an invitation to redesign the platform before those checks.</p>
+  <p class="r">Branch discipline is a chain. The default branch is <code>main</code>. Never push directly to <code>main</code>. The root file’s path is feature branch, then tests pass, then a pull request, then merge, then auto staging deploy. Production deploy and rollback are manual GitHub Actions operations with human approval. The backend file repeats the ban in a command: never run <code>git push origin main</code>. Feature work uses <code>feat/...</code> or <code>fix/...</code>. Backend is pushed first, then the root submodule ref is updated. Build and tests are run locally until they pass, and only then is the branch pushed.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Scope map" id="ch3">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">03</div><div class="ch-name r r2">Scope map</div></div>
+  <h2 class="r">Point at docs.<br><em>Do not paste them.</em></h2>
+  <p class="r">The root router’s scope map names an authoritative file for each kind of task. The phrases in the left column are the file’s own labels. This essay quotes that map. It does not quote the documents the map points at.</p>
+  <div class="ctable two r">
+    <div class="ct-head">
+      <div class="ct-hc">Task scope, as the router labels it</div>
+      <div class="ct-hc new">Authoritative file</div>
+    </div>
+    <div class="ct-row"><div class="ct-c lbl">Transferable engineering knowledge — outcome-based testing, resilience, skills playbook, single file</div><div class="ct-c new"><code>docs/STELLER_TRANSFERABLE_KNOWLEDGE.md</code></div></div>
+    <div class="ct-row"><div class="ct-c lbl">Product leadership coach — PM, interview, and strategy persona, separate from engineering</div><div class="ct-c new"><code>docs/PRODUCT_LEADERSHIP_COACH_OS.md</code></div></div>
+    <div class="ct-row"><div class="ct-c lbl">Backend code, API, jobs, migrations, onboarding flow, Bamboo integration</div><div class="ct-c new"><code>backend/AGENTS.md</code></div></div>
+    <div class="ct-row"><div class="ct-c lbl">Copilot global behavior and repo-wide non-code policy</div><div class="ct-c new"><code>.github/copilot-instructions.md</code></div></div>
+    <div class="ct-row"><div class="ct-c lbl">Environment model and runtime identity</div><div class="ct-c new"><code>docs/ENVIRONMENTS.md</code></div></div>
+    <div class="ct-row"><div class="ct-c lbl">DB isolation and staging DB boundaries</div><div class="ct-c new"><code>docs/ONE_DB_PER_ENVIRONMENT.md</code></div></div>
+    <div class="ct-row"><div class="ct-c lbl">Staging runbooks and scripts index</div><div class="ct-c new"><code>docs/STAGING_INDEX.md</code></div></div>
+    <div class="ct-row"><div class="ct-c lbl">Open issues and tracked follow-up work</div><div class="ct-c new"><code>docs/BACKLOG.md</code></div></div>
+    <div class="ct-row"><div class="ct-c lbl">GitHub CI/CD operator flow and environment setup</div><div class="ct-c new"><code>docs/GITHUB_CICD_OPERATOR_GUIDE.md</code></div></div>
+    <div class="ct-row"><div class="ct-c lbl">Release process and branch discipline</div><div class="ct-c new"><code>docs/CHANGES_AND_RELEASES_BEST_PRACTICES.md</code></div></div>
+    <div class="ct-row"><div class="ct-c lbl">Developer docs site, developers.steler.org</div><div class="ct-c new"><code>docs/DEVELOPER_HUB_DEPLOY.md</code></div></div>
+    <div class="ct-row"><div class="ct-c lbl">This blog, muhanad.steler.org</div><div class="ct-c new"><code>docs/MUHANAD_BLOG_PUBLISHING_RUNBOOK.md</code></div></div>
+  </div>
+  <p class="r">The router also says the product-leadership file is separate from engineering, and points at section 11 of the transferable-knowledge doc. That is a cross-reference, not a quotation of section 11. A scope map belongs here because an agent will otherwise guess which document is current. The rubble essay’s scorecard already named the failure: when each service has its own docs, the agent cannot tell which are current.</p>
+  <p class="r">The developer-hub boundary is its own rule. <code>developer-hub/</code> in the workspace is ignored in <code>steller-v3</code>, so edits there are not commits of that repo. The portal’s source of truth is the separate repository the file names, <code>git@github.com:manni17/developer-hub.git</code>. Partner-facing docs UI changes are committed there first. On the deploy host, <code>git pull</code> runs inside <code>developer-hub/</code> because the Dockerfile copies that folder and does not clone GitHub at build time. Then only the <code>developer-hub</code> Docker service is rebuilt. The backend file repeats the same boundary as rule 1b: do not implement partner portal UI from the backend repo workflow.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="The locks" id="ch4">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">04</div><div class="ch-name r r2">The locks</div></div>
+  <h2 class="r">Non-negotiables<br><em>are remediation locks.</em></h2>
+  <p class="r">The backend file is where Steller’s real AGENTS.md practice gets specific. These are not preferences. They are written as locks: an agent that “improves” them is breaking the file. The rubble essay called the same idea confirmation gates and remediation locks — make the wrong move unambiguously wrong.</p>
+  <div class="ctable two r">
+    <div class="ct-head">
+      <div class="ct-hc">Lock</div>
+      <div class="ct-hc new">Backend AGENTS.md</div>
+    </div>
+    <div class="ct-row"><div class="ct-c lbl">CORS</div><div class="ct-c new">Only explicit origins. Never a wildcard in production.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Hangfire workers</div><div class="ct-c new">WorkerCount must be 2 for Bamboo. Never increase it.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">PlaceBambooOrderJob</div><div class="ct-c new">No retry. Refund on failure. Swallow a refund throw.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Bamboo calls</div><div class="ct-c new">Always send an Idempotency-Key on vendor calls.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">JWT_KEY</div><div class="ct-c new">Never hardcode it in source. Always read it from the environment.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Catalog validation</div><div class="ct-c new">Never coalesce nulls. Keep a strict schema.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Business claims</div><div class="ct-c new">Never bypass RequireBusinessClaimsMiddleware.</div></div>
+  </div>
+  <p class="r">Around that table, the same file names moves that look helpful and are forbidden. Never delete or recreate existing model, migration, or context files. If a build error involves <code>Order.cs</code>, <code>Brand.cs</code>, <code>ApplicationDbContext.cs</code>, or any migration file, stop and report. Do not fix it by deleting or recreating those files. After every file change, run <code>dotnet build Steller.sln</code>. If errors increase from the baseline, revert the last change before going on. The build must stay at zero errors.</p>
+  <p class="r">Environment variables use a double underscore for hierarchy. The file’s own correct example is <code>PartnerOnboarding__TrialCreditAmount=500</code>. The form it marks wrong is a single-underscore name. That 500 is the file’s syntax example. This essay does not turn it into a published price. Before setting any variable, grep <code>docker-compose.yml</code> for the existing section name. After setting it, confirm the container sees it with <code>printenv</code>.</p>
+  <p class="r">Success is a business outcome, not HTTP 200 or exit 0. The file lists the checks. A created wallet’s <code>AvailableBalance</code> must equal the expected amount. A trial credit must equal the configured amount, not 0. An order counts as placed when a poll reaches Completed and the cards array is non-empty. Config counts as loaded when the running container’s environment shows the value. Warning signs mean stop, before any retry: balance 0 when trial credit is configured; the same unexpected result across test partners; HTTP 200 with business data wrong or missing; an environment variable visible while behaviour is unchanged; a log entry missing that should be present. Repeating the same action and expecting a different result is not investigation. The motive for a worker count of 2 is not written next to the lock.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Closed loop" id="ch5">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">05</div><div class="ch-name r r2">Closed loop</div></div>
+  <h2 class="r">Done means a run,<br><em>not a reassurance.</em></h2>
+  <p class="r">When the ask is to run until green, the root file requires a closed loop instead of waiting for pasted logs. Trigger the relevant GitHub Actions workflow. Poll until it completes. Pull the failed-step logs and classify the failure as an infra artifact, a readiness or timing problem, an endpoint or contract problem, an auth or secret problem, or an app regression. Apply the smallest fix in code, docs, or scripts. Re-run the same workflow. Stop only when the run is green, or when missing access genuinely blocks it. The default tooling is <code>gh workflow run</code>, <code>gh run list</code>, <code>gh run view --log-failed</code>, and edits that travel through a pull request. If that loop is repetitive — trigger, poll, fetch logs, patch, re-run — the root file says to make it automation, not another request that a person paste the log.</p>
+  <p class="r">The backend file states the same loop for a deploy that must go green, and it separates smoke from “the process is up.” After an environment change, a config update, or a service restart, run <code>./scripts/smoke-staging.sh</code>. For partner onboarding the file names four calls: <code>POST /api/public/signup</code> must return a partnerId; <code>GET /api/wallet/me</code> must show available balance equal to the trial credit, not 0; <code>POST /api/orders</code> must return 202; <code>GET /api/orders/{id}</code> is polled until Completed. Do not start that smoke when compose returns. Wait for API readiness first. The file’s example probe is <code>http://127.0.0.1:6091/api/health</code>, with a bounded wait, and on timeout print recent API logs and fail fast. Its sentence is the one to keep: do not treat <code>docker compose up -d</code> success as application readiness. Smoke scripts must follow routes verified from current controllers, not inferred legacy paths. When a smoke run rotates a partner API key, do not reuse a cached <code>.env</code> key from the prior run; generate a fresh key if generation revokes the old one.</p>
+  <p class="r">Integration failures are fixed only in test files: <code>Tests.Integration/CustomWebApplicationFactory.cs</code>, <code>Tests.Integration/TestDataFactory.cs</code>, and the failing test class. Never modify <code>Program.cs</code>, services, or controllers to make a test pass. Before adding a configuration, endpoint, variable, or service, search <code>docker-compose.yml</code> and <code>Program.cs</code> and copy the existing format. The file also says where to look, which is an index, not a second copy of the code: <code>Steller.Api/Program.cs</code> for the API entry, <code>OrderService.cs</code> for order financial logic, <code>BambooApiClient.cs</code> for the vendor, and <code>Steller.Infrastructure/Jobs/</code> for background jobs. The rubble essay’s orientation line remains “read AGENTS.md, open the controller.” The file itself names these paths.</p>
+  <p class="r">What still does not belong is a transcript of the last run, a production secret, or a protocol body this record does not have. <code>JWT_KEY</code> is named only as a value from the environment. <code>QWEN_PROTOCOL.md</code>, <code>HANDOVER_TO_QWEN.md</code>, and <code>CHANGELOG_AI.md</code> stay names. Their text is not in either AGENTS file, and it is not invented here.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="Two minutes" id="ch6">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">06</div><div class="ch-name r r2">Two minutes</div></div>
+  <h2 class="r">Orientation collapsed<br><em>because the file was short.</em></h2>
+  <div class="m-band rust r">
+    <div class="mb"><div class="mb-num">15–20m</div><div class="mb-label">Orientation before, asking which service</div></div>
+    <div class="mb"><div class="mb-num">~2m</div><div class="mb-label">Read AGENTS.md, open the controller</div></div>
+    <div class="mb"><div class="mb-num">63</div><div class="mb-label">Lines in the workspace router</div></div>
+    <div class="mb"><div class="mb-num">121</div><div class="mb-label">Lines in the backend hard rules</div></div>
+  </div>
+  <p class="r">I am not a developer. I build Steller with agents, from Mississauga, with no engineering team. The file works for that arrangement only if a new session can obey it without me re-explaining the locks. That is what belongs in AGENTS.md: the choice of source, the map of names, the commands that close the loop, and the rules that must not be improved.</p>
+  <!--essay-end:agentsMd-->
+</div>
+</div>
+
+<footer>
+  <span>© 2026 Muhanad Abdelrahim · Steller · Note 01 · Operating notes</span>
+  <span>Mississauga · hello@steler.org</span>
+</footer>
+<script>
+const prog=document.getElementById('progress');
+const navEl=document.getElementById('nav');
+const navTag=document.getElementById('navTag');
+const chapters=document.querySelectorAll('[data-ch]');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(prog) prog.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+  navEl.classList.toggle('scrolled',window.scrollY>60);
+  chapters.forEach(ch=>{if(ch.getBoundingClientRect().top<100)navTag.textContent=ch.dataset.ch});
+});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

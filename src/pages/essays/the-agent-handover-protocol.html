@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Agent Handover Protocol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/essay-shell.css">
+<style>/* end-of-essay styles are injected before this style block closes */</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="nav">
+  <a class="nav-logo" href="/">Steller</a>
+  <span class="nav-tag" id="navTag">What was named</span>
+</nav>
+
+<div class="opening">
+  <div class="o-bg"></div>
+  <div class="o-grain"></div>
+  <div class="o-content">
+    <div class="o-issue">Operating notes · Note 02</div>
+    <div class="o-series">Agentic practice</div>
+    <div class="lane">Agentic</div>
+    <h1 class="o-title">The agent<br><em>handover protocol</em></h1>
+    <p class="o-sub">The hardening week named four files. One of them can be quoted. Three of them cannot. A handover written from memory of missing files would be fiction.</p>
+    <div class="o-scroll">↓ Names, then the gap</div>
+  </div>
+</div>
+
+<div class="chapter" data-ch="The surface" id="ch1">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">01</div><div class="ch-name r r2">The surface</div></div>
+  <h2 class="r">Handover is a product<br><em>surface, not a vibe.</em></h2>
+  <p class="r">In the first week of March 2026, the Cursor bill for Steller’s pivot moved from execution into hardening. <a href="/blog/microservices-to-fat-controllers-agentic-pivot">Built From the Rubble</a> prices that week at $118 and calls it the agent protocol layer. The sentence in the essay names four files: <code>AGENTS.md</code>, <code>QWEN_PROTOCOL.md</code>, <code>HANDOVER_TO_QWEN.md</code>, and <code>CHANGELOG_AI.md</code>. It also names what that layer was for: guardrails, confirmation gates, session protocols, canonical port maps. The system, the essay says, became legible to machines.</p>
+  <p class="r">The following week, March 9–14, is the $96 stabilisation week. Spend dropped. The essay says the system no longer needed the heavy architectural sessions, because Qwen could operate it from the docs. Bede, the Zain Sudan digital wallet, entered staging. That is the published picture of a handover: a named operator, a drop in session cost, and a first partner moving into staging.</p>
+  <p class="r">A handover protocol is the surface the next agent meets. If the surface is only a chat transcript, the next session starts from zero. The rubble essay’s eighth rule says this directly: <code>CHANGELOG_AI.md</code> is the memory one agent passes to the next. Without it, every session starts from zero. Qwen Coder is described as the operator that reads AGENTS.md, runs tests before done, and logs what it changed.</p>
+  <p class="r">Those sentences are the protocol as published. They are not the files.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="The gap" id="ch2">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">02</div><div class="ch-name r r2">The gap</div></div>
+  <h2 class="r">Three names.<br><em>No bodies to quote.</em></h2>
+  <p class="r">I looked for the three protocol files under the names the essay uses. <code>QWEN_PROTOCOL.md</code>, <code>HANDOVER_TO_QWEN.md</code>, and <code>CHANGELOG_AI.md</code> were not there to quote. This essay will not reconstruct them. A plausible session script, a sample changelog entry, or a step list “in the spirit of” those files would be an invented document with a real filename on it.</p>
+  <div class="ctable two r">
+    <div class="ct-head">
+      <div class="ct-hc">Named in the $118 week</div>
+      <div class="ct-hc new">What this essay can do</div>
+    </div>
+    <div class="ct-row"><div class="ct-c lbl">AGENTS.md</div><div class="ct-c new">Quote the router and the backend locks. They are Steller’s real files.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">QWEN_PROTOCOL.md</div><div class="ct-c new">Name only. Body missing. No steps invented.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">HANDOVER_TO_QWEN.md</div><div class="ct-c new">Name only. Body missing. No steps invented.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">CHANGELOG_AI.md</div><div class="ct-c new">Name only, plus the one-line role the essay gives it: session memory.</div></div>
+  </div>
+  <p class="r">The honest handover, today, is the pair of AGENTS.md files plus the published essays. The root router is 63 lines and tells an agent which instruction source to open. The backend file is 121 lines of locks: CORS origins, Hangfire <code>WorkerCount</code> fixed at 2 for Bamboo, <code>PlaceBambooOrderJob</code> with no retry and a refund on failure, an Idempotency-Key on every Bamboo call, <code>JWT_KEY</code> from the environment, strict catalog validation, and <code>RequireBusinessClaimsMiddleware</code> never bypassed. <code>steller-backend/AGENTS.md</code> points at that same backend file.</p>
+  <p class="r">If a later copy of the three missing files turns up, it can be quoted then. Until it does, “the protocol says” is not a sentence I get to write.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Principles" id="ch3">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">03</div><div class="ch-name r r2">Principles only</div></div>
+  <h2 class="r">What the essays<br><em>already committed to.</em></h2>
+  <p class="r">The principles of a handover are the eight rules in the rubble essay, not a private runbook. Keep the golden flow in one file. Name things so they can be grepped — the essay lists <code>PlaceBambooOrderJob</code>, <code>ReconciliationJob</code>, and <code>SendWebhookJob</code> as examples of searchable names. I am not describing those last two jobs; the essay only establishes that their names are greppable. Write AGENTS.md before the code. Make the wrong move unambiguously wrong. Use one deploy command, <code>docker compose up -d</code>. Treat docs as the codebase that gets read. Require test output before done. Log the change so the next agent is not blind.</p>
+  <p class="r">The scorecard adds the operating claim that sits next to handover: once the docs exist, Qwen operates on about $5–15 a day. Expected daily Cursor and Qwen spend after the pivot, for routine operations, was about $15. A 95.2% cache hit rate is the published reason documentation compounds. Files written once are read across sessions. That is an economic fact about handover, not a description of a missing file’s table of contents.</p>
+  <p class="r"><a href="/blog/the-complete-story">The Complete Story</a> draws the line the protocol has to respect. The AI did not rescue the platform. The architectural redesign made the platform rescuable by AI. A handover document that claims the model saved a microservices system the agents could not see would contradict the published account. What was handed over was a fat-controller path, Hangfire jobs with names, and a file that says where to start.</p>
+  <div class="pq r">
+    <blockquote>“The AI did not rescue the platform. <strong>The architectural redesign made the platform rescuable by AI.</strong>”</blockquote>
+    <cite>The Complete Story</cite>
+  </div>
+</div>
+</div>
+
+<div class="chapter" data-ch="Continuity" id="ch4">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">04</div><div class="ch-name r r2">Continuity</div></div>
+  <h2 class="r">The loop that still<br><em>runs without those files.</em></h2>
+  <p class="r">Closed-loop CI is the continuity that does not depend on the missing protocol bodies. When the ask is to run until green, the root AGENTS.md requires this loop: trigger the workflow, poll until completion, pull failed-step logs and classify the failure, apply the smallest fix, re-run, and stop only when green or when access is actually missing. The tooling it names is <code>gh workflow run</code>, <code>gh run list</code>, and <code>gh run view --log-failed</code>, with edits going through a pull request. A repetitive version of that loop should be automation, not another request that a person paste logs.</p>
+  <p class="r">Branch discipline, quoted from the same file: never push directly to <code>main</code>; feature branch, tests pass, pull request, merge, auto staging deploy. Production deploy and rollback are manual GitHub Actions operations with human approval. The backend file adds <code>feat/...</code> or <code>fix/...</code>, forbids <code>git push origin main</code>, and says the backend is pushed first, then the root submodule ref is updated. It also forbids deleting or recreating model, migration, or context files — and it names <code>Order.cs</code>, <code>Brand.cs</code>, <code>ApplicationDbContext.cs</code>, and any migration as stop-and-report cases. <code>dotnet build Steller.sln</code> must stay at zero errors. Test failures are fixed only in the test files the backend file names.</p>
+  <p class="r">The smoke is a business check. After an environment change, config update, or restart, run <code>./scripts/smoke-staging.sh</code>, and not before the readiness gate. The file’s example health probe is <code>http://127.0.0.1:6091/api/health</code>. Do not treat <code>docker compose up -d</code> success as application readiness. For partner onboarding the four calls are signup returning a partnerId, <code>GET /api/wallet/me</code> showing available balance equal to the trial credit and not 0, <code>POST /api/orders</code> returning 202, and <code>GET /api/orders/{id}</code> polled until Completed. An order is verified when that poll completes and the cards array is non-empty. Environment variables use a double underscore; the file’s syntax example is <code>PartnerOnboarding__TrialCreditAmount=500</code>, which this essay does not promote into a price. Those rules are how one session leaves a state the next session can trust, even while <code>CHANGELOG_AI.md</code> cannot be quoted.</p>
+  <p class="r">Logging still matters. The essay says Qwen logs what it changed, and it names <code>CHANGELOG_AI.md</code> as that memory. I can require the behavior — a next session must be able to see what changed — without inventing the file’s format, headings, or retention. If the log is somewhere else now, that location is not in the record this essay is allowed to use.</p>
+  <div class="note r"><strong>Writing without inventing.</strong> Describe the rule, the command, and the published outcome. When the source is a filename without a body, say the body is missing. Do not fill the gap with a template.</div>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="Open questions" id="ch5">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">05</div><div class="ch-name r r2">Open questions</div></div>
+  <h2 class="r">What a careful<br><em>handover still does not know.</em></h2>
+  <p class="r">These questions stay open because answering them would invent a fact.</p>
+  <ul class="plain r">
+    <li>What <code>QWEN_PROTOCOL.md</code> required of a session — gates, ports, tone, stop conditions — beyond the essay’s phrase “guardrails, confirmation gates, session protocols, canonical port maps.”</li>
+    <li>What <code>HANDOVER_TO_QWEN.md</code> listed as already done, still risky, or out of bounds.</li>
+    <li>Whether <code>CHANGELOG_AI.md</code> is still the log Qwen writes, or only the name the March essay used.</li>
+    <li>The day-by-day rebuild inside each weekly spend bucket. The published buckets are the $207 reckoning, the $163 execution, the $118 hardening, and the $96 stabilisation. Finer diary entries are not published.</li>
+    <li>Anything about a second host that could not be searched. Absence there is not evidence the files lived somewhere else.</li>
+  </ul>
+  <p class="r">Bede’s commercial terms are in the same category. The published fact is a first live integration: Bede, the digital wallet of Zain Sudan, moved from staging into an active API integration, and the platform’s stated partner path reaches a first successful API transaction in under sixty seconds. Terms, volumes, and revenue are not in this handover.</p>
+  <p class="r">The practical protocol, stated only from the two AGENTS files and the published essays, is short. Read the root router and follow its scope map. Obey the backend locks. Do not push <code>main</code>. Run until green with <code>gh workflow run</code>, <code>gh run list</code>, and <code>gh run view --log-failed</code>. Smoke through signup, wallet, 202, and Completed, after the health probe, and check that the cards array is non-empty. Leave a log the next agent can read. Do not pretend <code>QWEN_PROTOCOL.md</code>, <code>HANDOVER_TO_QWEN.md</code>, or <code>CHANGELOG_AI.md</code> has been quoted. That is the handover the record supports.</p>
+  <!--essay-end:handover-->
+</div>
+</div>
+
+<footer>
+  <span>© 2026 Muhanad Abdelrahim · Steller · Note 02 · Operating notes</span>
+  <span>Mississauga · hello@steler.org</span>
+</footer>
+<script>
+const prog=document.getElementById('progress');
+const navEl=document.getElementById('nav');
+const navTag=document.getElementById('navTag');
+const chapters=document.querySelectorAll('[data-ch]');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(prog) prog.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+  navEl.classList.toggle('scrolled',window.scrollY>60);
+  chapters.forEach(ch=>{if(ch.getBoundingClientRect().top<100)navTag.textContent=ch.dataset.ch});
+});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

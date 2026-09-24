@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>When Fat Controllers Stop Working</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/essay-shell.css">
+<style>/* end-of-essay styles are injected before this style block closes */</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="nav">
+  <a class="nav-logo" href="/">Steller</a>
+  <span class="nav-tag" id="navTag">The limit</span>
+</nav>
+
+<div class="opening">
+  <div class="o-bg"></div>
+  <div class="o-grain"></div>
+  <div class="o-content">
+    <div class="o-issue">Operating notes · Note 04</div>
+    <div class="o-series">Agentic practice</div>
+    <div class="lane">Agentic</div>
+    <h1 class="o-title">When fat controllers<br><em>stop working</em></h1>
+    <p class="o-sub">The pattern fixed a context-window failure. The same essay that argues for it writes the exit. Steller has not published a claim that it has already left.</p>
+    <div class="o-scroll">↓ What they were for</div>
+  </div>
+</div>
+
+<div class="chapter" data-ch="Context window" id="ch1">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">01</div><div class="ch-name r r2">Context window</div></div>
+  <h2 class="r">They were a design<br><em>for the window, not the org chart.</em></h2>
+  <p class="r">The unit of architecture in <a href="/blog/microservices-to-fat-controllers-agentic-pivot">Built From the Rubble</a> is the context window, not the service boundary. Steller’s earlier shape split the order flow across services an agent could not hold at once. The order service published an event. The wallet service subscribed. A fix in the file on screen left the consumer, the wallet debit, the Bamboo call, and the webhook invisible.</p>
+  <p class="r">Fat controllers were the repair for that specific failure. The golden flow — wallet debit, Bamboo vendor call, PIN return, webhook dispatch — lives in one controller, readable top to bottom. Hangfire carries background work as a named class. <code>PlaceBambooOrderJob</code> can be grepped, opened, and read, including the wallet rollback when Bamboo fails. One repo. One <code>docker compose up -d</code>, which the rubble essay treats as the deploy. The backend AGENTS.md adds the limit on that command: do not treat compose success as application readiness. Its where-to-look table names <code>OrderService.cs</code> for order financial logic, <code>BambooApiClient.cs</code> for the vendor, and <code>Steller.Infrastructure/Jobs/</code> for background jobs. The rubble essay’s line remains that AGENTS.md says which file to open first.</p>
+  <p class="r">The front end moved with the same motive: two Vue.js 2.6 dashboards became React 18, TypeScript, and Vite. A mandatory API response envelope and flattened permission tables removed shapes the agent had to rediscover. None of that is a claim that a fat controller is elegant. It is a claim that an agent can trace the path that moves the order.</p>
+  <div class="pq r">
+    <blockquote>“Every time I asked the agent to fix an order flow bug, it changed the right service — <strong>but broke two others it couldn’t see.</strong>”</blockquote>
+    <cite>Built From the Rubble</cite>
+  </div>
+</div>
+</div>
+
+<div class="chapter" data-ch="What they fixed" id="ch2">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">02</div><div class="ch-name r r2">What they fixed</div></div>
+  <h2 class="r">Four costs dropped<br><em>because the path was visible.</em></h2>
+  <p class="r">The scorecard in that essay is the list of what the pattern was for. Context went from a fragment of the system to a single repo whose golden flow is one file. Orientation went from fifteen to twenty minutes of “which service handles this?” to about two minutes. Debugging a flow went from tracing a message through three or more services to reading the controller top to bottom. Rollback went from saga choreography to explicit code in the same path. Deploy went from N services to one command and one log stream.</p>
+  <p class="r">Background work changed category. Implicit event names became named classes. The infrastructure around RabbitMQ — exchanges, bindings, dead-letters — stopped filling the window before the business logic did. Hangfire, in the scorecard’s words, is a package and a Postgres table.</p>
+  <p class="r">Those are the fixes. They are fixes for an agent-operated golden flow of one product: a B2B middleware between partners and gift card vendors. The pivot that installed them took 27 days and $672 in Cursor spend, and the rebuild shipped with zero critical defects in production. The defect-counting method is not published. The duration and the spend are.</p>
+  <p class="r">The Complete Story’s correction still applies. This was a redesign that made the platform rescuable by AI. A fat controller is not a reward for using a model. It is the condition under which the model can see the flow.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="Exit" id="ch3">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">03</div><div class="ch-name r r2">Exit</div></div>
+  <h2 class="r">Three exit conditions<br><em>are already written.</em></h2>
+  <p class="r">The limits chapter does not wait for a sequel. It states when fat controllers stop working.</p>
+  <div class="insight-grid r">
+    <div class="ic"><div class="ic-n">01</div><div class="ic-t">The team grows</div><div class="ic-b">Past a handful of engineers, several people editing the same controller create the merge conflicts microservices were designed to avoid. The context-window argument fades when humans can hold the context themselves.</div></div>
+    <div class="ic"><div class="ic-n">02</div><div class="ic-t">Paths must scale apart</div><div class="ic-b">If the Bamboo integration needs many times the resources of catalog sync, one controller cannot scale those paths apart. Independent scaling becomes impossible.</div></div>
+    <div class="ic"><div class="ic-n">03</div><div class="ic-t">The domain gets large</div><div class="ic-b">A controller that handles dozens of flows is not readable to a human or an agent. The essay’s line for Steller is specific: one golden flow, not forty.</div></div>
+  </div>
+  <p class="r">I am not announcing that any of those three has arrived. Steller’s published position is the opposite of an exit: one golden flow, zero full-time developers, a team of one human and several AI agents. Writing “we outgrew fat controllers” would contradict the essay that defined the pattern. The exit conditions are constraints to watch, not a migration I have dated.</p>
+  <p class="r">There is also no published queue SLA, no published request-volume chart, and no second golden flow in the essays. Those would be the sorts of measurements that could show an exit. They are not in the record, so they are not in this argument.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Not a ban" id="ch4">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">04</div><div class="ch-name r r2">Not a ban</div></div>
+  <h2 class="r">Microservices were<br><em>not the villain.</em></h2>
+  <p class="r">The lesson, as published, is that microservices are wrong for a team of one human and several AI agents. For a large human team, the essay calls that shape a feature. Separate services, a queue as the contract, a saga for rollback: those are ordinary designs. They became hostile when the only engineer in the session could not see past the file it had loaded.</p>
+  <p class="r">The replacement the limits chapter offers, if the system grows, is not “more RabbitMQ.” It is domain-bounded services with explicit, synchronous interfaces. Not event-driven, and not invisible. The agent still has to hold the relevant flow. The boundary is allowed to return when a human team can hold it, or when one file would hide dozens of flows. The boundary is not allowed to return as a hidden consumer.</p>
+  <p class="r">Greppable jobs stay on the near side of that line. <code>PlaceBambooOrderJob</code> is a name. An event with no type an agent can search is not. Even a future split should keep the forward path and the compensating path readable together. The scorecard’s rollback row is the requirement: explicit rollback in the same file as the forward path, for as long as that file is the design. A synchronous call across a domain boundary can be read. A binding in a broker cannot, not by the agent that only opened the publisher.</p>
+  <div class="note r"><strong>Decision rule, from the essay.</strong> Design the architecture so an AI agent can hold the entire relevant flow in a single context window. For Steller at the published stage, that meant fat controllers. For a larger system, it might mean domain-bounded services with explicit, synchronous interfaces.</div>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="Back to the window" id="ch5">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">05</div><div class="ch-name r r2">Back to the window</div></div>
+  <h2 class="r">Stop when the window<br><em>can no longer hold the flow.</em></h2>
+  <p class="r">Fat controllers stop working when the reason they were introduced is gone or overwhelmed. The reason was a context window that could not see a distributed order flow. They stop when several engineers need to edit that controller without colliding, when one integration must scale apart from another, or when “the flow” has become dozens of flows. They do not stop because a diagram looks cleaner with more boxes.</p>
+  <p class="r">Until one of those conditions is true in the published system, the operating rule stays the one the principles chapter prints. Keep the golden flow in one file. If the agent has to cross a service boundary to read the path from request to response, merge the services. Name the job. Point AGENTS.md at the file. Ship with one command.</p>
+  <p class="r">I will update this when Steller publishes a second flow or a team past a handful of engineers. I will not update it to sound ahead of the product. The pattern is a constraint that fit a B2B gift card path operated from Mississauga with agents. It is not a law, and it is not a phase Steller has claimed to finish.</p>
+  <!--essay-end:fatStop-->
+</div>
+</div>
+
+<footer>
+  <span>© 2026 Muhanad Abdelrahim · Steller · Note 04 · Operating notes</span>
+  <span>Mississauga · hello@steler.org</span>
+</footer>
+<script>
+const prog=document.getElementById('progress');
+const navEl=document.getElementById('nav');
+const navTag=document.getElementById('navTag');
+const chapters=document.querySelectorAll('[data-ch]');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(prog) prog.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+  navEl.classList.toggle('scrolled',window.scrollY>60);
+  chapters.forEach(ch=>{if(ch.getBoundingClientRect().top<100)navTag.textContent=ch.dataset.ch});
+});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

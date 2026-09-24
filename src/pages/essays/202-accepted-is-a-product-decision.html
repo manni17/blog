@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>202 Accepted Is a Product Decision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/essay-shell.css">
+<style>/* end-of-essay styles are injected before this style block closes */</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="nav">
+  <a class="nav-logo" href="/">Steller</a>
+  <span class="nav-tag" id="navTag">Accepted</span>
+</nav>
+
+<div class="opening">
+  <div class="o-bg"></div>
+  <div class="o-grain"></div>
+  <div class="o-content">
+    <div class="o-issue">Operating notes · Note 07</div>
+    <div class="o-series">Partnership / PLG</div>
+    <div class="lane plg">Partnership / PLG</div>
+    <h1 class="o-title">202 Accepted is<br><em>a product decision</em></h1>
+    <p class="o-sub">A gift card is not ready in the same instant the partner asks for it. Returning 202 tells the truth about that, and it is the first proof the onboarding is willing to call value.</p>
+    <div class="o-scroll">↓ The status that is the signal</div>
+  </div>
+</div>
+
+<div class="chapter" data-ch="Async" id="ch1">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">01</div><div class="ch-name r r2">Async</div></div>
+  <h2 class="r">The card is not<br><em>in the response body yet.</em></h2>
+  <p class="r">Gift card fulfillment in Steller’s published design is asynchronous. The partner posts an order. The wallet is involved immediately. The vendor call, the PIN, and the webhook happen on a path that is not the HTTP request that just returned. <a href="/blog/plg-2-we-stopped-teaching-we-started-doing">The PLG essay</a> says this in product language: gift card orders are async. The 202 is the value signal, not the PIN. The lifecycle is shown after the first order so the partner learns that without a document.</p>
+  <p class="r"><a href="/blog/the-complete-story">The Complete Story</a> describes the order step in the same spirit and with more mechanism. The partner posts a pre-constructed payload. The system validates, locks the wallet row against race conditions, drops processing onto the background queue, and returns HTTP 202 Accepted with a tracking ID. The track step is a later poll. When the order succeeds, encrypted card codes decrypt and display. Proof is that display. The 202 is the promise that the work was accepted and can be followed.</p>
+  <p class="r">Choosing 202 is a product decision because the alternative is a lie or a stall. A synchronous 200 with a PIN would deny the queue. A silent hold, with no status, would put the partner back in the old path, where they polled only if they remembered. 202 plus a tracking ID is the contract that the wait is real and observable.</p>
+  <p class="r">The operator smoke uses the same status for a different audience. Steller’s backend AGENTS.md says not to report success on HTTP 200 alone. An order counts as placed when a poll reaches Completed and the cards array is non-empty. After a config change or restart, <code>./scripts/smoke-staging.sh</code> runs only after a health probe — the file’s example is <code>http://127.0.0.1:6091/api/health</code> — and the file says not to treat <code>docker compose up -d</code> as that readiness. For partner onboarding the order step is explicit: <code>POST /api/orders</code> must return 202, then <code>GET /api/orders/{id}</code> is polled until Completed. A 200 that skipped the queue would fail the product decision even if it looked healthier in a test.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Create and replay" id="ch2">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">02</div><div class="ch-name r r2">Create and replay</div></div>
+  <h2 class="r">202 is also<br><em>what a repeat looks like.</em></h2>
+  <p class="r">The developer hub is more specific than the essays about which responses are 202. Create order returns HTTP 202 Accepted for new orders and for idempotent replays. The wallet is debited at creation and refunded on failure. <code>referenceId</code> is the partner field for that replay behavior: optional, and strongly recommended. The next note is about that field. Here, the product fact is that a replay is not a different success code. The partner who retries does not have to learn a second status to know the order was already accepted.</p>
+  <p class="r">That choice teaches async by repetition. The first 202 says the work is in progress. The second 202, on the same reference, says the work was not started again. If replays returned a fresh code, or a body that looked like a second card, the status would stop being a signal and start being a trap. The hub’s rule is the one I will cite: 202 for both.</p>
+  <p class="r">Debit-at-accept is the other half of the decision. The partner’s balance moves when the order is accepted, not when the PIN appears. The Complete Story’s wallet step exists so that balance is visible before this post — color-coded green, amber, or red. The PLG essay shows the balance, including a zero, before the order so the rejection never has to be the teacher. Refund on failure is how a 202 that later fails does not keep the money. The backend lock on <code>PlaceBambooOrderJob</code> says the job itself does not retry, refunds on failure, and swallows a refund throw. I am not publishing a queue diagram that stitches those sentences into one function. I am saying the partner-visible rule and the operator lock agree that failure returns the debit, and that the job must not “help” by trying the vendor again.</p>
+  <div class="pq r">
+    <blockquote>“The 202 is the value signal, <strong>not the PIN.</strong>”</blockquote>
+    <cite>PLG 2.0 essay · taught by showing the lifecycle</cite>
+  </div>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="How to poll" id="ch3">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">03</div><div class="ch-name r r2">How to poll</div></div>
+  <h2 class="r">Two published intervals.<br><em>Neither one is a SLA.</em></h2>
+  <p class="r">The essays and the hub do not tell the partner to poll on the same clock. I will quote both and not average them.</p>
+  <div class="ctable two r">
+    <div class="ct-head">
+      <div class="ct-hc">Source</div>
+      <div class="ct-hc new">What it says about waiting</div>
+    </div>
+    <div class="ct-row"><div class="ct-c lbl">Complete Story</div><div class="ct-c new">The partner polls for status every three seconds. On success, encrypted codes decrypt and display.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Developer hub</div><div class="ct-c new">Poll every 2–5 seconds until a terminal state: Completed or Failed. The example read is GET /api/orders/{id}.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">PLG essay</div><div class="ct-c new">Status polling is shown live after 202. It does not publish a second interval.</div></div>
+  </div>
+  <p class="r">Three seconds sits inside the hub’s 2–5 second range. That is arithmetic, not a decision that one source overrules the other. The Complete Story is describing the 60-second path’s track step. The hub is describing client guidance. A partner integration can follow the hub. The onboarding narrative can keep saying “about every three seconds,” because that is the sentence in the essay. No queue SLA — time-to-PIN, p95, or vendor timeout — is published, so this note does not add one.</p>
+  <p class="r">Webhooks are a second published way to hear the end of the wait. The hub signs them with <code>X-Steller-Signature</code>, a Base64 HMAC-SHA256 of the raw body using the webhook secret. The events named for orders are <code>order.completed</code> and <code>order.failed</code>. A changelog mention of <code>low_balance</code> is not an order-terminal event, and I will not treat it as one. Webhooks do not replace the poll in the essays. The essays teach the lifecycle by showing the poll. Signature, secret, and HTTPS are security requirements on the hub, not a new onboarding step.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Teach the wait" id="ch4">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">04</div><div class="ch-name r r2">Teach the wait</div></div>
+  <h2 class="r">Show the lifecycle.<br><em>Do not assign a chapter.</em></h2>
+  <p class="r">The PLG essay’s principle is to embrace async reality: track, don’t wait. Teaching happens because the status is visible immediately, not because a guide explains HTTP. The partner’s question in that minute is the reviewer’s question — does this work? — not the builder’s question about which code means success. 202 is a yes to “your order was accepted.” It is not yet a yes to “here is the card.”</p>
+  <p class="r">Confidence before the PIN is the partnership point. The Complete Story says the barrier to a signed partnership is rarely the commercial terms. It is the internal conviction that the thing actually works. A 202 with a tracking ID is evidence the partner can show to someone else in the room: the system took the order, the wallet moved, the status is changing. The decrypted code is the later proof. Asking them to wait in the dark until the code exists spends the conviction the 60-second path is trying to create. Under sixty seconds is the published time to first partner value, and the value in that sentence is a successful API transaction the path can track, not a claim that every PIN is on screen before the minute ends. The essays do not publish a separate time-to-PIN.</p>
+  <p class="r">TTV-Order, in the PLG essay, is time from auth to the first 202. TTV-Track is time from that order to the first visible poll. The product decision puts 202 in the metric on purpose. If the metric waited for the PIN, async work would look like onboarding failure.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="Terminal" id="ch5">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">05</div><div class="ch-name r r2">Terminal</div></div>
+  <h2 class="r">A short list<br><em>of what “finished” means.</em></h2>
+  <p class="r">Finished, from the texts this note is allowed to use:</p>
+  <ul class="plain r">
+    <li>Accepted: HTTP 202 for a new order, with a tracking ID in the Complete Story’s account.</li>
+    <li>Accepted again: HTTP 202 for an idempotent replay, not a second order, on the hub’s account.</li>
+    <li>In flight: poll. Every three seconds on the essay path, or every 2–5 seconds per the hub, until the state is terminal.</li>
+    <li>Completed: the hub’s success terminal. The Complete Story then shows decrypted card codes.</li>
+    <li>Failed: the hub’s other terminal. The wallet is refunded on failure. The Bamboo job does not retry.</li>
+    <li>Optional listen: <code>order.completed</code> or <code>order.failed</code>, signed, not instead of understanding 202.</li>
+  </ul>
+  <p class="r">Rate limits can interrupt the poll. One hundred requests per minute per API key, and ten requests per second on orders, are the hub’s published guards. A 429 may be plain text. Use Retry-After. Retry the order with the same <code>referenceId</code> so the retry stays inside the 202-for-replay rule. None of that is a reason to treat 202 as a soft error. It is a reason to keep polling like a client that believes the status.</p>
+  <p class="r">202 Accepted is the product saying: the work is real, the wait is visible, and the card is a later state. That is a better first truth than a PIN the architecture cannot honestly return yet.</p>
+  <!--essay-end:accepted202-->
+</div>
+</div>
+
+<footer>
+  <span>© 2026 Muhanad Abdelrahim · Steller · Note 07 · Operating notes</span>
+  <span>Mississauga · hello@steler.org</span>
+</footer>
+<script>
+const prog=document.getElementById('progress');
+const navEl=document.getElementById('nav');
+const navTag=document.getElementById('navTag');
+const chapters=document.querySelectorAll('[data-ch]');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(prog) prog.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+  navEl.classList.toggle('scrolled',window.scrollY>60);
+  chapters.forEach(ch=>{if(ch.getBoundingClientRect().top<100)navTag.textContent=ch.dataset.ch});
+});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

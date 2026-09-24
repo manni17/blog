@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Explicit Jobs Beat Invisible Events for AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/essay-shell.css">
+<style>/* end-of-essay styles are injected before this style block closes */</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="nav">
+  <a class="nav-logo" href="/">Steller</a>
+  <span class="nav-tag" id="navTag">The name</span>
+</nav>
+
+<div class="opening">
+  <div class="o-bg"></div>
+  <div class="o-grain"></div>
+  <div class="o-content">
+    <div class="o-issue">Operating notes · Note 05</div>
+    <div class="o-series">Agentic practice</div>
+    <div class="lane">Agentic</div>
+    <h1 class="o-title">Why explicit jobs beat<br><em>invisible events</em> for AI</h1>
+    <p class="o-sub">A queue felt like a contract. The agent fixing the publisher could not see the consumer. A named Hangfire job is a file. The locks around that file are what keep a gift card from being charged twice or not at all.</p>
+    <div class="o-scroll">↓ The failure the queue hid</div>
+  </div>
+</div>
+
+<div class="chapter" data-ch="The queue" id="ch1">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">01</div><div class="ch-name r r2">The queue</div></div>
+  <h2 class="r">RabbitMQ hid<br><em>the next file.</em></h2>
+  <p class="r">Steller’s pre-pivot stack used RabbitMQ between services. <a href="/blog/microservices-to-fat-controllers-agentic-pivot">Built From the Rubble</a> describes the failure in operational terms, not taste. The order service published an event. The wallet service subscribed. Those were two codebases and two context windows. When I asked the agent to fix the order flow, it could only see the part of the flow in the file it was reading. The consumer, the wallet debit, the Bamboo vendor call, and the webhook dispatch stayed invisible.</p>
+  <p class="r">The sessions had a shape. I would describe a bug — orders completing while wallets were not debited, or debited twice. The agent loaded the order service, made a change, and reported success. The wallet service was still wrong, because the agent had never seen it. The quote I stand by: every time I asked the agent to fix an order flow bug, it changed the right service but broke two others it couldn’t see.</p>
+  <p class="r">Message queues are asynchronous and implicit. An agent fixing a publisher has no signal that a consumer exists, or what contract it expects. Every RabbitMQ change was a gamble. Sessions opened with fifteen to twenty minutes of searching, and infrastructure — exchanges, bindings, dead-letters — filled the window before business logic did.</p>
+  <p class="r">That is the failure mode. Not “queues are old.” The next step was not in the file, so the agent could not be responsible for it.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="False comfort" id="ch2">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">02</div><div class="ch-name r r2">False comfort</div></div>
+  <h2 class="r">“The queue is the contract”<br><em>was not a contract the agent could read.</em></h2>
+  <p class="r">The flaw card in that essay states the comfortable idea and the thing the agent actually hit. The idea: the queue is the contract, and that is enough. The hit: the dependency is hidden. A contract that lives in a broker binding is not a contract in the context window. The agent cannot grep an implicit event name and land on the consumer.</p>
+  <p class="r">The same comfort showed up in rollback. “A saga will roll the wallet back if Bamboo fails” was the thought. The published counter is compensating work in the path the agent can open, not choreography across services. I am not drawing a saga diagram. None is published. The point the essay already makes is enough: if the compensation is implicit, the agent that edits the forward path will not update it.</p>
+  <p class="r">Gift card orders make the miss expensive. A wallet debited twice, or an order completed without a debit, is the bug the essay names. An invisible consumer is how that bug survives a session that “succeeded.”</p>
+  <div class="note r"><strong>Names the essay lists, and does not specify.</strong> <code>ReconciliationJob</code> and <code>SendWebhookJob</code> appear beside <code>PlaceBambooOrderJob</code> as examples of strings an agent can search. Their bodies are not in the essays or in the AGENTS.md locks quoted here. This note does not invent them.</div>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="The named job" id="ch3">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">03</div><div class="ch-name r r2">The named job</div></div>
+  <h2 class="r">PlaceBambooOrderJob<br><em>is a file with a lock on it.</em></h2>
+  <p class="r">The execution week of the pivot — February 23 to March 1, $163 in the published weekly figures — is labeled “RabbitMQ out, Hangfire in.” Controllers grew fat. The golden flow collapsed into a single readable path: place order, debit wallet, call Bamboo, return PINs, fire webhook. For background work, the job is a named C# class.</p>
+  <p class="r"><code>PlaceBambooOrderJob</code> is the one job whose behavior is both in that essay and in Steller’s backend AGENTS.md. The essay says an agent can grep it, open it, and read it, including the wallet rollback when Bamboo fails. The backend file’s where-to-look table puts background jobs in <code>Steller.Infrastructure/Jobs/</code>, the vendor client in <code>BambooApiClient.cs</code>, and order financial logic in <code>OrderService.cs</code>. Those are paths. They are not a description of the classes. The lock is tighter than the essay’s summary, and it is the rule the agent is not allowed to relax:</p>
+  <div class="ctable two r">
+    <div class="ct-head">
+      <div class="ct-hc">Lock</div>
+      <div class="ct-hc new">What the backend file requires</div>
+    </div>
+    <div class="ct-row"><div class="ct-c lbl">Retry</div><div class="ct-c new">No retry on PlaceBambooOrderJob.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Failure</div><div class="ct-c new">Refund on failure.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Refund errors</div><div class="ct-c new">Swallow a refund throw.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Workers</div><div class="ct-c new">Hangfire WorkerCount must be 2 for Bamboo. Never increase it.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Vendor calls</div><div class="ct-c new">Always send a Bamboo Idempotency-Key.</div></div>
+  </div>
+  <p class="r">I will not add a theory of why the worker count is 2 beyond the lock’s own phrase: it must be 2 for Bamboo, and it must not be increased. Raising it would look like a performance fix. The file says it is not available as a fix. I will also not paste a job catalog. One job is specified. The others are names.</p>
+  <p class="r">Public partner behavior lines up with the refund lock only at the level both texts actually state. <a href="https://developers.steler.org/">developers.steler.org</a> says the wallet is debited when the order is created and refunded on failure. The AGENTS.md lock says this job does not retry and does refund on failure. I am not asserting a line-by-line identity between those two sentences. They are the published partner fact and the published operator rule.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Debug" id="ch4">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">04</div><div class="ch-name r r2">Debug</div></div>
+  <h2 class="r">A name changes<br><em>what “done” can mean.</em></h2>
+  <p class="r">Debugging an explicit job is a search. Open the controller. Find the enqueue of <code>PlaceBambooOrderJob</code>. Read the rollback in that job. The scorecard’s line for the old system is “trace a message through three or more services. Often a guess.” The new line is “read the controller top to bottom. The cause is visible.”</p>
+  <p class="r">The Idempotency-Key lock changes the vendor call the same way. A retried or repeated Bamboo request without a key is how a gift card provider can mint a second order the partner did not ask for twice. The partner-facing idempotency field is a different published mechanism — <code>referenceId</code> on the Steller API — and the next essays keep them separate. What belongs here is the operator rule: vendor calls always send the key. An agent that removes it to “simplify the client” has violated AGENTS.md.</p>
+  <p class="r">No-retry is the same kind of rule. A job that throws, retries, and places a second vendor order is the failure mode a gift card API cannot shrug off. The lock pairs no-retry with refund-on-failure, and it says to swallow a refund throw so a failed refund does not become another vendor attempt. That last clause is easy to “clean up.” Cleaning it up is the forbidden move.</p>
+  <p class="r">Smoke for this path, after config changes, is also explicit. Health gate first. Then <code>POST /api/orders</code> returns 202. Then poll until Completed. HTTP 200 alone is not the business outcome. The order’s terminal state is.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="If events return" id="ch5">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">05</div><div class="ch-name r r2">If events return</div></div>
+  <h2 class="r">Events can return<br><em>only as something an agent can see.</em></h2>
+  <p class="r">The limits chapter does not ban every future message. It bans the invisible kind. If Steller grows past one golden flow, the published alternative is domain-bounded services with explicit, synchronous interfaces — not event-driven, and not invisible. Independent scaling is a real exit from fat controllers: the essay’s example is a Bamboo integration that needs many times the resources of catalog sync. Even then, the interface the agent crosses has to be readable. A broker binding is not that interface.</p>
+  <p class="r">I am not scheduling that return. Steller’s published system has one golden flow, not forty, and it has not announced that the Bamboo path must scale apart from the rest. A job catalog, a retry matrix, and a saga diagram are unpublished. Leaving them out is the point of writing this from the record.</p>
+  <p class="r">The rule that survives either shape is the second principle in the rubble essay. Name everything so it can be grepped. If you cannot search it, the agent cannot see it. Implicit pub/sub is context poison. An explicit job is a file, a lock, and a smoke that ends in Completed or in a refund — not in a consumer nobody opened.</p>
+  <!--essay-end:explicitJobs-->
+</div>
+</div>
+
+<footer>
+  <span>© 2026 Muhanad Abdelrahim · Steller · Note 05 · Operating notes</span>
+  <span>Mississauga · hello@steler.org</span>
+</footer>
+<script>
+const prog=document.getElementById('progress');
+const navEl=document.getElementById('nav');
+const navTag=document.getElementById('navTag');
+const chapters=document.querySelectorAll('[data-ch]');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(prog) prog.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+  navEl.classList.toggle('scrolled',window.scrollY>60);
+  chapters.forEach(ch=>{if(ch.getBoundingClientRect().top<100)navTag.textContent=ch.dataset.ch});
+});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

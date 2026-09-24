@@ -1,8 +1,11 @@
 import { Link, useParams } from "react-router-dom";
+import EssayDocument from "@/components/EssayDocument";
 import Seo from "@/components/Seo";
 import SiteChrome from "@/components/SiteChrome";
 import { formatPostDate, getBlogPostBySlug } from "@/lib/blog";
+import { pages } from "@/lib/site";
 import CompleteStoryFrame from "@/pages/CompleteStoryFrame";
+import { getOperatingEssayHtml } from "@/pages/essays/registry";
 import MicroservicesRubbleFrame from "@/pages/MicroservicesRubbleFrame";
 import NotFound from "@/pages/NotFound";
 import Plg2EssayFrame from "@/pages/Plg2EssayFrame";
@@ -12,6 +15,19 @@ const BlogPostPage = () => {
 
   if (slug === "microservices-to-fat-controllers-agentic-pivot") {
     return <MicroservicesRubbleFrame />;
+  }
+
+  const operatingHtml = slug ? getOperatingEssayHtml(slug) : undefined;
+  if (slug && operatingHtml) {
+    const page = pages.find((entry) => entry.path === `/blog/${slug}`);
+    if (!page) return <NotFound />;
+    return (
+      <EssayDocument
+        html={operatingHtml}
+        meta={page}
+        back={page.backHref ? { href: page.backHref, label: page.backLabel || "← Blog" } : undefined}
+      />
+    );
   }
 
   const post = slug ? getBlogPostBySlug(slug) : undefined;

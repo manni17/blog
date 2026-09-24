@@ -10,7 +10,7 @@ export interface BlogFrontmatter {
   cover?: string;
 }
 
-export type BlogCustomLayout = "plg2-essay" | "complete-story";
+export type BlogCustomLayout = "plg2-essay" | "complete-story" | "operating-note";
 
 export interface BlogPost extends BlogFrontmatter {
   html: string;

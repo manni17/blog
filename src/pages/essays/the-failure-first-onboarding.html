@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Failure-First Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/essay-shell.css">
+<style>/* end-of-essay styles are injected before this style block closes */</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="nav">
+  <a class="nav-logo" href="/">Steller</a>
+  <span class="nav-tag" id="navTag">The three failures</span>
+</nav>
+
+<div class="opening">
+  <div class="o-bg"></div>
+  <div class="o-grain"></div>
+  <div class="o-content">
+    <div class="o-issue">Operating notes · Note 06</div>
+    <div class="o-series">Partnership / PLG</div>
+    <div class="lane plg">Partnership / PLG</div>
+    <h1 class="o-title">The failure-first<br><em>onboarding</em></h1>
+    <p class="o-sub">The old path spent its time on setup gaps that looked like API bugs. The published fix is to surface three failures immediately, and to measure the moment the system proves itself.</p>
+    <div class="o-scroll">↓ Setup gap, not a mystery defect</div>
+  </div>
+</div>
+
+<div class="chapter" data-ch="Setup gaps" id="ch1">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">01</div><div class="ch-name r r2">Setup gaps</div></div>
+  <h2 class="r">Most of the old pain<br><em>was not an API bug.</em></h2>
+  <p class="r"><a href="/blog/plg-2-we-stopped-teaching-we-started-doing">We Stopped Teaching. We Started Doing.</a> describes the old Steller onboarding as PLG 1.0 by default. A partner signed up, reached a dashboard, and faced documentation. They had to read the API reference, understand the wallet, find a working SKU, construct a valid request, and run it. For a developer that took hours. For a business user it took days, or they churned. The path included debugging the 400, 401, or 422 they hit, then polling for status if they remembered to.</p>
+  <p class="r">The essay’s claim about those failures is specific, and this note does not add a rate to it. When integration failures in the old flow were looked at, almost none of them were API bugs. The system was working. The partner had made an error documentation did not prevent, because they had not read it, had not retained it, or had guessed. No percentage is published. “Almost none” is the phrase. I will not turn it into a dashboard.</p>
+  <p class="r">That is the difference between a setup gap and a defect. An invalid key, an empty catalog, and an unfunded wallet are states of the account. A partner who treats them as product bugs loses the hour the PLG essay describes. Failure-first onboarding means those states are the start of the path, not a surprise after a carefully built payload.</p>
+  <p class="r">The developer hub still has a place. <a href="https://developers.steler.org/">developers.steler.org</a> publishes getting started, an error reference, rate limits, and a glossary. Failure-first does not delete the reference. It refuses to make the reference the first thing a partner must survive.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Three failures" id="ch2">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">02</div><div class="ch-name r r2">Three failures</div></div>
+  <h2 class="r">The same three failures,<br><em>two published surfaces.</em></h2>
+  <p class="r">Both essays name three early failures: an invalid API key, an unfunded wallet, and an empty catalog. The wording is not identical, and I will not collapse it into one screen I have not published as a single spec.</p>
+  <div class="ctable r">
+    <div class="ct-head">
+      <div class="ct-hc">Failure</div>
+      <div class="ct-hc old">PLG essay</div>
+      <div class="ct-hc new">Complete Story</div>
+    </div>
+    <div class="ct-row">
+      <div class="ct-c lbl">Invalid API key</div>
+      <div class="ct-c old">A 401, then docs, format, regenerate, retry: 20–40 minutes. The new path fails immediately: check the API key in the dashboard. Seconds.</div>
+      <div class="ct-c new">Surfaced immediately, with a clear and actionable message, instead of a cryptic error that takes hours to diagnose.</div>
+    </div>
+    <div class="ct-row">
+      <div class="ct-c lbl">Empty catalog</div>
+      <div class="ct-c old">Called “no active SKUs.” The new copy names it: no active products in the catalog — contact the account manager.</div>
+      <div class="ct-c new">Called “empty catalog.” The empty state is named, not buried, with a next action instead of debugging in the dark.</div>
+    </div>
+    <div class="ct-row">
+      <div class="ct-c lbl">Unfunded wallet</div>
+      <div class="ct-c old">The old path rejected the order after a valid request. The new path shows balance, including $0.00, before the attempt.</div>
+      <div class="ct-c new">Balance is visible before an order, color-coded green if funded, amber if low, red if critical.</div>
+    </div>
+  </div>
+  <p class="r">The 20–40 minute figure belongs only to the invalid-key row of the PLG essay. The Complete Story does not repeat that range. It says the cryptic version takes hours. Both are published. Neither is a study with a sample size I can cite, because none is printed.</p>
+  <p class="r">The hub adds facts that sit beside these failures without replacing them. Partner calls authenticate with an <code>x-api-key</code> header. The dashboard password is not the API key. Keys are not shared across environments. Staging and production use a separate base URL and a separate key. Staging uses a sandbox vendor and test funds, on real API flows. Go-live asks for a successful staging end-to-end run before production credentials. An invalid key and a key from the wrong environment are the sort of setup gap those rules exist to make legible. I am not publishing a new error string beyond the two essays.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="Two orders" id="ch3">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">03</div><div class="ch-name r r2">Two orders</div></div>
+  <h2 class="r">There is not one<br><em>canonical step list.</em></h2>
+  <p class="r">The two essays do not tell the 60-second path in the same order. Citing one and calling it the product would hide the other.</p>
+  <div class="insight-grid two r">
+    <div class="ic"><div class="ic-n">PLG</div><div class="ic-t">Wallet, catalog, order, track</div><div class="ic-b">Confirm the wallet, with balance shown and no setup. Fetch the catalog, with ready-to-order SKUs already filtered. Create the order from a pre-constructed request. Track the lifecycle, with 202 Accepted and live polling. The essay’s path card titles the same four moments: wallet confirmed, catalog loaded, first order placed, status trackable.</div></div>
+    <div class="ic"><div class="ic-n">Story</div><div class="ic-t">Auth, wallet, order, track</div><div class="ic-b"><a href="/blog/the-complete-story">The Complete Story</a> starts with auth: credentials in, a JWT back, no configuration. Then a color-coded wallet. Then a pre-constructed order that locks the wallet row, queues the work, and returns HTTP 202 with a tracking ID. Then a poll about every three seconds until codes decrypt and display.</div></div>
+  </div>
+  <p class="r">The hub’s example calls are a third published sequence, and they are examples, not a claim that they replace either essay: <code>GET /api/wallet/me</code>, <code>GET /api/partner/catalog/orderable</code>, <code>POST /api/orders</code>, <code>GET /api/orders/{id}</code>. Auth on those calls is the API key header. The Complete Story’s first step is a JWT from credentials. This essay does not invent a diagram that merges the JWT and the API key into one handshake. They are two published descriptions. The hub does say the dashboard password and the API key are different secrets.</p>
+  <p class="r">What both essays agree on is the time box and the role. Under sixty seconds to a first successful API transaction. The partner reviews a result the system already assembled. Zero documents required to start. The PLG essay’s old path was hours or days. That contrast is the onboarding claim. It is not a single ordered checklist I can pretend is unique.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Diagnosis" id="ch4">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">04</div><div class="ch-name r r2">Diagnosis</div></div>
+  <h2 class="r">Diagnosis is the path.<br><em>The happy path is not the whole product.</em></h2>
+  <p class="r">The PLG essay’s line is the definition this note uses. Great onboarding is fast diagnosis, not just happy paths. Surface failures immediately. Remove ambiguity. Make the right move obvious. The Complete Story says the same thing in its own words: three failures surface immediately, with a next step instead of a cryptic error. Fast diagnosis is part of the path, not only the happy path.</p>
+  <p class="r">PLG 1.0, in that essay, asked how to reduce friction. PLG 2.0 asks how to eliminate the work. The partner stops being the builder of the first request and becomes the reviewer of a result. Wallet balance is visible before the order. The catalog is filtered to what can be ordered. The payload is pre-constructed. The first response worth trusting is 202 Accepted, which the next note treats as its own decision. The PIN is not the first proof.</p>
+  <p class="r">The hub’s error reference, and its rate limits, sit beside that stance. One hundred requests per minute per API key, and ten requests per second on orders. A 429 may be plain text. Use Retry-After, and retry an order with the same <code>referenceId</code>. Those are tools for a partner who has already seen the system work. They are not the first minute. Optional IP allowlisting is a hub security note, not a step the 60-second path requires.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="Moments" id="ch5">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">05</div><div class="ch-name r r2">Moments</div></div>
+  <h2 class="r">Measure the moment<br><em>of proof, not the checklist.</em></h2>
+  <p class="r">The PLG essay rejects feature-adoption metrics — did they open the catalog, click the order button, finish a setup checklist — because a finished checklist with no order is not value. It publishes four moment metrics instead. TTV-Auth is time from signup to confirmed authentication. TTV-Order is time from auth to the first 202. TTV-Track is time from the first order to the first visible status poll. TTV-Scale is time from the first order to the first production volume. The first three sit in the getting-started flow. The fourth is the conversion from testing to production.</p>
+  <p class="r">The Complete Story scores the path on four time-to-value metrics with the shorter labels Auth, Order, Track, and Scale. I am not merging the definitions further than that overlap. The PLG labels are the ones with the “time from … to …” sentences.</p>
+  <div class="m-band r">
+    <div class="mb"><div class="mb-num">TTV-Auth</div><div class="mb-label">Signup to confirmed authentication</div></div>
+    <div class="mb"><div class="mb-num">TTV-Order</div><div class="mb-label">Auth to first 202 Accepted</div></div>
+    <div class="mb"><div class="mb-num">TTV-Track</div><div class="mb-label">First order to first visible poll</div></div>
+    <div class="mb"><div class="mb-num">&lt;60s</div><div class="mb-label">Published time to first partner value</div></div>
+  </div>
+  <p class="r">Failure-first onboarding is how those moments stay short. A partner who spends twenty to forty minutes on a 401 never reaches TTV-Order. A partner who sees an empty catalog named, or a zero balance before they post, does not burn the minute on a request that cannot succeed. The confidence the essays are after is the internal conviction that the thing works. That conviction is a partnership problem. It is also a product problem, and it starts by showing the failure before asking for the order.</p>
+  <p class="r">No unpublished failure-rate analytics belong at the end of this note. The evidence is the two essays, the hub’s auth and environment rules, and the 60-second claim. The work the partner used to do first is the work the product now does, or the work it refuses to hide.</p>
+  <!--essay-end:failureFirst-->
+</div>
+</div>
+
+<footer>
+  <span>© 2026 Muhanad Abdelrahim · Steller · Note 06 · Operating notes</span>
+  <span>Mississauga · hello@steler.org</span>
+</footer>
+<script>
+const prog=document.getElementById('progress');
+const navEl=document.getElementById('nav');
+const navTag=document.getElementById('navTag');
+const chapters=document.querySelectorAll('[data-ch]');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(prog) prog.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+  navEl.classList.toggle('scrolled',window.scrollY>60);
+  chapters.forEach(ch=>{if(ch.getBoundingClientRect().top<100)navTag.textContent=ch.dataset.ch});
+});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

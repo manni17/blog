@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doing the Customer’s Work Before They Ask</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/essay-shell.css">
+<style>/* end-of-essay styles are injected before this style block closes */</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="nav">
+  <a class="nav-logo" href="/">Steller</a>
+  <span class="nav-tag" id="navTag">The instinct</span>
+</nav>
+
+<div class="opening">
+  <div class="o-bg"></div>
+  <div class="o-grain"></div>
+  <div class="o-content">
+    <div class="o-issue">Operating notes · Note 09</div>
+    <div class="o-series">Partnership / PLG</div>
+    <div class="lane plg">Partnership / PLG</div>
+    <h1 class="o-title">Doing the customer’s work<br><em>before they ask</em></h1>
+    <p class="o-sub">The line I use for Steller’s onboarding was a business-development habit before it was a product. The habit is published. The private deal stories behind it are not, and they stay that way.</p>
+    <div class="o-scroll">↓ What the essays already say</div>
+  </div>
+</div>
+
+<div class="chapter" data-ch="The origin" id="ch1">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">01</div><div class="ch-name r r2">The origin</div></div>
+  <h2 class="r">Sudan taught the move.<br><em>The essays keep the move, not the gossip.</em></h2>
+  <p class="r">The home page states the emerging-market lesson in one paragraph. A decade of deals in markets defined by risk, scarce information, and internal politics — Sudan especially. Winning often meant doing the customer’s internal work, clearing blockers, and training teams on products they had never seen. That is where PLG 2.0 came from: do the first part of the job before they have to ask.</p>
+  <p class="r"><a href="/blog/plg-2-we-stopped-teaching-we-started-doing">The PLG essay</a> puts the same lesson in the first person of the work. Before Steller, before software, there was Sudan. Business development in a market defined by risk, limited information, and complex internal politics teaches you that sometimes the fastest way to win a contract is to do the customer’s internal work for them. The customer becomes a reviewer, not a builder. The barrier to yes collapses from “do I understand this?” to “do I like what they made?”</p>
+  <p class="r"><a href="/blog/the-complete-story">The Complete Story</a> locates the stalls: fifteen years of deals stalling in Sudan, Abu Dhabi, and Dubai. The quote under that experience is the one I will not paraphrase into a new war story. The barrier to a signed partnership is rarely the commercial terms. It is the internal conviction that the thing actually works.</p>
+  <div class="pq r">
+    <blockquote>“In Sudan, we learned to win contracts by doing the customer’s internal work for them — overcoming their politics, training their teams, removing every reason to say no. <strong>We just didn’t know we were inventing PLG 2.0.</strong>”</blockquote>
+    <cite>PLG 2.0 essay</cite>
+  </div>
+  <p class="r">I am not adding a contract name, a lost tender, or a meeting that is not already in those paragraphs. Unpublished deal anecdotes are how this kind of essay usually cheats. This one does not.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Reviewer" id="ch2">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">02</div><div class="ch-name r r2">Reviewer</div></div>
+  <h2 class="r">The partner reviews.<br><em>The product has already done the setup.</em></h2>
+  <p class="r">PLG 1.0, in the essay, asked how to reduce friction. PLG 2.0 asks how to eliminate the work. Those are not the same question. Friction reduction leaves the partner as the builder and tries to make the tools nicer. Work elimination changes the role. The partner’s active decision in the 60-second flow is whether the result is good enough to trust. The essay’s phrase: we have done everything before that question arrives.</p>
+  <p class="r">When Steller was built, that instinct came with it. The partners in the PLG essay are B2B companies integrating a gift card API for the first time. They do not fully understand the system. They have internal stakeholders to convince. They need to see it work before they can sell it internally. So the product stopped asking them to learn and started doing the first part of the work.</p>
+  <p class="r">The old path was the builder path: read the auth model, figure out wallets, browse for an active SKU, construct a payload, debug a 400, 401, or 422, and poll if you remember. Hours for a developer, days for a business user, or a churn. The new path’s published time to a first working order is under sixty seconds, and the partner leaves with proof.</p>
+  <p class="r">The only partner named in that proof, across the home page and the essays, is Bede, the digital wallet of Zain Sudan. Staging, then an active API integration. I will not add a second logo.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="The minute" id="ch3">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">03</div><div class="ch-name r r2">The minute</div></div>
+  <h2 class="r">What “doing the work”<br><em>means in the product.</em></h2>
+  <p class="r">The concrete work, as the essays publish it, is small and specific. The balance is visible before an order, so the partner does not discover an empty wallet by getting rejected. The PLG essay includes a zero balance shown up front. The Complete Story color-codes the same idea: green if funded, amber if low, red if critical. The catalog is filtered to SKUs that can be ordered, so the partner does not browse. The order payload is pre-constructed, so the partner does not assemble the first request. The response they review is HTTP 202 with the lifecycle visible, not a promise that a PIN will be explained in a PDF.</p>
+  <p class="r">The step order is not the same in both essays, and doing the customer’s work does not require me to pretend it is. The PLG essay’s four steps are wallet, catalog, order, and track. The Complete Story’s four steps are auth (credentials for a JWT), wallet, order (row lock, background queue, 202, tracking ID), and track (poll about every three seconds, then decrypt codes). The developer hub’s example calls — wallet, orderable catalog, create order, get order — use an <code>x-api-key</code> header, and they say the dashboard password is not the API key. I cite each sequence where it was written. The shared claim is the role, not a single numbered list.</p>
+  <p class="r">Three failures are part of doing the work, because hiding them creates work. Invalid key, unfunded wallet, empty catalog. The PLG essay’s invalid-key contrast is 20–40 minutes against seconds with a clear message. Fast diagnosis is the path. A partner who is a reviewer still needs to see a no.</p>
+  <div class="m-band r">
+    <div class="mb"><div class="mb-num">&lt;60s</div><div class="mb-label">To first partner value, as published</div></div>
+    <div class="mb"><div class="mb-num">0</div><div class="mb-label">Docs required to start, in both essays</div></div>
+    <div class="mb"><div class="mb-num">202</div><div class="mb-label">The first signal, not the PIN</div></div>
+    <div class="mb"><div class="mb-num">4</div><div class="mb-label">Steps, in each essay’s own order</div></div>
+  </div>
+</div>
+</div>
+
+<div class="chapter" data-ch="The career" id="ch4">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">04</div><div class="ch-name r r2">The career</div></div>
+  <h2 class="r">Four employers.<br><em>One published through-line.</em></h2>
+  <p class="r">The career the site actually prints is short, and I will not lengthen it. Zain Sudan: radio tower certification. Emirates Driving Company: operations redesign. Rittal Technology: partnerships. Steller: platform architecture, onboarding, and company building. The home timeline next to that work is 2014, business development in East Africa and MENA; 2018, complex B2B and emerging-market partnerships; 2022, the B2B gift card middleware gap; 2024, Steller founded with an outsourced team; late 2025, the team’s departure and the move to AI development; February 2026, the 27-day rebuild; March 2026, Bede’s first live integration and the handover to Qwen; and now, writing and advising.</p>
+  <p class="r">The through-line I am willing to claim is the one the pages already claim. The partnership work, including Rittal Technology and the years in Sudan, Abu Dhabi, and Dubai, is where “do the internal work” came from. Steller’s onboarding is where that habit became a path a partner can run without a room full of trainers. I do not claim the radio-tower work or the driving-company operations were secretly product-led growth. They are published as what they were. They sit in the career because the career is published, not because every job was a rehearsal for an API.</p>
+  <p class="r">Place, because it keeps getting widened: Mississauga. The Complete Story’s rebuild is a cold basement in Mississauga. I am based in Mississauga, Ontario. The contact on this site is hello@steler.org.</p>
+  <div class="note r"><strong>Guardrail.</strong> No employer besides Zain Sudan, Emirates Driving Company, Rittal Technology, and Steller. No partner besides Bede / Zain Sudan. No city substituted for Mississauga. No commercial terms for Bede beyond staging, then an active integration.</div>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="The philosophy" id="ch5">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">05</div><div class="ch-name r r2">The philosophy</div></div>
+  <h2 class="r">Do the first part<br><em>before they have to ask.</em></h2>
+  <p class="r">The PLG essay’s closing line is the operating rule. The fastest way to build trust is to do the first part of the work before they have to ask. In that framing the product is a service, not only a tool. The user evaluates what was produced. The question gets easier, so the path from signup to a confident customer gets shorter. TTV-Auth, TTV-Order, TTV-Track, and TTV-Scale are how that essay wants the shortness measured. TTV-Scale — first order to first production volume — is the moment a test becomes a customer relationship. The hub’s go-live rule is the documented version of that moment: a successful staging end-to-end run before production credentials, on a separate key, against a sandbox vendor with test funds.</p>
+  <p class="r">Internal conviction remains the blocker the Complete Story names. Doing the customer’s work does not remove their politics. It removes the excuse that nobody has seen the thing work. A pre-built order, a visible balance, a filtered catalog, and a 202 they can point at are the published substitutes for the training sessions the Sudan lesson describes. They are not a claim that every stakeholder says yes.</p>
+  <p class="r">I learned the move trying to close deals. Steller applies it to an API a partner can review in under a minute. The essays are the record of that application. They are not a memoir of every room the deals stalled in, and this note will not become one.</p>
+  <!--essay-end:customerWork-->
+</div>
+</div>
+
+<footer>
+  <span>© 2026 Muhanad Abdelrahim · Steller · Note 09 · Operating notes</span>
+  <span>Mississauga · hello@steler.org</span>
+</footer>
+<script>
+const prog=document.getElementById('progress');
+const navEl=document.getElementById('nav');
+const navTag=document.getElementById('navTag');
+const chapters=document.querySelectorAll('[data-ch]');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(prog) prog.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+  navEl.classList.toggle('scrolled',window.scrollY>60);
+  chapters.forEach(ch=>{if(ch.getBoundingClientRect().top<100)navTag.textContent=ch.dataset.ch});
+});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

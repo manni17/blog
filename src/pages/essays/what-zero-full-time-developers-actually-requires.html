@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Zero Full-Time Developers Actually Requires</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/essay-shell.css">
+<style>/* end-of-essay styles are injected before this style block closes */</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="nav">
+  <a class="nav-logo" href="/">Steller</a>
+  <span class="nav-tag" id="navTag">The number</span>
+</nav>
+
+<div class="opening">
+  <div class="o-bg"></div>
+  <div class="o-grain"></div>
+  <div class="o-content">
+    <div class="o-issue">Operating notes · Note 03</div>
+    <div class="o-series">Agentic practice</div>
+    <div class="lane">Agentic</div>
+    <h1 class="o-title">What zero full-time<br>developers <em>actually requires</em></h1>
+    <p class="o-sub">Zero is an operating description of Steller after the pivot. It is not a claim that the software runs unattended, and it is not a payroll figure.</p>
+    <div class="o-scroll">↓ What the number depends on</div>
+  </div>
+</div>
+
+<div class="chapter" data-ch="The metric" id="ch1">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">01</div><div class="ch-name r r2">The metric</div></div>
+  <h2 class="r">Zero is a headcount<br><em>of one kind of role.</em></h2>
+  <p class="r">The home page and <a href="/blog/microservices-to-fat-controllers-agentic-pivot">Built From the Rubble</a> use the same figure: zero full-time developers to operate Steller. I am a non-technical founder. There is no engineering team and no CTO in that account. The tools named as the remaining engineering capacity, once the outsourced team was offline, are Cursor, Qwen, and Claude. The operator the essay names for day-to-day work after handover is Qwen Coder.</p>
+  <p class="r">That sentence does not say the company has no people, no vendor, and no human decisions. It says the platform is not staffed with full-time developers. Unpublished headcount, contractors outside that sentence, and payroll are not in the record, so this essay does not estimate them. The Complete Story’s account of the rebuild period is personal, not a compensation table: no salary, no team, no guarantee. I will not turn “no salary” into a dollar cost of founder time.</p>
+  <p class="r">The figure is also dated to “today” in the way the essays use it: after the 27-day pivot, with the system handed to Qwen, and with Bede — the digital wallet of Zain Sudan — as the published first partner integration. It is not a description of 2024, when Steller was founded with an outsourced team.</p>
+  <div class="m-band r">
+    <div class="mb"><div class="mb-num">0</div><div class="mb-label">Full-time developers in the published operating claim</div></div>
+    <div class="mb"><div class="mb-num">27d</div><div class="mb-label">Pivot from microservices to the agent-ready monolith</div></div>
+    <div class="mb"><div class="mb-num">$672</div><div class="mb-label">Cursor spend for that pivot</div></div>
+    <div class="mb"><div class="mb-num">~$15</div><div class="mb-label">Expected daily AI spend after handover</div></div>
+  </div>
+</div>
+</div>
+
+<div class="chapter" data-ch="Architecture" id="ch2">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">02</div><div class="ch-name r r2">Architecture</div></div>
+  <h2 class="r">The number is false<br><em>on the old shape.</em></h2>
+  <p class="r">Zero full-time developers was not available on the system the outsourced team left. That stack, as the rubble essay records it, was ASP.NET Core 9, PostgreSQL, RabbitMQ, and Vue.js, with the Bamboo Card Portal API as the vendor. The data model was live on April 2, 2025, at 36 tables. Agents could fix the service in front of them and break two others they could not see. My line in that essay: every time I asked the agent to fix an order flow bug, it changed the right service but broke two others it couldn’t see.</p>
+  <p class="r">The replacement that makes a solo operator plausible is the one the essay actually shipped. Fat controllers hold the golden flow in one path: wallet debit, Bamboo vendor call, PIN return, webhook dispatch. Background work is a named Hangfire job, <code>PlaceBambooOrderJob</code>, including the wallet rollback when Bamboo fails. The two Vue.js 2.6 dashboards became React 18, TypeScript, and Vite. The API response envelope is mandatory. Permission tables were flattened. The rubble essay’s deploy is <code>docker compose up -d</code>. The backend AGENTS.md keeps that command and refuses to treat its success as application readiness.</p>
+  <p class="r">The Complete Story states the dependency in one sentence. The AI did not rescue the platform. The architectural redesign made the platform rescuable by AI. Zero full-time developers requires that redesign. It does not require a smarter prompt on top of invisible RabbitMQ consumers.</p>
+  <p class="r">The rebuild shipped with zero critical defects in production. The method behind that claim is not published. I will not invent a test plan to make the sentence sound more rigorous than it is. The claim stands as published, and the method stays unknown here.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="Docs and locks" id="ch3">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">03</div><div class="ch-name r r2">Docs and locks</div></div>
+  <h2 class="r">Someone still has to<br><em>forbid the clever move.</em></h2>
+  <p class="r">Architecture without a first file puts the orientation cost back. The published drop is from fifteen to twenty minutes to about two: read AGENTS.md, open the controller. Qwen reads that file, runs tests before done, and logs changes. The cache hit rate published next to that practice is 95.2%. Docs written once are what later sessions read.</p>
+  <p class="r">The locks are the other requirement, and they are Steller’s real AGENTS.md practice, not a metaphor. CORS allows only explicit origins, never a wildcard in production. Hangfire <code>WorkerCount</code> must be 2 for Bamboo and must not be increased. <code>PlaceBambooOrderJob</code> does not retry; it refunds on failure and swallows a refund throw. Bamboo calls always send an Idempotency-Key. <code>JWT_KEY</code> comes from the environment and is never hardcoded. Catalog validation does not coalesce nulls. <code>RequireBusinessClaimsMiddleware</code> is never bypassed.</p>
+  <p class="r">The release lock is the human part of “zero developers.” Never push directly to <code>main</code>, and never run <code>git push origin main</code>. The root file’s chain is feature branch, tests pass, pull request, merge, auto staging deploy. Production deploy and rollback are manual GitHub Actions operations with human approval. Feature branches are <code>feat/...</code> or <code>fix/...</code>, and the backend is pushed before the root submodule ref. Closed-loop CI, when the ask is to run until green, is <code>gh workflow run</code>, <code>gh run list</code>, and <code>gh run view --log-failed</code> — not a person pasting logs. After a config change, <code>./scripts/smoke-staging.sh</code> runs only once health is ready. The file’s example probe is <code>http://127.0.0.1:6091/api/health</code>. Compose coming up is not that readiness. The onboarding smoke is signup, then <code>GET /api/wallet/me</code> with a non-zero trial balance, then <code>POST /api/orders</code> returning 202, then a poll to Completed. <code>dotnet build Steller.sln</code> stays at zero errors. Tests are fixed only in test files. <code>Order.cs</code>, <code>Brand.cs</code>, <code>ApplicationDbContext.cs</code>, and migration files are not deleted or recreated to clear an error.</p>
+  <p class="r">Three files named in the hardening week — <code>QWEN_PROTOCOL.md</code>, <code>HANDOVER_TO_QWEN.md</code>, <code>CHANGELOG_AI.md</code> — are not available to quote. Zero full-time developers cannot be defined as “follow those documents” until their bodies exist in the record. The operable substitute is the AGENTS.md pair and the rule that changes get logged.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="Who remains" id="ch4">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">04</div><div class="ch-name r r2">Who remains</div></div>
+  <h2 class="r">The roles the essays<br><em>actually name.</em></h2>
+  <p class="r">What remains, stated only from published roles:</p>
+  <div class="insight-grid r">
+    <div class="ic"><div class="ic-n">01</div><div class="ic-t">The founder</div><div class="ic-b">A non-technical founder in Mississauga. The human who approves production, and the person the essays hold responsible for the redesign.</div></div>
+    <div class="ic"><div class="ic-n">02</div><div class="ic-t">Qwen Coder</div><div class="ic-b">The named operator after handover. Reads AGENTS.md, runs tests before done, logs changes. Not a full-time developer on a payroll the essays never publish.</div></div>
+    <div class="ic"><div class="ic-n">03</div><div class="ic-t">The partner</div><div class="ic-b">Bede, the digital wallet of Zain Sudan, is the published first integration. A partner is not an engineering department.</div></div>
+  </div>
+  <p class="r">Cursor, Qwen, and Claude are the tools named when the team went offline. I will not add a cast of unnamed agents, a support rota, or a fractional CTO. Advisory work I describe on the home page — partnerships, business development, growth — is a separate offer. It is not evidence of staff inside Steller.</p>
+  <p class="r">The earlier employers in the published career are Zain Sudan, Emirates Driving Company, and Rittal Technology, then Steller. None of those lines is a hidden engineering bench for this platform.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="The limit" id="ch5">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">05</div><div class="ch-name r r2">The limit</div></div>
+  <h2 class="r">The number stops<br><em>where the essay says it stops.</em></h2>
+  <p class="r">Fat controllers, the rubble essay says, break when a team grows past a handful of engineers, when one path must scale independently of another, or when a domain holds many flows. Steller, in that essay, has one golden flow, not forty. This essay does not claim the platform has outgrown the pattern, and it does not claim zero full-time developers will survive those exit conditions. The principle published next to the limits is narrower: design so an agent can hold the relevant flow in one context window. For a larger system the essay itself suggests domain-bounded services with explicit, synchronous interfaces — not event-driven, and not invisible.</p>
+  <p class="r">Microservices are not called universally wrong. They are called wrong for a team of one human and several AI agents. Hiring the handful of engineers the limits chapter describes would change the constraint. I have not published that hire, so I will not describe it.</p>
+  <div class="pq r">
+    <blockquote>“The lesson isn’t that microservices are wrong. It’s that microservices are wrong <strong>for a team of one human and several AI agents.</strong>”</blockquote>
+    <cite>Built From the Rubble · March 2026</cite>
+  </div>
+  <p class="r">Zero full-time developers, as Steller publishes it, requires a visible golden flow, named jobs, one deploy command, an AGENTS.md an agent will actually read, locks the agent must not relax, a human on production, and a daily AI cost the essays put at about $15, with Qwen at about $5–15 a day once the docs exist. It does not require a myth that nobody is accountable when the smoke fails.</p>
+  <!--essay-end:zeroFte-->
+</div>
+</div>
+
+<footer>
+  <span>© 2026 Muhanad Abdelrahim · Steller · Note 03 · Operating notes</span>
+  <span>Mississauga · hello@steler.org</span>
+</footer>
+<script>
+const prog=document.getElementById('progress');
+const navEl=document.getElementById('nav');
+const navTag=document.getElementById('navTag');
+const chapters=document.querySelectorAll('[data-ch]');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(prog) prog.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+  navEl.classList.toggle('scrolled',window.scrollY>60);
+  chapters.forEach(ch=>{if(ch.getBoundingClientRect().top<100)navTag.textContent=ch.dataset.ch});
+});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

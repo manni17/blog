@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idempotency for Gift Card APIs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&amp;family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/essay-shell.css">
+<style>/* end-of-essay styles are injected before this style block closes */</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="nav">
+  <a class="nav-logo" href="/">Steller</a>
+  <span class="nav-tag" id="navTag">One debit</span>
+</nav>
+
+<div class="opening">
+  <div class="o-bg"></div>
+  <div class="o-grain"></div>
+  <div class="o-content">
+    <div class="o-issue">Operating notes · Note 08</div>
+    <div class="o-series">Partnership / PLG</div>
+    <div class="lane plg">Partnership / PLG</div>
+    <h1 class="o-title">Idempotency for<br><em>gift card APIs</em></h1>
+    <p class="o-sub">A retried order can debit a wallet twice or mint a second card. Steller publishes two different keys for that risk. They are not the same field, and this note will not pretend they are.</p>
+    <div class="o-scroll">↓ The partner key, then the vendor key</div>
+  </div>
+</div>
+
+<div class="chapter" data-ch="Double debit" id="ch1">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">01</div><div class="ch-name r r2">Double debit</div></div>
+  <h2 class="r">The bug the old<br><em>architecture already knew.</em></h2>
+  <p class="r">In <a href="/blog/microservices-to-fat-controllers-agentic-pivot">Built From the Rubble</a> the session-starting bugs were orders completing while wallets were not debited, or debited twice. That was a visibility problem: the agent could not see both sides of an implicit event. Idempotency is the partner-facing version of the same money problem. A client that times out and posts again must not buy a second card or move the wallet a second time.</p>
+  <p class="r">Gift cards make the retry ordinary. The order is asynchronous. <a href="/blog/202-accepted-is-a-product-decision">202 Accepted</a> returns before the PIN exists. A partner who does not see a code yet will send the request again. A poll interval — every three seconds in the Complete Story, every 2–5 seconds on the developer hub — exists so they do not have to. When they retry anyway, or when a 429 tells them to, the second post has to land on the first order.</p>
+  <p class="r">The pre-pivot system could not show an agent that chain. The current public contract can show a partner the field that makes the chain safe. The field is <code>referenceId</code>. I am not describing a database unique index. No such schema detail is published, and inventing one would turn a product rule into a storage design the record does not contain.</p>
+</div>
+</div>
+
+<div class="chapter" data-ch="referenceId" id="ch2">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">02</div><div class="ch-name r r2">referenceId</div></div>
+  <h2 class="r">Optional, and<br><em>strongly recommended.</em></h2>
+  <p class="r"><a href="https://developers.steler.org/">developers.steler.org</a> is the source for the partner rule. Idempotency is via <code>referenceId</code>. The field is optional and strongly recommended. Create order returns HTTP 202 Accepted for a new order and for an idempotent replay. The wallet is debited at creation and refunded on failure. The example write is <code>POST /api/orders</code>. The example read is <code>GET /api/orders/{id}</code>.</p>
+  <p class="r">“Optional” and “strongly recommended” are both the published wording. I will not upgrade optional to required, and I will not shrug off the recommendation. A partner can call the API without the field. A partner who retries without it does not get the replay behavior the hub describes. The 60-second path’s pre-constructed payload, in the PLG essay and in the Complete Story, is the onboarding’s way of not leaving that field to chance on the first order. I am not quoting a sample JSON body. The hub’s collection is claimed; the file was not part of the record used here, so no sample payload is invented.</p>
+  <p class="r">A replay that still returns 202 is the product decision from the previous note, applied to duplicates. The partner does not learn a second success code. They learn that the same reference is the same order. Terminal states remain Completed and Failed. Failure refunds the debit. <code>PlaceBambooOrderJob</code> does not retry the vendor job on its own. Partner retries and job retries are different levers, and only the partner lever is <code>referenceId</code>.</p>
+  <div class="pq r">
+    <blockquote>The same reference returns <strong>202 again</strong>. It does not start a second order.</blockquote>
+    <cite>developers.steler.org · create and idempotent replay</cite>
+  </div>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="429" id="ch3">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">03</div><div class="ch-name r r2">When the limit hits</div></div>
+  <h2 class="r">A 429 is a reason<br><em>to reuse the reference.</em></h2>
+  <p class="r">The hub publishes two limits. One hundred requests per minute per API key. Orders also have a ten-requests-per-second guard. A 429 may be plain text, so a client that only parses JSON will miss it. The published recovery is Retry-After, then retry the order with the same <code>referenceId</code>.</p>
+  <p class="r">That interaction is the whole point of calling the field strongly recommended. The limit is allowed to fire. The poll guidance of every few seconds, plus dashboard traffic, plus a retry, can approach a limit without anyone “load testing.” If the retry generates a new reference, the guard has created a second order. If the retry repeats the reference, the guard has delayed the same order. Idempotency is what makes the rate limit safe to hit.</p>
+  <p class="r">Auth sits next to this and is easy to mix up. Partner API calls use the <code>x-api-key</code> header. The dashboard password is not that key. Staging and production use different base URLs and different keys. A retry against the wrong environment with a reused reference is not the replay the hub is talking about; the keys are not shared across environments. The Complete Story’s auth step — credentials in, a JWT back — is a different published sentence, and this note does not merge it into the API-key header.</p>
+  <div class="note r"><strong>What is withheld.</strong> No uniqueness constraint, no retention window for <code>referenceId</code>, and no claim about what happens if two different partners choose the same string. Those behaviors are not in the cited pages.</div>
+</div>
+</div>
+
+<div class="chapter" data-ch="Two keys" id="ch4">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">04</div><div class="ch-name r r2">Two keys</div></div>
+  <h2 class="r">The vendor key<br><em>is a separate lock.</em></h2>
+  <p class="r">Steller’s backend AGENTS.md contains a second idempotency rule, and it is not a synonym for <code>referenceId</code>. Bamboo vendor calls always send an Idempotency-Key. The job that places those calls, <code>PlaceBambooOrderJob</code>, does not retry, refunds on failure, and swallows a refund throw. Hangfire <code>WorkerCount</code> stays at 2 for Bamboo and is not increased. Those locks are operator rules. They stop an agent from “simplifying” the vendor client or speeding the queue into duplicate provider orders.</p>
+  <p class="r">Nothing in the published essays or the hub says that the partner’s <code>referenceId</code> is forwarded as Bamboo’s Idempotency-Key. I will not say that. A partner integrates one field. The platform’s vendor call carries another. Both exist because a gift card request can be repeated. They are documented in different places, for different callers.</p>
+  <div class="ctable two r">
+    <div class="ct-head">
+      <div class="ct-hc">Caller</div>
+      <div class="ct-hc new">Published idempotency rule</div>
+    </div>
+    <div class="ct-row"><div class="ct-c lbl">Partner</div><div class="ct-c new"><code>referenceId</code> on POST /api/orders. Optional, strongly recommended. Replay returns 202. On 429, retry with the same value.</div></div>
+    <div class="ct-row"><div class="ct-c lbl">Vendor call</div><div class="ct-c new">Bamboo Idempotency-Key is always sent. The placing job does not retry. This is an AGENTS.md lock, not a partner parameter.</div></div>
+  </div>
+  <p class="r">Wallet safety is the outcome both rows are about. Debit once at creation. Refund if the order fails. Do not let a retry, a worker-count “improvement,” or a missing vendor key create a second fulfillment. The Complete Story adds one mechanism on the accept path: the wallet row is locked against race conditions when the order is posted. That is a published phrase, not a locking algorithm. I am leaving it as a phrase.</p>
+</div>
+</div>
+
+<div class="chapter ch-dark" data-ch="Glossary" id="ch5">
+<div class="chapter-inner">
+  <div class="ch-label"><div class="ch-num r">05</div><div class="ch-name r r2">Names, not formulas</div></div>
+  <h2 class="r">Use the glossary’s names.<br><em>Do not invent the price.</em></h2>
+  <p class="r">The hub glossary lists, among its terms, face value, SKU, <code>referenceId</code>, and idempotency. This note uses <code>referenceId</code> the way the API reference uses it: the partner idempotency field. It uses SKU the way the onboarding essays use it: the thing the old path made a partner hunt for, and the thing the PLG path pre-filters to ready-to-order products. Face value is named in the glossary. A definition that separates face value from a partner price was not part of the material quoted for these essays, so I will not write one. Partners should take that distinction from the glossary itself, not from a paraphrase.</p>
+  <p class="r">The other partner rules that keep idempotency from depending on secrets in a blog post are already public. Store the API key securely. Do not share it across environments. Use HTTPS in production. Keep the webhook secret; signatures use <code>X-Steller-Signature</code>, Base64 HMAC-SHA256 of the raw body. IP allowlisting is optional. Staging uses a sandbox vendor and test funds, with real API flows, and a separate key. Production credentials follow a successful staging end-to-end run. None of those sentences includes a live base URL or a secret, and this note will not add them.</p>
+  <p class="r">Idempotency for this API is a partner habit plus an operator lock. Send <code>referenceId</code>. Expect 202 on the first post and on the replay. On a limit, wait and send the same reference. Trust that vendor calls carry their own key, without assuming you control that key’s value. The double debit the agents used to miss is the bug this field is published to prevent.</p>
+  <!--essay-end:idempotency-->
+</div>
+</div>
+
+<footer>
+  <span>© 2026 Muhanad Abdelrahim · Steller · Note 08 · Operating notes</span>
+  <span>Mississauga · hello@steler.org</span>
+</footer>
+<script>
+const prog=document.getElementById('progress');
+const navEl=document.getElementById('nav');
+const navTag=document.getElementById('navTag');
+const chapters=document.querySelectorAll('[data-ch]');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(prog) prog.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+  navEl.classList.toggle('scrolled',window.scrollY>60);
+  chapters.forEach(ch=>{if(ch.getBoundingClientRect().top<100)navTag.textContent=ch.dataset.ch});
+});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
