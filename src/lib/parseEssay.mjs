@@ -17,6 +17,22 @@ function linkAttrs(raw) {
   return { rel, href: decodeEntities(href) };
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+/** Put the back link in the top bar, in the logo's slot, so the two cannot stack. */
+export function placeEssayBack(bodyHtml, back) {
+  if (!back?.href) return bodyHtml;
+  const link = `<a class="essay-back" href="${escapeHtml(back.href)}">${escapeHtml(back.label || "← Back")}</a>`;
+  const next = bodyHtml.replace(/<nav\b[^>]*\bid=["']nav["'][^>]*>/i, (open) => `${open}${link}`);
+  return next === bodyHtml ? `${link}${bodyHtml}` : next;
+}
+
 export function parseEssayHtml(html) {
   const prepared = injectEssayEnd(html);
   const css = [...prepared.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((match) => match[1]).join("\n");
