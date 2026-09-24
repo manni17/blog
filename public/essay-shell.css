@@ -19,11 +19,12 @@ a{color:var(--rust)}
 
 #progress{position:fixed;top:0;left:0;height:2px;background:var(--rust);z-index:999;width:0%;transition:width .1s}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem 2.5rem;display:flex;justify-content:space-between;align-items:center;transition:background .3s,border .3s}
-nav.scrolled{background:rgba(248,246,241,0.95);border-bottom:1px solid var(--rule);backdrop-filter:blur(10px)}
+/* Scope the fixed bar to #nav. An unscoped nav rule also pins the end-of-essay series list over the article. */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem 2.5rem;display:flex;justify-content:space-between;align-items:center;transition:background .3s,border .3s}
+#nav.scrolled{background:rgba(248,246,241,0.95);border-bottom:1px solid var(--rule);backdrop-filter:blur(10px)}
 .nav-logo{font-family:var(--serif);font-size:1.2rem;font-weight:600;letter-spacing:0.02em;color:var(--ink);text-decoration:none}
 .nav-tag{font-family:var(--mono);font-size:0.58rem;color:var(--dust);letter-spacing:0.15em;text-transform:uppercase;opacity:0;transition:opacity .3s}
-nav.scrolled .nav-tag{opacity:1}
+#nav.scrolled .nav-tag{opacity:1}
 
 .opening{min-height:100vh;display:grid;place-items:center;position:relative;overflow:hidden;background:var(--dark)}
 .o-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 65% 40%,#2a1812 0%,#0c0b09 70%)}
@@ -52,7 +53,7 @@ h3{font-family:var(--serif);font-size:1.45rem;font-weight:600;margin:2.5rem 0 0.
 
 p{line-height:1.8;color:#2E2B26;margin-bottom:1.1rem;font-size:0.97rem}
 p strong{font-weight:500;color:var(--ink)}
-code{font-family:var(--mono);font-size:0.78em;background:#F3F0E8;padding:0.08em 0.35em;border:1px solid var(--rule)}
+code{font-family:var(--mono);font-size:0.78em;background:#F3F0E8;padding:0.08em 0.35em;border:1px solid var(--rule);overflow-wrap:anywhere}
 
 .ch-dark{background:var(--dark);border-color:#2a2520}
 .ch-dark .ch-num{color:#2a2520}
@@ -129,7 +130,7 @@ footer a{color:var(--dust)}
 
 @media(max-width:860px){
   .chapter{padding:4rem 1.5rem}
-  nav{padding:1rem 1.5rem}
+  #nav{padding:1rem 1.5rem}
   .pq,.ctable,.insight-grid,.note{margin-left:0;margin-right:0}
   .m-band{grid-template-columns:1fr 1fr;margin:2.5rem 0}
   .m-band.three{grid-template-columns:1fr}
